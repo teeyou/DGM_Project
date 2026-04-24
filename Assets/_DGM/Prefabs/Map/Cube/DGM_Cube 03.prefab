@@ -13,12 +13,16 @@ PrefabInstance:
       value: DGM_Cube 03
       objectReference: {fileID: 0}
     - target: {fileID: 8136736533143583049, guid: 144e1f37bd0e74247a04cee3ea671008, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8136736533143583049, guid: 144e1f37bd0e74247a04cee3ea671008, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8136736533143583049, guid: 144e1f37bd0e74247a04cee3ea671008, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8136736533143583049, guid: 144e1f37bd0e74247a04cee3ea671008, type: 3}
       propertyPath: m_LocalPosition.z
