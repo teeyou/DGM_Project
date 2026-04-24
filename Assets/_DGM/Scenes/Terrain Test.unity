@@ -2440,6 +2440,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_Apple
       objectReference: {fileID: 0}
+    - target: {fileID: 514827860006513872, guid: 60bcc830ae98a894b8fe3a55ecaef888, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7652437248637528613, guid: 60bcc830ae98a894b8fe3a55ecaef888, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7429,7 +7433,7 @@ Transform:
   m_GameObject: {fileID: 9191659224353742568}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
