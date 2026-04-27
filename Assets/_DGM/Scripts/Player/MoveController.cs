@@ -6,12 +6,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 public class MoveController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _sharpness;
     [SerializeField] private float _idleTime;
+    [SerializeField] private float _groundStick;
+    private float _gravity = -9.81f;
+    //private float _verticalVel; // CC -> 리지드바디를 사용 안하기 때문에 직접 y속도 누적해서 사용
+    private Vector3 _velocity;
 
     private Vector2 _inputVec;
     private Vector3 _moveDir;
@@ -62,6 +67,7 @@ public class MoveController : MonoBehaviour
 
             _inputManager = InputManager.Instance;
             _inputManager.OnMove += HandleMove;
+            _inputManager.SwitchToPlayerMap();
         }
         catch (OperationCanceledException)
         {
@@ -75,6 +81,8 @@ public class MoveController : MonoBehaviour
 
     void Update()
     {
+        TickGravity();
+
         if (_inputVec == null)
         {
             Debug.Log("_inputVec NULL");
@@ -85,7 +93,7 @@ public class MoveController : MonoBehaviour
 
         if (_moveDir != Vector3.zero)
         {
-            SetDirection();
+            SetRotation();
             _idleTimer = 0f;
         }
         
@@ -93,20 +101,27 @@ public class MoveController : MonoBehaviour
         {
             _idleTimer += Time.deltaTime;
         }
-        
-        _cc.Move(_moveDir * _moveSpeed * Time.deltaTime);
 
-        if (transform.position.y > 0)
-        {
-            Vector3 pos = transform.position;
-            pos.y = 0f;
-            transform.position = pos;
-        }
-        
+        Vector3 velocity = _moveDir * _moveSpeed + _velocity;
+        _cc.Move(velocity * Time.deltaTime);
+ 
         PlayAnimation();
     }
 
-    private void SetDirection()
+    private void TickGravity()
+    {
+        if (_cc.isGrounded)
+        {
+            if (_velocity.y < 0f)
+            {
+                _velocity.y = _groundStick;
+            }
+        }
+
+        _velocity.y += _gravity * Time.deltaTime;
+    }
+
+    private void SetRotation()
     {
         float t = 1f - Mathf.Exp(-_sharpness * Time.deltaTime);
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_moveDir), t);
@@ -142,7 +157,6 @@ public class MoveController : MonoBehaviour
 
     private void HandleMove(Vector2 v)
     {
-        //_inputVec = v;
         _inputVec = Vector2.ClampMagnitude(v, 1.0f);
     }
 

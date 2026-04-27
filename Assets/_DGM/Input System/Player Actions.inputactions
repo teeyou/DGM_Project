@@ -174,9 +174,27 @@
             "id": "f78aabae-5055-440a-badd-83a66256fb52",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Select",
                     "type": "Button",
-                    "id": "6b3b7296-0887-4c43-98ba-170a324effdf",
+                    "id": "59215446-dad3-47d6-9d6a-b7e85acc6f7d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MenuUp",
+                    "type": "Button",
+                    "id": "bce3407b-dd8f-464c-af5f-f6b598ae3a2b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MenuDown",
+                    "type": "Button",
+                    "id": "eb028b45-97af-4f83-89ea-ef2f01b33c52",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -186,12 +204,45 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "6eec99bb-290b-4005-9332-48974da07853",
-                    "path": "",
+                    "id": "b0953984-8249-4381-bba5-0874152354b1",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": ";PC",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0337aad-4fe5-47d0-a7f7-fed9c7bd91bd",
+                    "path": "<Keyboard>/numpadEnter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4826b230-5e22-4f21-8308-187e79eed88e",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MenuUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e42cf094-86e8-4f92-83da-e0a820d1aa88",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "MenuDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

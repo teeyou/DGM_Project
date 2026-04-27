@@ -18,19 +18,8 @@ public class CameraController : MonoBehaviour
 
     private CancellationTokenSource _cts;
 
-    //private CinemachineTransposer _transposer;
-    private void Awake()
-    {
-        //_transposer = _vcam.GetCinemachineComponent<CinemachineTransposer>();
-    }
-
     private void OnEnable()
     {
-        if (InputManager.Instance != null)
-        {
-            _inputManager = InputManager.Instance;
-        }
-
         _cts = new CancellationTokenSource();
         FindPlayer(_cts.Token).Forget();
     }
@@ -53,7 +42,7 @@ public class CameraController : MonoBehaviour
         }
         catch (Exception e)
         {
-
+            Debug.Log($"Error : {e.Message}");
         }
     }
 

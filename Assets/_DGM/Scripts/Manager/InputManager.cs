@@ -9,11 +9,24 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _mouseRightClick;
     [SerializeField] private InputActionReference _zoom;
 
+    [SerializeField] private InputActionReference _menuUp;
+    [SerializeField] private InputActionReference _menuDown;
+    [SerializeField] private InputActionReference _menuSelect;
+
+    [SerializeField] private InputActionAsset _inputActions;
+
+    private InputActionMap _playerMap;
+    private InputActionMap _menuMap;
+
     private bool _isBind = false;
 
     public event Action<Vector2> OnMove;
+
     public event Action<bool> OnMouseRightClick;
     public event Action<float> OnZoom;
+
+    public event Action<int> OnMenuMove;
+    public event Action<bool> OnSelect;
 
     protected override void Awake()
     {
@@ -22,6 +35,9 @@ public class InputManager : Singleton<InputManager>
         DontDestroyOnLoad(gameObject);
 
         TryBind();
+
+        _playerMap = _inputActions.FindActionMap("Player");
+        _menuMap = _inputActions.FindActionMap("Menu UI");
     }
 
     protected override void OnDestroy()
@@ -59,6 +75,15 @@ public class InputManager : Singleton<InputManager>
         if (_zoom == null || _zoom.action == null)
             return;
 
+        if (_menuUp == null || _menuUp.action == null)
+            return;
+
+        if (_menuDown == null || _menuDown.action == null)
+            return;
+
+        if (_menuSelect == null || _menuSelect.action == null)
+            return;
+
         _move.action.performed += OnMovePerformed;
         _move.action.canceled += OnMoveCanceled;
 
@@ -66,6 +91,11 @@ public class InputManager : Singleton<InputManager>
         _mouseRightClick.action.canceled += OnMouseRightClickCanceled;
 
         _zoom.action.performed += OnZoomPerformed;
+
+        _menuUp.action.started += OnMoveUp;
+        _menuDown.action.started += OnMoveDown;
+        _menuSelect.action.started += OnSelectStarted;
+
         _isBind = true;
     }
 
@@ -91,6 +121,23 @@ public class InputManager : Singleton<InputManager>
             _zoom.action.performed -= OnZoomPerformed;
         }
 
+        if (_menuUp != null && _menuUp.action != null)
+        {
+            _menuUp.action.started -= OnMoveUp;
+        }
+
+        if (_menuDown != null && _menuDown.action != null)
+        {
+            _menuDown.action.started -= OnMoveDown;
+        }
+
+        if (_menuSelect != null && _menuSelect.action != null)
+        {
+            _menuSelect.action.started -= OnSelectStarted;
+            _menuSelect.action.canceled -= OnSelectCanceled;
+        }
+
+
         _isBind = false;
     }
 
@@ -104,6 +151,9 @@ public class InputManager : Singleton<InputManager>
             _move.action.Enable();
             _mouseRightClick.action.Enable();
             _zoom.action.Enable();
+            _menuUp.action.Enable();
+            _menuDown.action.Enable();
+            _menuSelect.action.Enable();
         }
 
         else
@@ -111,6 +161,9 @@ public class InputManager : Singleton<InputManager>
             _move.action.Disable();
             _mouseRightClick.action.Disable();
             _zoom.action.Disable();
+            _menuUp.action.Disable();
+            _menuDown.action.Disable();
+            _menuSelect.action.Disable();
         }
     }
 
@@ -141,4 +194,57 @@ public class InputManager : Singleton<InputManager>
         Vector2 scroll = context.ReadValue<Vector2>();
         OnZoom?.Invoke(scroll.y);
     }
+
+    private void OnMoveUp(InputAction.CallbackContext context)
+    {
+        OnMenuMove?.Invoke(1);
+    }
+
+    private void OnMoveDown(InputAction.CallbackContext context)
+    {
+        OnMenuMove?.Invoke(-1);
+    }
+
+    private void OnSelectStarted(InputAction.CallbackContext context)
+    {
+        OnSelect?.Invoke(true);
+    }
+
+    private void OnSelectCanceled(InputAction.CallbackContext context)
+    {
+        OnSelect?.Invoke(false);
+    }
+    
+    public void SwitchToPlayerMap()
+    {
+        _menuMap.Disable();
+        _playerMap.Enable();
+    }
+
+    public void SwitchToMenuUIMap()
+    {
+        _playerMap.Disable();
+        _menuMap.Enable();
+    }
+
+    public void EnableMenuUI(bool enabled)
+    {
+        if (!_isBind)
+            return;
+
+        if (enabled)
+        {
+            _menuUp.action.Enable();
+            _menuDown.action.Enable();
+            _menuSelect.action.Enable();
+        }
+
+        else
+        {
+            _menuUp.action.Disable();
+            _menuDown.action.Disable();
+            _menuSelect.action.Disable();
+        }
+    }
+
 }

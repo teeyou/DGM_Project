@@ -777,9 +777,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1800696259923124722}
   - component: {fileID: 311774525984607857}
+  - component: {fileID: 7563914372407052198}
+  - component: {fileID: 8966079906697411419}
   m_Layer: 0
   m_Name: LittleGirl
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -822,6 +824,48 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7563914372407052198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615446594702868379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b8b1addceb0ce4cafbd746af5f602b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 3
+  _sharpness: 10
+  _idleTime: 5
+  _groundStick: -2
+--- !u!143 &8966079906697411419
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615446594702868379}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.01
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5728773796617635557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,7 +1287,7 @@ SkinnedMeshRenderer:
   - 0
   m_RootBone: {fileID: 804549583569536107}
   m_AABB:
-    m_Center: {x: 0.020545363, y: 0.025500596, z: -0.019742668}
+    m_Center: {x: 0.020545363, y: 0, z: -0.019742668}
     m_Extent: {x: 0.48833877, y: 0.8012622, z: 0.28685868}
   m_DirtyAABB: 0
 --- !u!1 &9076315426488408697

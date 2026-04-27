@@ -16,7 +16,32 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: b6c74a6dcb15fe74da7c261a14504148
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 2cce1654b814aa0459f8b094e01989ff
+    m_Address: Village
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5763b68ebb979564f9e5732909ef519e
+    m_Address: Forest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b63502e3f66129b47ba73c476eb036e7
+    m_Address: Title
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b963e0da0a153cb4caf6cb2c2bb4ecdf
+    m_Address: Temple
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbac94506c746d44cb973d814eea903c
+    m_Address: Loading
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
   m_SchemaSet:
