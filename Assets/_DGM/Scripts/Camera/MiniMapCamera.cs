@@ -9,36 +9,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class MiniMapCamera : Singleton<MiniMapCamera>
 {
-    [SerializeField] private PlayerSpawner _playerSpawner;
-
-    private EventChannel _eventChannel;
-
     private Transform _playerTr;
     private CancellationTokenSource _cts;
     private CancellationToken _token;
 
-    AsyncOperationHandle<EventChannel> _handle;
-
     private void OnEnable()
     {
-        if (_playerTr == null)
-        {
-            _handle = Addressables.LoadAssetAsync<EventChannel>("EventChannel");
-            _handle.Completed += OnEventChannelLoaded;
-        }
-
-        //_cts = new CancellationTokenSource();
-        //_token = _cts.Token;
+        _cts = new CancellationTokenSource();
+        _token = _cts.Token;
     }
 
-    private void OnEventChannelLoaded(AsyncOperationHandle<EventChannel> handle)
-    {
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            _eventChannel = handle.Result;
-            _eventChannel.OnPlayerSpawned += SetPlayer;
-        }
-    }
 
     private void OnDisable()
     {
@@ -48,21 +28,11 @@ public class MiniMapCamera : Singleton<MiniMapCamera>
             _cts.Dispose();
             _cts = null;
         }
-
-        if (_eventChannel != null)
-        {
-            _eventChannel.OnPlayerSpawned -= SetPlayer;
-        }
-
-        if (_handle.IsValid())
-        {
-            Addressables.Release(_handle);
-        }
     }
 
-    void Start()
+    private void Start()
     {
-        //FindPlayerAsync(_token).Forget();
+        FindPlayerAsync(_token).Forget();
     }
 
     private void SetPlayer(GameObject go)
@@ -74,10 +44,22 @@ public class MiniMapCamera : Singleton<MiniMapCamera>
     {
         try
         {
-            await UniTask.WaitUntil(() => GameObject.FindGameObjectWithTag("Player"),
-                PlayerLoopTiming.Update, token);
+            await UniTask.WaitUntil(() => GameManager.Instance.IsExistsPlayer(),PlayerLoopTiming.Update, _token);
+            _playerTr = GameManager.Instance.GetPlayer().transform;
 
-            _playerTr = GameObject.FindGameObjectWithTag("Player").transform;
+            //await UniTask.WaitUntil(() =>
+            //{
+            //    GameObject go = GameObject.FindGameObjectWithTag("Player");
+
+            //    if (go != null)
+            //    {
+            //        _playerTr = go.transform;
+            //    }
+            //    return go != null;
+            //},
+            //PlayerLoopTiming.Update, token);
+
+            //_playerTr = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         catch (OperationCanceledException)

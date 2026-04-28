@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Device;
 using UnityEngine.InputSystem;
 
 public class TitleManager : MonoBehaviour

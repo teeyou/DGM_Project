@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -84,4 +85,6 @@ public class GameManager : Singleton<GameManager>
     }
 
     public bool IsExistsPlayer() => _playerTr != null;
+
+    public GameObject GetPlayer() => _playerTr.gameObject;
 }

@@ -52,22 +52,24 @@ public class SceneLoader : Singleton<SceneLoader>
             await SceneManager.UnloadSceneAsync(currentScene);
 
             string key = target.ToString();
-            _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Single, false);  // 수동으로 제어
+            _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Additive, false);  // 수동으로 제어
 
             await _handle.Task; // 씬 전환 준비 완료
 
-            await UniTask.Delay(2000);
+            //await UniTask.Delay(2000);
 
             await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
 
-            if (current != ESceneId.Title && GameManager.Instance != null)
+            await UniTask.Yield(PlayerLoopTiming.Update);   // 한 프레임 대기
+
+            if (current != ESceneId.Title)
             {
                 GameManager.Instance.SetPlayerPosition(current, target);
             }
             
-            //await UniTask.Delay(2000);
+            await UniTask.Delay(2000);
 
-            //await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
+            await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
 
             _isLoading = false;
         }

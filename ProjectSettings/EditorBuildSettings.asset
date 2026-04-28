@@ -4,6 +4,21 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/_DGM/Scenes/Title.unity
+    guid: b63502e3f66129b47ba73c476eb036e7
+  - enabled: 0
+    path: Assets/_DGM/Scenes/Village.unity
+    guid: 2cce1654b814aa0459f8b094e01989ff
+  - enabled: 0
+    path: Assets/_DGM/Scenes/Forest.unity
+    guid: 5763b68ebb979564f9e5732909ef519e
+  - enabled: 0
+    path: Assets/_DGM/Scenes/Temple.unity
+    guid: b963e0da0a153cb4caf6cb2c2bb4ecdf
+  - enabled: 0
+    path: Assets/_DGM/Scenes/Loading.unity
+    guid: cbac94506c746d44cb973d814eea903c
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: d61903ba7ce362f4f899e9265551b825, type: 2}
