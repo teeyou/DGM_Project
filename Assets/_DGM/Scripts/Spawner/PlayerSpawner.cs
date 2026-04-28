@@ -7,8 +7,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerSpawner : MonoBehaviour, ISpawner
 {
-    public event Action<GameObject> OnPlayerSpawned;
+    //public event Action<GameObject> OnPlayerSpawned;
 
+    [SerializeField] private EventChannel _eventChannel;
     [SerializeField] private Transform _spawnPoint;
 
     private string _key = "Player";
@@ -37,7 +38,8 @@ public class PlayerSpawner : MonoBehaviour, ISpawner
 
     void Start()
     {
-        Spawn(_spawnPoint.position, _spawnPoint.rotation);
+        if (!GameManager.Instance.IsExistsPlayer())
+            Spawn(_spawnPoint.position, _spawnPoint.rotation);
     }
 
     public void Spawn(Vector3 pos, Quaternion rot)
@@ -65,7 +67,8 @@ public class PlayerSpawner : MonoBehaviour, ISpawner
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 _playerGo = handle.Result;
-                OnPlayerSpawned?.Invoke(_playerGo);
+                _eventChannel.SpawnedPlayer(_playerGo);
+                //OnPlayerSpawned?.Invoke(_playerGo);
             }
 
             else
@@ -89,7 +92,7 @@ public class PlayerSpawner : MonoBehaviour, ISpawner
 
     private void OnDestroy()
     {
-        if (_playerGo != null)
-            Addressables.ReleaseInstance( _playerGo );
+        //if (_playerGo != null)
+        //    Addressables.ReleaseInstance( _playerGo );
     }
 }

@@ -33,6 +33,8 @@ public class MoveController : MonoBehaviour
     {
         _cc = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     //public void OnMove(InputValue value)
@@ -163,5 +165,11 @@ public class MoveController : MonoBehaviour
     public void OnDanceFinished()
     {
         _animator.SetTrigger("Dance");
+    }
+
+    public void ResetCC()
+    {
+        _cc.enabled = false;
+        _cc.enabled = true;
     }
 }

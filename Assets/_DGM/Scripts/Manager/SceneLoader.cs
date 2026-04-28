@@ -34,14 +34,13 @@ public class SceneLoader : Singleton<SceneLoader>
         DontDestroyOnLoad(gameObject);
     }
 
-    public async UniTaskVoid LoadScene(ESceneId sceneId)
+    public async UniTaskVoid LoadScene(ESceneId current, ESceneId target)
     {
         try
         {
             if (_isLoading)
                 return;
 
-            Debug.Log("로딩 중");
             _isLoading = true;
 
             _loadingHandle = Addressables.LoadSceneAsync(_loadingKey, LoadSceneMode.Additive);  // 로딩 씬 바로 띄움
@@ -52,19 +51,25 @@ public class SceneLoader : Singleton<SceneLoader>
             Scene currentScene = SceneManager.GetActiveScene();
             await SceneManager.UnloadSceneAsync(currentScene);
 
-            string key = sceneId.ToString();
-            _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Additive, false);  // 수동으로 제어
+            string key = target.ToString();
+            _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Single, false);  // 수동으로 제어
 
             await _handle.Task; // 씬 전환 준비 완료
 
-            await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
-
             await UniTask.Delay(2000);
 
-            await Addressables.UnloadSceneAsync(_loadingHandle);
+            await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
+
+            if (current != ESceneId.Title && GameManager.Instance != null)
+            {
+                GameManager.Instance.SetPlayerPosition(current, target);
+            }
+            
+            //await UniTask.Delay(2000);
+
+            //await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
 
             _isLoading = false;
-            Debug.Log("로딩 완료");
         }
 
         catch (Exception e)

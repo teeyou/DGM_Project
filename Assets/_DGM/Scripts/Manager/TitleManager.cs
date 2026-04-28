@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Device;
 using UnityEngine.InputSystem;
 
 public class TitleManager : MonoBehaviour
@@ -17,8 +19,9 @@ public class TitleManager : MonoBehaviour
 
     private InputManager _input;
     private int _inputValue;
+    private bool _isSelect = false;
 
-    private int _cursorIndex = 0;
+    private int _cursorIndex = -1;
     private Coroutine _cursorAnimRoutine = null;
 
     private void Awake()
@@ -36,7 +39,8 @@ public class TitleManager : MonoBehaviour
     {
         _textSpacingAnim.OnAnimationFinished -= ShowPressAnyKeyText;
 
-        _input.OnMenuMove -= HandleMove;
+        _input.OnMenuMove -= SetMove;
+        _input.OnSelect -= SetSelect;
     }
 
     private void Start()
@@ -44,12 +48,18 @@ public class TitleManager : MonoBehaviour
         _input = InputManager.Instance;
         _input.SwitchToMenuUIMap();
         
-        _input.OnMenuMove += HandleMove;
+        _input.OnMenuMove += SetMove;
+        _input.OnSelect += SetSelect;
 
         _input.EnableMenuUI(false); // 꺼두고, 메뉴 창 뜨면 켜기
     }
 
-    private void HandleMove(int v)
+    private void SetSelect(bool isSelect)
+    {
+        _isSelect = isSelect;
+    }
+
+    private void SetMove(int v)
     {
         _inputValue = v;
     }
@@ -62,6 +72,8 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
+        HandleMenuSelect();
+
         HandleMenuMove();
 
         // AnyKey가 아직 안 떴으면 처리 안 함
@@ -73,6 +85,50 @@ public class TitleManager : MonoBehaviour
             return;
         
         HandleAnyKey();
+
+    }
+
+    private void HandleMenuSelect()
+    {
+        if (_cursorIndex == -1)
+            return;
+
+        if (_isSelect)
+        {
+            _isSelect = false;
+
+            switch ( _cursorIndex )
+            {
+                case 0:
+                    StartGame();
+                    break;
+                case 1:
+                    ShowOptions();
+                    break;
+                case 2:
+                    Exit();
+                    break;
+            }
+        }
+    }
+
+    private void StartGame()
+    {
+        SceneLoader.Instance.LoadScene(ESceneId.Title, ESceneId.Village).Forget();
+    }
+
+    private void ShowOptions()
+    {
+
+    }
+
+    private void Exit()
+    {
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
 
     }
 
@@ -163,8 +219,13 @@ public class TitleManager : MonoBehaviour
     }
     private void OnAnyKeyPressed()
     {
+        // Press Any Key 비활성화
+        // 메뉴 선택 창 활성화
+        // 사용자 입력 활성화
+
         _pressAnyKeyGo.SetActive(false);
         _menuGo.SetActive(true);
         _input.EnableMenuUI(true);
+        _cursorIndex = 0;
     }
 }

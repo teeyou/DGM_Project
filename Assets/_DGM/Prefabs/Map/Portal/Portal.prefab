@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5f0d4bfc2081a4e9d894baed035658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _current: 2
   _key: 3
 --- !u!198 &440050207849615194
 ParticleSystem:
@@ -4870,8 +4871,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.3
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &3464119292378366388
 GameObject:
   m_ObjectHideFlags: 0
