@@ -8,6 +8,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class GameManager : Singleton<GameManager>
 {
     private Transform _playerTr;
+    private MoveController _playerMoveController;
+
     private EventChannel _eventChannel;
 
     private AsyncOperationHandle<EventChannel> _handle;
@@ -75,13 +77,23 @@ public class GameManager : Singleton<GameManager>
             _playerTr.position = pointTr.position;
             _playerTr.rotation = pointTr.rotation;
 
-            MoveController controller = _playerTr.GetComponent<MoveController>();
-
-            if (controller != null)
+            if (_playerMoveController == null)
             {
-                controller.ResetCC();
+                _playerMoveController = _playerTr.GetComponent<MoveController>();
             }
+
+            _playerMoveController.ResetCC();
         }
+    }
+
+    public void TogglePlayerMoveController(bool enabled)
+    {
+        if (_playerMoveController == null)
+        {
+            _playerMoveController = _playerTr.GetComponent<MoveController>();
+        }
+
+        _playerMoveController.enabled = enabled;
     }
 
     public bool IsExistsPlayer() => _playerTr != null;

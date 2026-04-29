@@ -43,6 +43,8 @@ public class MoveController : MonoBehaviour
 
     private void OnEnable()
     {
+        _inputVec = Vector3.zero;
+
         _cts = new CancellationTokenSource();
 
         BindInputManagerAsync(_cts.Token).Forget();

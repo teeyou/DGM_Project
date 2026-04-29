@@ -49,6 +49,12 @@ public class SceneLoader : Singleton<SceneLoader>
 
             _isLoading = true;
 
+            // 플레이어 이동 막기
+            if (current != ESceneId.Title && GameManager.Instance != null)
+            {
+                GameManager.Instance.TogglePlayerMoveController(false);
+            }
+
             _loadingHandle = Addressables.LoadSceneAsync(_loadingKey, LoadSceneMode.Additive);  // 로딩 씬 바로 띄움
 
             await _loadingHandle.Task;  // 로딩 씬 활성화
@@ -98,6 +104,12 @@ public class SceneLoader : Singleton<SceneLoader>
 
             await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
 
+            // 플레이어 이동 활성화
+            if (current != ESceneId.Title && GameManager.Instance != null)
+            {
+                GameManager.Instance.TogglePlayerMoveController(true);
+            }
+
             string clipKey = key + "BGM";
             AudioManager.Instance.PlayBGM(clipKey);     // 배경음악 재생
             _isLoading = false;
@@ -105,7 +117,7 @@ public class SceneLoader : Singleton<SceneLoader>
 
         catch (Exception e)
         {
-            Debug.Log($"Error : {e.Message}");
+            Debug.LogError($"Error : {e.Message}");
         }
         
     }
