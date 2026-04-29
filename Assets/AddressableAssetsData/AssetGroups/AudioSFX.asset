@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: AudioSFX
+  m_EditorClassIdentifier: 
+  m_GroupName: AudioSFX
+  m_Data:
+    m_SerializedData: []
+  m_GUID: cdaed41b76ab399429933b1fb416fa39
+  m_SerializeEntries:
+  - m_GUID: 7e7981150ea15cc44af4b3abc50240d0
+    m_Address: CursorMoveSFX
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4fbe273f6027b448a7ffe40cf4a0986
+    m_Address: SelectSFX
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 36d105508b1d355418eba35de0d99c3b, type: 2}
+    - {fileID: 11400000, guid: e333bb3ad8669844cacd784908a9cf0c, type: 2}

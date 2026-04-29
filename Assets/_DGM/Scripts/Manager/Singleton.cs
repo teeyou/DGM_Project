@@ -17,8 +17,8 @@ public class Singleton <T> : MonoBehaviour where T : MonoBehaviour
                 if (_instance == null)
                 {
                     Debug.Log("Singleton - 하이어라키에 오브젝트 생성 필요");
-                    //GameObject go = new GameObject(typeof(T).ToString());
-                    //_instance = go.AddComponent<T>();
+                    GameObject go = new GameObject(typeof(T).ToString());
+                    _instance = go.AddComponent<T>();
                 }
             }
 
@@ -36,11 +36,11 @@ public class Singleton <T> : MonoBehaviour where T : MonoBehaviour
 
         _instance = this as T;
     }
-    protected virtual void OnDestroy()
-    {
-        if (_instance == this as T)
-        {
-            _instance = null;
-        }
-    }
+    //protected virtual void OnDestroy()
+    //{
+    //    if (_instance == this as T)
+    //    {
+    //        _instance = null;
+    //    }
+    //}
 }

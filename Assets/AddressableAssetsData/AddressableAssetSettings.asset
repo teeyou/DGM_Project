@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b6c74a6dcb15fe74da7c261a14504148
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 0a8740b2dd8ca782ee46b1bbebf1024d
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -46,11 +46,13 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: d68bdbaf4aa78c14bb24a64877d7e731, type: 2}
   - {fileID: 11400000, guid: 2e459078da1ebbf4ba90d18c70c07169, type: 2}
+  - {fileID: 11400000, guid: 9966cc3a4235ac14ab5aee381cc531a6, type: 2}
   - {fileID: 11400000, guid: e82c9e2990494fd4ab41130158cb2650, type: 2}
   - {fileID: 11400000, guid: e6e8fe2206e6cac48a55640699f2f29b, type: 2}
   - {fileID: 11400000, guid: f02e372eb7b1ddd4e8cf3dc02a24570e, type: 2}
   - {fileID: 11400000, guid: 994e5c0244cb0594da61c8ca05006acc, type: 2}
   - {fileID: 11400000, guid: 99aefa19babc34243bcc983c7d79f4db, type: 2}
+  - {fileID: 11400000, guid: 62d8d3535d48bfa4b9e0da2ae3309243, type: 2}
   - {fileID: 11400000, guid: f72514199882be74488065aed4e71cf4, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
@@ -93,6 +95,8 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - BGM
+    - SFX
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3d2611dbb8c2f984484d78109e013d0c, type: 2}

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -64,8 +65,18 @@ public class TitleManager : MonoBehaviour
 
     private void ShowPressAnyKeyText()
     {
+        WaitSFXLoad();
+
         _pressAnyKeyGo.SetActive(true);
         _isShowAnyKey = true;
+    }
+
+    private void WaitSFXLoad()
+    {
+        Debug.Log("BGM, SFX 로드 기다리는 중");
+        UniTask.WaitUntil(() => AudioManager.Instance.SFXLoaded);
+        UniTask.WaitUntil(() => AudioManager.Instance.BGMLoaded);
+        Debug.Log("BGM SFX 로드 완료 Press Any Key 활성화");
     }
 
     private void Update()
@@ -93,8 +104,8 @@ public class TitleManager : MonoBehaviour
 
         if (_isSelect)
         {
+            AudioManager.Instance.PlaySFX("SelectSFX");
             _isSelect = false;
-
             switch ( _cursorIndex )
             {
                 case 0:
@@ -132,6 +143,9 @@ public class TitleManager : MonoBehaviour
 
     private void HandleMenuMove()
     {
+        if (_cursorIndex == -1)
+            return;
+
         float currentY = _cursorTr.localPosition.y;
         if (_inputValue > 0)
         {
@@ -139,6 +153,7 @@ public class TitleManager : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
+                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
                     _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue * 100));
                     _cursorIndex--;
                 }
@@ -147,12 +162,13 @@ public class TitleManager : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
+                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
                     _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue * 200));
                     _cursorIndex = 2;
                 }
             }
 
-            _inputValue = 0;
+            //_inputValue = 0;
         }
 
         else if (_inputValue < 0)
@@ -161,6 +177,7 @@ public class TitleManager : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
+                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
                     _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue * 100));
                     _cursorIndex++;
                 }
@@ -170,12 +187,13 @@ public class TitleManager : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
+                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
                     _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue * 200));
                     _cursorIndex = 0;
                 }
             }
 
-            _inputValue = 0;
+            //_inputValue = 0;
         }
     }
 
@@ -199,20 +217,10 @@ public class TitleManager : MonoBehaviour
 
     private void HandleAnyKey()
     {
-        if (Keyboard.current != null)
+        if (!_pressed && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            foreach (var key in Keyboard.current.allKeys)
-            {
-                if (key == null)
-                    return;
-
-                if (key.wasPressedThisFrame)
-                {
-                    _pressed = true;
-                    OnAnyKeyPressed();
-                    return;
-                }
-            }
+            _pressed = true;
+            OnAnyKeyPressed();
         }
     }
     private void OnAnyKeyPressed()
@@ -220,7 +228,7 @@ public class TitleManager : MonoBehaviour
         // Press Any Key 비활성화
         // 메뉴 선택 창 활성화
         // 사용자 입력 활성화
-
+        AudioManager.Instance.PlaySFX("SelectSFX");
         _pressAnyKeyGo.SetActive(false);
         _menuGo.SetActive(true);
         _input.EnableMenuUI(true);

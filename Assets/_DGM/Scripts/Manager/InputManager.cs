@@ -39,9 +39,8 @@ public class InputManager : Singleton<InputManager>
         _menuMap = _inputActions.FindActionMap("Menu UI");
     }
 
-    protected override void OnDestroy()
+    private void OnDestroy()
     {
-        base.OnDestroy();
         Unbind();
     }
 
@@ -92,8 +91,13 @@ public class InputManager : Singleton<InputManager>
         _zoom.action.performed += OnZoomPerformed;
 
         _menuUp.action.started += OnMoveUp;
+        _menuUp.action.canceled += OnMoveUpCanceled;
+
         _menuDown.action.started += OnMoveDown;
+        _menuDown.action.canceled += OnMoveDownCanceled;
+
         _menuSelect.action.started += OnSelectStarted;
+
 
         _isBind = true;
     }
@@ -123,11 +127,13 @@ public class InputManager : Singleton<InputManager>
         if (_menuUp != null && _menuUp.action != null)
         {
             _menuUp.action.started -= OnMoveUp;
+            _menuUp.action.canceled += OnMoveUpCanceled;
         }
 
         if (_menuDown != null && _menuDown.action != null)
         {
             _menuDown.action.started -= OnMoveDown;
+            _menuDown.action.canceled += OnMoveDownCanceled;
         }
 
         if (_menuSelect != null && _menuSelect.action != null)
@@ -203,6 +209,17 @@ public class InputManager : Singleton<InputManager>
     {
         OnMenuMove?.Invoke(-1);
     }
+
+    private void OnMoveUpCanceled(InputAction.CallbackContext context)
+    {
+        OnMenuMove?.Invoke(0);
+    }
+
+    private void OnMoveDownCanceled(InputAction.CallbackContext context)
+    {
+        OnMenuMove?.Invoke(0);
+    }
+
 
     private void OnSelectStarted(InputAction.CallbackContext context)
     {
