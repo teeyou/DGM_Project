@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3b5d91c568f7d4dbe015f4670cacd6, type: 3}
+  m_Name: EvolutionValue
+  m_EditorClassIdentifier: 
+  hpBonus: 200
+  atkBonus: 20
+  defBonus: 20
+  intelBonus: 20
+  speedBonus: 20

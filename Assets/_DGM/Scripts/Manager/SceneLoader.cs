@@ -35,9 +35,14 @@ public class SceneLoader : Singleton<SceneLoader>
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    public string GetCurrentSceneName()
     {
-        
+        return SceneManager.GetActiveScene().name;
+    }
+
+    public Scene GetCurrentScene()
+    {
+        return SceneManager.GetActiveScene();
     }
 
     public async UniTaskVoid LoadScene(ESceneId current, ESceneId target)

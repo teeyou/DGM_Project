@@ -2,9 +2,15 @@
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="AudioManager" preserve="all" />
     <type fullname="CameraController" preserve="all" />
+    <type fullname="DigimonFactory" preserve="all" />
+    <type fullname="DigimonSpawner" preserve="all" />
+    <type fullname="DigimonStatus" preserve="all" />
+    <type fullname="DigimonStatusSO" preserve="all" />
     <type fullname="DontDestory" preserve="all" />
     <type fullname="EventChannel" preserve="all" />
+    <type fullname="EvolutionValueSO" preserve="all" />
     <type fullname="GameManager" preserve="all" />
+    <type fullname="GrowthValueSO" preserve="all" />
     <type fullname="InputManager" preserve="all" />
     <type fullname="MiniMapCamera" preserve="all" />
     <type fullname="MoveController" preserve="all" />

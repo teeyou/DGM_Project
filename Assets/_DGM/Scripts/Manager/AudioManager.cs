@@ -18,6 +18,9 @@ public class AudioManager : Singleton<AudioManager>
 
     public bool SFXLoaded { get; set; } = false;
     public bool BGMLoaded { get; set; } = false;
+
+    private bool _isPlaying = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -33,6 +36,23 @@ public class AudioManager : Singleton<AudioManager>
     {
         LoadSFXAssets();
         LoadBGMAssets();
+    }
+
+    private void Update()
+    {
+        if (!BGMLoaded)
+            return;
+
+        if (!SFXLoaded)
+            return;
+
+        if (!_isPlaying)
+        {
+            _isPlaying = true;
+            string sceneName = SceneLoader.Instance.GetCurrentSceneName();
+            Debug.Log(sceneName);
+            PlayBGM(sceneName + "BGM");
+        }
     }
 
     private void LoadBGMAssets()
@@ -100,6 +120,7 @@ public class AudioManager : Singleton<AudioManager>
         if (_keyToClip.TryGetValue(key, out AudioClip clip))
         {
             _bgmSource.clip = clip;
+            _bgmSource.loop = true;
             _bgmSource.Play();
         }
     }

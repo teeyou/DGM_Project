@@ -28,6 +28,9 @@ public class MoveController : MonoBehaviour
     private CancellationTokenSource _cts;
 
     private InputManager _inputManager;
+
+    public float MoveSpeed => _moveSpeed;
+
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();

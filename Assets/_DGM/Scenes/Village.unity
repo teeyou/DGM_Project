@@ -1916,6 +1916,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7652437248637528613, guid: 60bcc830ae98a894b8fe3a55ecaef888, type: 3}
   m_PrefabInstance: {fileID: 579731323}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &583542959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 583542961}
+  - component: {fileID: 583542960}
+  m_Layer: 0
+  m_Name: Digimon Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &583542960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583542959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce991b9d48106a4aa54929ca636f5d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &583542961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583542959}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.0665174, y: -21.276314, z: -5.4065166}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &591325622
 GameObject:
   m_ObjectHideFlags: 0
@@ -6229,7 +6273,7 @@ Transform:
   m_GameObject: {fileID: 1786342708}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 30, z: -0}
+  m_LocalPosition: {x: 0, y: 50, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6247,6 +6291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01b54167e0f67c4bac57dec163a3d26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _height: 50
 --- !u!114 &1786342713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16776,6 +16821,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _current: 3
   _key: 4
+--- !u!1001 &1107740525406095946
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376046915702080667, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4543180870562069205, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
+      propertyPath: m_Name
+      value: Digimon Factory
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee53cfd11339a7e4bb440c7330befc40, type: 3}
 --- !u!1 &1182295030524264612
 GameObject:
   m_ObjectHideFlags: 0
@@ -22034,7 +22136,7 @@ PrefabInstance:
     - target: {fileID: 8266948447693623586, guid: 87ce02d5d51730b4f8076b3104bd6322, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: e8d6b73a7ee3b6d47a9d3938c8fe85d7, type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42040,3 +42142,5 @@ SceneRoots:
   - {fileID: 1539884724}
   - {fileID: 1823899793}
   - {fileID: 466908053112776739}
+  - {fileID: 1107740525406095946}
+  - {fileID: 583542961}

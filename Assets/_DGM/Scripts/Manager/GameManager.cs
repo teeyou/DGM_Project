@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -62,6 +64,14 @@ public class GameManager : Singleton<GameManager>
     private void SetPlayer(GameObject player)
     {
         _playerTr = player.transform;
+
+        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, this.GetCancellationTokenOnDestroy());
+        DigimonSpawner.Instance.SpawnFriendDigimon(1, "Koromon", linked.Token).Forget();
+
+        Vector3 pos = new Vector3(-10f, 0f, -10f);
+        Quaternion rot = Quaternion.identity;
+        //DigimonSpawner.Instance.SpawnDigimon(10, "Koromon", pos, rot, linked.Token);
     }
 
     public void SetPlayerPosition(ESceneId current, ESceneId target)

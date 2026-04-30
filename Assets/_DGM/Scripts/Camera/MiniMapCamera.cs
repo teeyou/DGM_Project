@@ -9,6 +9,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class MiniMapCamera : Singleton<MiniMapCamera>
 {
+    [SerializeField] private float _height;
+
     private Transform _playerTr;
     private CancellationTokenSource _cts;
     private CancellationToken _token;
@@ -79,6 +81,6 @@ public class MiniMapCamera : Singleton<MiniMapCamera>
             return;
         }
 
-        transform.position = _playerTr.position + Vector3.up * 30f;
+        transform.position = _playerTr.position + Vector3.up * _height;
     }
 }

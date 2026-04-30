@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 65a18287f94824940977f3256bc562e8
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: b8e44ba9980886c42a32c6075a2c49bb
+    m_Address: Koromon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
   m_SchemaSet:
