@@ -2,40 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EDigimonType
-{
-    None,
-    Vaccine,
-    Data,
-    Virus,
-}
+//public enum EAttribute
+//{
+//    None,
+//    Vaccine,
+//    Data,
+//    Virus,
+//}
 
-public enum EDigimonPersonality
-{
-    None,
-    Fight,      // ÅõÁö
-    Endurance,  // ÀÎ³»
-    Insight,    // ÅëÂû
-    Agility     // ¹ÎÃ¸
-}
+//public enum EType
+//{
+//    None,
+//    Fight,      // ÅõÁö
+//    Endurance,  // ÀÎ³»
+//    Insight,    // ÅëÂû
+//    Agility     // ¹ÎÃ¸
+//}
 
-public enum EDigimonEvolutionState
-{
-    Baby,       // À¯³â±â
-    Rookie,     // ¼ºÀå±â
-    Champion,   // ¼º¼÷±â
-    Perfect,    // ¿ÏÀüÃ¼
-    Mega        // ±Ã±ØÃ¼
-}
+//public enum EGrade
+//{
+//    Baby,       // À¯³â±â
+//    Rookie,     // ¼ºÀå±â
+//    Champion,   // ¼º¼÷±â
+//    Perfect,    // ¿ÏÀüÃ¼
+//    Mega        // ±Ã±ØÃ¼
+//}
 
 [CreateAssetMenu(menuName = "SO/DigimonStatus", fileName = "_Status")]
 public class DigimonStatusSO : ScriptableObject
 {
     [Header("±âº» Á¤º¸")]
     [SerializeField] private string digimonName;
-    [SerializeField] private EDigimonType type;
-    [SerializeField] private EDigimonEvolutionState evoState;
-    [SerializeField] private EDigimonPersonality personality;
+    [SerializeField] private EAttribute type;
+    [SerializeField] private EGrade evoState;
+    [SerializeField] private EType personality;
 
     [Header("½ºÅÈ")]
     [SerializeField] private int level;
@@ -54,9 +54,9 @@ public class DigimonStatusSO : ScriptableObject
     [SerializeField] private EvolutionValueSO evoValue;
 
     public string DigimonName => digimonName;
-    public EDigimonType Type => type;
-    public EDigimonEvolutionState EvoState => evoState;
-    public EDigimonPersonality Personality => personality;
+    public EAttribute Type => type;
+    public EGrade EvoState => evoState;
+    public EType Personality => personality;
 
 
     public int Level => level;

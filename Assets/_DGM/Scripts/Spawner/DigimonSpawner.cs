@@ -8,11 +8,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class DigimonSpawner : Singleton<DigimonSpawner>
 {
-    private const string STATUS_SUFFIX = "_Status";
+    //private const string STATUS_SUFFIX = "_Status";
     private const float FRIEND_OFFSET = 2f;
 
     private CancellationTokenSource _cts;
@@ -76,10 +75,13 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
     private GameObject Spawn(int level, string key, Vector3 pos, Quaternion rot, bool isEnemy)
     {
         // 최초 스폰
+        DigimonDB db = DigimonDB.Instance;
+        StatusData data = db.GetStatusDataByName(key);
 
         GameObject digimonGo = _factory.CreateDigimon(_keyToPrefab[key], pos, rot);
         DigimonStatus status = digimonGo.GetComponent<DigimonStatus>();
-        status.Init(_keyToStatusSO[key]);
+        status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+        //status.Init(_keyToStatusSO[key]);
         status.Level = level;
 
         if (!isEnemy)
@@ -153,22 +155,25 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
                 return;
             }
 
-            DigimonStatusSO data = await LoadDigimonStatus(digimonKey, token);
+            //DigimonStatusSO data = await LoadDigimonStatus(digimonKey, token);
 
-            if (data == null)
-            {
-                Debug.Log("디지몬 스탯 로드 실패");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.Log("디지몬 스탯 로드 실패");
+            //    return;
+            //}
 
             _keyToPrefab[digimonKey] = digimonPrefab;
-            _keyToStatusSO[digimonKey] = data;
+            //_keyToStatusSO[digimonKey] = data;
             _handleList.Add(prefabHandle);
 
             // 최초 스폰
+            DigimonDB db = DigimonDB.Instance;
+            StatusData data = db.GetStatusDataByName(digimonKey);
+
             GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
             DigimonStatus status = digimonGo.GetComponent<DigimonStatus>();
-            status.Init(data);
+            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
             status.Level = level;
 
             if (!isEnemy)
@@ -190,32 +195,32 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
   
     }
 
-    private async UniTask<DigimonStatusSO> LoadDigimonStatus(string digimonKey, CancellationToken token)
-    {
-        try
-        {
-            string statusKey = digimonKey + STATUS_SUFFIX;
-            AsyncOperationHandle<DigimonStatusSO> statusHandle = Addressables.LoadAssetAsync<DigimonStatusSO>(statusKey);
+    //private async UniTask<DigimonStatusSO> LoadDigimonStatus(string digimonKey, CancellationToken token)
+    //{
+    //    try
+    //    {
+    //        string statusKey = digimonKey + STATUS_SUFFIX;
+    //        AsyncOperationHandle<DigimonStatusSO> statusHandle = Addressables.LoadAssetAsync<DigimonStatusSO>(statusKey);
 
-            await statusHandle.Task.AsUniTask().AttachExternalCancellation(token);
+    //        await statusHandle.Task.AsUniTask().AttachExternalCancellation(token);
 
-            if (statusHandle.Status == AsyncOperationStatus.Succeeded)
-            {
-                _handleList.Add(statusHandle);
-                return statusHandle.Result;
-            }
-        }
-        catch (OperationCanceledException)
-        {
+    //        if (statusHandle.Status == AsyncOperationStatus.Succeeded)
+    //        {
+    //            _handleList.Add(statusHandle);
+    //            return statusHandle.Result;
+    //        }
+    //    }
+    //    catch (OperationCanceledException)
+    //    {
 
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error! {e.Message}");
-        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.LogError($"Error! {e.Message}");
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
 
 }

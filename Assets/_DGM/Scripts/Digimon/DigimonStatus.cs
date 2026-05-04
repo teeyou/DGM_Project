@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class DigimonStatus : MonoBehaviour
 {
     [SerializeField] private string digimonName;
-    [SerializeField] private EDigimonType type;
-    [SerializeField] private EDigimonEvolutionState evoState;
-    [SerializeField] private EDigimonPersonality personality;
+    [SerializeField] private EAttribute attr;
+    [SerializeField] private EGrade grade;
+    [SerializeField] private EType type;
 
     [SerializeField] private int level;
     [SerializeField] private int hp;
@@ -14,47 +15,52 @@ public class DigimonStatus : MonoBehaviour
     [SerializeField] private int intel;
     [SerializeField] private int speed;
 
-    [SerializeField] private float criticalRate;
-    [SerializeField] private float dodgeRate;
+    //[SerializeField] private float criticalRate;
+    //[SerializeField] private float dodgeRate;
 
-    private DigimonStatusSO statusData; 
-    public void Init(DigimonStatusSO data)
+    private StatusData statusData;
+    private GrowthType growthType;
+    private EvoTree evoTree;
+
+    public void Init(StatusData data, GrowthType growthType, EvoTree evoTree)
     {
-        statusData = data;
+        this.statusData = data;
+        this.growthType = growthType;
+        this.evoTree = evoTree;
 
         digimonName = data.DigimonName;
-        type = data.Type;
-        evoState = data.EvoState;
-        personality = data.Personality;
+        attr = (EAttribute)Enum.Parse(typeof(EAttribute), data.Attr);
+        grade = (EGrade)Enum.Parse(typeof(EGrade), data.Grade);
+        type = (EType)Enum.Parse(typeof(EType), data.Type);
 
-        level = data.Level;
-        hp = data.HP;
-        atk = data.ATK;
-        def = data.DEF;
-        intel = data.INT;
-        speed = data.SPD;
+        level = 1;
+        //level = data.Level;
+        hp = data.BaseHP;
+        atk = data.BaseATK;
+        def = data.BaseDEF;
+        intel = data.BaseINT;
+        speed = data.BaseSPD;
 
-        criticalRate = 0.1f + (0.001f * intel);
-        dodgeRate = 0.1f + (0.001f * speed);
+        //criticalRate = 0.1f + (0.001f * intel);
+        //dodgeRate = 0.1f + (0.001f * speed);
 
         Debug.Log("DigimonStatus 초기화 완료");
     }
 
     public string DigimonName => digimonName;
-    public EDigimonType Type => type;
-    public EDigimonEvolutionState EvoState => evoState;
-    public EDigimonPersonality Personality => personality;
-
+    public EAttribute Attr => attr;
+    public EGrade Grade => grade;
+    public EType Type => type;
 
     public int Level { get { return level; } set { level = value; } }
-    public int HP { get { return hp + (level - 1) * statusData.GrowthValue.HpGrowth; } set { hp = value; } }
+    public int HP { get { return hp + (level - 1) * growthType.HPInc; } set { hp = value; } }
     
-    public int ATK { get { return atk + (level - 1) * statusData.GrowthValue.AtkGrowth; } set { atk = value; } } 
+    public int ATK { get { return atk + (level - 1) * growthType.ATKInc; } set { atk = value; } } 
 
-    public int DEF { get { return def + (level - 1) * statusData.GrowthValue.DefGrowth; } set { def = value; } }
+    public int DEF { get { return def + (level - 1) * growthType.DEFInc; } set { def = value; } }
 
-    public int INT { get { return intel + (level - 1) * statusData.GrowthValue.IntGrowth; } set { intel = value; } }
-    public int SPD { get { return speed + (level - 1) * statusData.GrowthValue.SpdGrowth; } set { speed = value; } }
+    public int INT { get { return intel + (level - 1) * growthType.INTInc; } set { intel = value; } }
+    public int SPD { get { return speed + (level - 1) * growthType.SPDInc; } set { speed = value; } }
     public float CriticalRate => 0.1f + (0.001f * INT);
     public float DodgeRate => 0.1f + (0.001f * SPD);
 }
