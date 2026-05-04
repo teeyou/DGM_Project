@@ -10,10 +10,10 @@ using UnityEngine.SceneManagement;
 
 public enum ESceneId
 {
-    Persistent,
     Loading,
     Title,
     Village,
+    VillageEast,
     Forest,
     Temple
 }
@@ -73,27 +73,6 @@ public class SceneLoader : Singleton<SceneLoader>
             _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Additive, false);  // 수동으로 제어
 
             await _handle.Task; // 씬 전환 준비 완료
-
-            //// 캐시된 게 없으면 로드
-            //string clipKey = key + "BGM";
-
-            //if (!AudioManager.Instance.CheckClip(clipKey))
-            //{
-            //    Debug.Log($"딕셔너리에 없음");
-            //    var bgmHandle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
-            //    Debug.Log("bgm 로드중");
-            //    AudioClip bgmClip = await bgmHandle.Task;
-            //    Debug.Log("bgm 로드완료");
-            //    if (bgmHandle.Status == AsyncOperationStatus.Succeeded)
-            //    {
-            //        AudioManager.Instance.CacheClip(bgmClip);
-            //    }
-
-            //    else
-            //    {
-            //        Debug.Log("타겟 씬 BGM 로드 실패");
-            //    }
-            //}
 
             await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
 

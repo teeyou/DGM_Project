@@ -30,7 +30,13 @@ MonoBehaviour:
     - BGM
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2876a6241b0f7854e84f01c05396acd6
-    m_Address: VillageBattleBGM
+    m_Address: VillageEastBattleBGM
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad9bf0b24906a9c4caf94b6ee32de457
+    m_Address: VillageEastBGM
     m_ReadOnly: 0
     m_SerializedLabels:
     - BGM

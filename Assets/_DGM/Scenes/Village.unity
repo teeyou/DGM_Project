@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: be65f6eef41cc30469487fd054fd8ec7, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -6494,7 +6494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1823899793}
   m_Layer: 0
-  m_Name: ForestToVillage
+  m_Name: VillageEastToVillage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16863,8 +16863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5f0d4bfc2081a4e9d894baed035658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _current: 3
-  _key: 4
+  _current: 2
+  _key: 3
 --- !u!1001 &1107740525406095946
 PrefabInstance:
   m_ObjectHideFlags: 0
