@@ -29,6 +29,9 @@ public class MoveController : MonoBehaviour
 
     private InputManager _inputManager;
 
+    private IInteractable _interactable = null;
+    private bool _isFPressed = false;
+
     public float MoveSpeed => _moveSpeed;
 
     private void Awake()
@@ -63,6 +66,7 @@ public class MoveController : MonoBehaviour
         }
 
         _inputManager.OnMove -= HandleMove;
+        _inputManager.OnInteract -= HandleInteract;
     }
 
     private async UniTask BindInputManagerAsync(CancellationToken token)
@@ -73,6 +77,7 @@ public class MoveController : MonoBehaviour
 
             _inputManager = InputManager.Instance;
             _inputManager.OnMove += HandleMove;
+            _inputManager.OnInteract += HandleInteract;
             _inputManager.SwitchToPlayerMap();
         }
         catch (OperationCanceledException)
@@ -112,6 +117,45 @@ public class MoveController : MonoBehaviour
         _cc.Move(velocity * Time.deltaTime);
  
         PlayAnimation();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_interactable == null)
+        {
+            _interactable = other.transform.GetComponent<IInteractable>();
+        }
+
+        if (_interactable != null)
+        {
+            if (other.tag == "NPC")
+            {
+                FieldUIController.Instance.ToggleInteractButton(true);
+            }
+            else if (other.tag == "Enemy")
+            {
+                FieldUIController.Instance.ToggleInteractCombatButton(true);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_interactable != null)
+        {
+            FieldUIController.Instance.ToggleDialoguePanel(false);
+
+            if (other.tag == "NPC")
+            {
+                FieldUIController.Instance.ToggleInteractButton(false);
+            }
+            else if (other.tag == "Enemy")
+            {
+                FieldUIController.Instance.ToggleInteractCombatButton(false);
+            }
+
+            _interactable = null;
+        }
     }
 
     private void TickGravity()
@@ -175,5 +219,20 @@ public class MoveController : MonoBehaviour
     {
         _cc.enabled = false;
         _cc.enabled = true;
+    }
+
+    private void HandleInteract(bool isPressed)
+    {
+        _isFPressed = isPressed;
+
+        if (!_isFPressed)
+            return;
+
+        _isFPressed = false;
+
+        if (_interactable != null)
+        {
+            _interactable.Interact(gameObject);
+        }
     }
 }

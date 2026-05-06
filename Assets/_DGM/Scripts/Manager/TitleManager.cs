@@ -17,7 +17,7 @@ public class TitleManager : MonoBehaviour
     private bool _isShowAnyKey = false;
 
     private InputManager _input;
-    private int _inputValue;
+    private Vector2 _inputValue;
     private bool _isSelect = false;
 
     private int _cursorIndex = -1;
@@ -27,6 +27,8 @@ public class TitleManager : MonoBehaviour
     {
         _pressAnyKeyGo.SetActive(false);
         _menuGo.SetActive(false);
+
+        AddressablesHelper.UpdateCatalogsAsync().Forget();
     }
 
     private void OnEnable()
@@ -58,7 +60,7 @@ public class TitleManager : MonoBehaviour
         _isSelect = isSelect;
     }
 
-    private void SetMove(int v)
+    private void SetMove(Vector2 v)
     {
         _inputValue = v;
     }
@@ -121,17 +123,17 @@ public class TitleManager : MonoBehaviour
         }
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         SceneLoader.Instance.LoadScene(ESceneId.Title, ESceneId.Village).Forget();
     }
 
-    private void ShowOptions()
+    public void ShowOptions()
     {
 
     }
 
-    private void Exit()
+    public void Exit()
     {
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
@@ -147,14 +149,14 @@ public class TitleManager : MonoBehaviour
             return;
 
         float currentY = _cursorTr.localPosition.y;
-        if (_inputValue > 0)
+        if (_inputValue.y > 0)
         {
             if (_cursorIndex != 0)
             {
                 if (_cursorAnimRoutine == null)
                 {
                     AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue * 100));
+                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
                     _cursorIndex--;
                 }
             }
@@ -163,7 +165,7 @@ public class TitleManager : MonoBehaviour
                 if (_cursorAnimRoutine == null)
                 {
                     AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue * 200));
+                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
                     _cursorIndex = 2;
                 }
             }
@@ -171,14 +173,14 @@ public class TitleManager : MonoBehaviour
             //_inputValue = 0;
         }
 
-        else if (_inputValue < 0)
+        else if (_inputValue.y < 0)
         {
             if (_cursorIndex != 2)
             {
                 if (_cursorAnimRoutine == null)
                 {
                     AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue * 100));
+                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
                     _cursorIndex++;
                 }
 
@@ -188,7 +190,7 @@ public class TitleManager : MonoBehaviour
                 if (_cursorAnimRoutine == null)
                 {
                     AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue * 200));
+                    _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
                     _cursorIndex = 0;
                 }
             }

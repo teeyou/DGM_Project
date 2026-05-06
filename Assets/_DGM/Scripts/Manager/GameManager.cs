@@ -65,13 +65,13 @@ public class GameManager : Singleton<GameManager>
     {
         _playerTr = player.transform;
 
-        CancellationTokenSource cts = new CancellationTokenSource();
-        CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, this.GetCancellationTokenOnDestroy());
-        DigimonSpawner.Instance.SpawnFriendDigimon(1, "Koromon", linked.Token).Forget();
+        //CancellationTokenSource cts = new CancellationTokenSource();
+        //CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, this.GetCancellationTokenOnDestroy());
+        
+        //DigimonSpawner.Instance.SpawnFriendDigimon(1, "Koromon", linked.Token).Forget();    // 테스트 디지몬 소환
 
         Vector3 pos = new Vector3(-10f, 0f, -10f);
         Quaternion rot = Quaternion.identity;
-        //DigimonSpawner.Instance.SpawnDigimon(10, "Koromon", pos, rot, linked.Token);
     }
 
     public void SetPlayerPosition(ESceneId current, ESceneId target)

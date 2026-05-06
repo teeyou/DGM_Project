@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public enum EAttribute
@@ -8,6 +9,7 @@ public enum EAttribute
     Vaccine,
     Data,
     Virus,
+    Free,
 }
 
 public enum EType
@@ -41,6 +43,8 @@ public class DigimonDB : Singleton<DigimonDB>
     protected override void Awake()
     {
         base.Awake();
+
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
         DontDestroyOnLoad(gameObject);
     }
