@@ -125,9 +125,12 @@ public class CursorHandler : MonoBehaviour
                 break;
         }
 
+        GameManager.Instance.HasDigimon = true;
+
         FieldUIController.Instance.ToggleMenu(false);
 
         _input.SwitchToPlayerMap();
+
     }
 
     public void HandleMoveHorizontally()
@@ -182,75 +185,75 @@ public class CursorHandler : MonoBehaviour
         }
     }
 
-    public void HandleMoveVertically()
-    {
-        if (_cursorIndex == -1)
-            return;
+    //public void HandleMoveVertically()
+    //{
+    //    if (_cursorIndex == -1)
+    //        return;
 
-        float currentY = _cursorTr.localPosition.y;
-        if (_inputValue.y > 0)
-        {
-            if (_cursorIndex != 0)
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
-                    _cursorIndex--;
-                }
-            }
-            else
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
-                    _cursorIndex = 2;
-                }
-            }
-        }
+    //    float currentY = _cursorTr.localPosition.y;
+    //    if (_inputValue.y > 0)
+    //    {
+    //        if (_cursorIndex != 0)
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
+    //                _cursorIndex--;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
+    //                _cursorIndex = 2;
+    //            }
+    //        }
+    //    }
 
-        else if (_inputValue.y < 0)
-        {
-            if (_cursorIndex != 2)
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
-                    _cursorIndex++;
-                }
+    //    else if (_inputValue.y < 0)
+    //    {
+    //        if (_cursorIndex != 2)
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
+    //                _cursorIndex++;
+    //            }
 
-            }
-            else
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
-                    _cursorIndex = 0;
-                }
-            }
-        }
-    }
+    //        }
+    //        else
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
+    //                _cursorIndex = 0;
+    //            }
+    //        }
+    //    }
+    //}
 
-    private IEnumerator CoAnimatePositionVertically(float duration, float start, float end)
-    {
-        float elapsed = 0f;
+    //private IEnumerator CoAnimatePositionVertically(float duration, float start, float end)
+    //{
+    //    float elapsed = 0f;
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
-            float y = Mathf.Lerp(start, end, t);
-            _cursorTr.transform.localPosition = new Vector3(_cursorTr.transform.localPosition.x, y, _cursorTr.transform.localPosition.z);
-            yield return null;
-        }
+    //    while (elapsed < duration)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float t = Mathf.Clamp01(elapsed / duration);
+    //        float y = Mathf.Lerp(start, end, t);
+    //        _cursorTr.transform.localPosition = new Vector3(_cursorTr.transform.localPosition.x, y, _cursorTr.transform.localPosition.z);
+    //        yield return null;
+    //    }
 
-        _cursorTr.transform.localPosition = new Vector3(_cursorTr.transform.localPosition.x, end, _cursorTr.transform.localPosition.z);
+    //    _cursorTr.transform.localPosition = new Vector3(_cursorTr.transform.localPosition.x, end, _cursorTr.transform.localPosition.z);
 
-        _cursorAnimRoutine = null;
-    }
+    //    _cursorAnimRoutine = null;
+    //}
 
     private IEnumerator CoAnimatePositionHorizontally(float duration, float start, float end)
     {

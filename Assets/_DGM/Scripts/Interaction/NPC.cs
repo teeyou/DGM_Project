@@ -7,12 +7,17 @@ using UnityEngine;
 public class NPC : MonoBehaviour, IInteractable
 {
     [SerializeField] private List<string> _dialogueList = new List<string>();
+
+    [SerializeField] private List<string> _completeList = new List<string>();
     [SerializeField] private ENPC _npcName;
     public void Interact(GameObject target)
     {
         if (target.tag == "Player")
         {
-            FieldUIController.Instance.ShowDialogue(_dialogueList, _npcName.ToString());
+            if (GameManager.Instance.HasDigimon)
+                FieldUIController.Instance.ShowDialogue(_completeList, _npcName.ToString());
+            else
+                FieldUIController.Instance.ShowDialogue(_dialogueList, _npcName.ToString());
         }
     }
 }

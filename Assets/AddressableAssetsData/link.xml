@@ -6,9 +6,9 @@
     <type fullname="DigimonDB" preserve="all" />
     <type fullname="DigimonFactory" preserve="all" />
     <type fullname="DigimonSpawner" preserve="all" />
-    <type fullname="DigimonStatus" preserve="all" />
     <type fullname="DigimonStatusSO" preserve="all" />
     <type fullname="DontDestory" preserve="all" />
+    <type fullname="EnemyFieldMove" preserve="all" />
     <type fullname="EventChannel" preserve="all" />
     <type fullname="EvolutionValueSO" preserve="all" />
     <type fullname="FieldUIController" preserve="all" />
@@ -18,6 +18,7 @@
     <type fullname="MiniMapCamera" preserve="all" />
     <type fullname="MoveController" preserve="all" />
     <type fullname="NPC" preserve="all" />
+    <type fullname="OverheadUI" preserve="all" />
     <type fullname="PlayerSpawner" preserve="all" />
     <type fullname="QuestManager" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />

@@ -41,11 +41,18 @@ public class StatusData
     public string GrowthType;
 }
 
+public class EnemyStatusData : StatusData
+{
+    public int Level;
+    public int EXP;
+}
+
 public class ExcelReader
 {
     private DataSet result;
 
     public List<StatusData> StatusList { get; private set; } = new List<StatusData>();
+    public List<EnemyStatusData> EnemyStatusList { get; private set; } = new List<EnemyStatusData>();
     public List<GrowthType> GrowthTypeList { get; private set; } = new List<GrowthType>();
     public List<EvoTree> EvoTreeList { get; private set; } = new List<EvoTree>();
 
@@ -68,9 +75,16 @@ public class ExcelReader
         LoadSheet("BabyStatus");
         LoadSheet("RookieStatus");
         LoadSheet("ChampionStatus");
-        LoadSheet("EnemyStatus");
+
+        //LoadSheet("EnemyStatus");
+        
         LoadSheet("GrowthType");
+        
         LoadSheet("EvoTree");
+
+        LoadSheet("VillageEast");
+        LoadSheet("Forest");
+        LoadSheet("Temple");
     }
 
     private void LoadSheet(string sheetName)
@@ -83,12 +97,45 @@ public class ExcelReader
 
         DataTable table = result.Tables[sheetName];
 
-        if (sheetName.Contains("Status"))
+        if (sheetName == "BabyStatus" || sheetName == "RookieStatus" || sheetName == "ChampionStatus")
             ParseStatusSheet(table);
+
         else if (sheetName == "GrowthType")
             ParseGrowthTypeSheet(table);
+        
         else if (sheetName == "EvoTree")
             ParseEvoTreeSheet(table);
+        
+        else if (sheetName == "VillageEast" || sheetName == "Forest" || sheetName == "Temple")
+            ParseEnemyStatusSheet(table);
+    }
+
+    private void ParseEnemyStatusSheet(DataTable table)
+    {
+        foreach (DataRow row in table.Rows)
+        {
+            EnemyStatusData data = new EnemyStatusData()
+            {
+                ID = int.Parse(row["ID"].ToString()),
+                DigimonName = row["DigimonName"].ToString(),
+                KorName = row["KorName"].ToString(),
+                Grade = row["Grade"].ToString(),
+                KorGrade = row["KorGrade"].ToString(),
+                Attr = row["Attr"].ToString(),
+                KorAttr = row["KorAttr"].ToString(),
+                Type = row["Type"].ToString(),
+                KorType = row["KorType"].ToString(),
+                BaseHP = int.Parse(row["BaseHP"].ToString()),
+                BaseATK = int.Parse(row["BaseATK"].ToString()),
+                BaseDEF = int.Parse(row["BaseDEF"].ToString()),
+                BaseINT = int.Parse(row["BaseINT"].ToString()),
+                BaseSPD = int.Parse(row["BaseSPD"].ToString()),
+                GrowthType = row["GrowthType"].ToString(),
+                Level = int.Parse(row["Level"].ToString()),
+                EXP = int.Parse(row["EXP"].ToString())
+            };
+            EnemyStatusList.Add(data);
+        }
     }
 
     private void ParseStatusSheet(DataTable table)

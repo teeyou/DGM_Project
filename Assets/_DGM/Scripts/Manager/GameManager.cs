@@ -16,6 +16,8 @@ public class GameManager : Singleton<GameManager>
 
     private AsyncOperationHandle<EventChannel> _handle;
 
+    public bool HasDigimon { get; set; } = false;
+
     protected override void Awake()
     {
         base.Awake();

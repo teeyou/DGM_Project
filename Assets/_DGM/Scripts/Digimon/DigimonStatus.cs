@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DigimonStatus : MonoBehaviour
 {
+    [SerializeField] private string digimonNameKor;
     [SerializeField] private string digimonName;
     [SerializeField] private EAttribute attr;
     [SerializeField] private EGrade grade;
@@ -28,6 +29,7 @@ public class DigimonStatus : MonoBehaviour
         this.growthType = growthType;
         this.evoTree = evoTree;
 
+        digimonNameKor = data.KorName;
         digimonName = data.DigimonName;
         attr = (EAttribute)Enum.Parse(typeof(EAttribute), data.Attr);
         grade = (EGrade)Enum.Parse(typeof(EGrade), data.Grade);
@@ -47,6 +49,7 @@ public class DigimonStatus : MonoBehaviour
         Debug.Log("DigimonStatus 초기화 완료");
     }
 
+    public string DigimonNameKor => digimonNameKor;
     public string DigimonName => digimonName;
     public EAttribute Attr => attr;
     public EGrade Grade => grade;

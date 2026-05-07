@@ -35,6 +35,9 @@ public class DigimonDB : Singleton<DigimonDB>
     private Dictionary<int, StatusData> _idToStatusData = new Dictionary<int, StatusData>();
     private Dictionary<string, StatusData> _nameToStatusData = new Dictionary<string, StatusData>();
 
+    private Dictionary<int, EnemyStatusData> _idToEnemyStatusData = new Dictionary<int, EnemyStatusData>();
+    private Dictionary<string, EnemyStatusData> _nameToEnemyStatusData = new Dictionary<string, EnemyStatusData>();
+
     private Dictionary<string, GrowthType> _growthTypeToGrowthType = new Dictionary<string, GrowthType>();
     private Dictionary<int, EvoTree> _idToEvoTree = new Dictionary<int, EvoTree>();
 
@@ -60,6 +63,13 @@ public class DigimonDB : Singleton<DigimonDB>
             _nameToStatusData[_excelReader.StatusList[i].DigimonName] = _excelReader.StatusList[i];
         }
 
+        // EnemyStatusData
+        for (int i = 0; i < _excelReader.EnemyStatusList.Count; i++)
+        {
+            _idToEnemyStatusData[_excelReader.EnemyStatusList[i].ID] = _excelReader.EnemyStatusList[i];
+            _nameToEnemyStatusData[_excelReader.EnemyStatusList[i].DigimonName] = _excelReader.EnemyStatusList[i];
+        }
+
         // GrowthType
         for (int i = 0; i < _excelReader.GrowthTypeList.Count; i++)
         {
@@ -72,10 +82,8 @@ public class DigimonDB : Singleton<DigimonDB>
             _idToEvoTree[_excelReader.EvoTreeList[i].ID] = _excelReader.EvoTreeList[i];
         }
 
-        //Debug.Log($"_idToStatusData : {_idToStatusData.Count}");
-        //Debug.Log($"_growthTypeToGrowthType : {_growthTypeToGrowthType.Count}");
-        //Debug.Log($"_idToEvoTree : {_idToEvoTree.Count}");
     }
+
 
     public StatusData GetStatusDataByName(string name)
     {
@@ -87,6 +95,22 @@ public class DigimonDB : Singleton<DigimonDB>
     public StatusData GetStatusDataById(int id)
     {
         if (_idToStatusData.TryGetValue(id, out StatusData data))
+            return data;
+
+        return null;
+    }
+
+    public EnemyStatusData GetEnemyStatusDataByName(string name)
+    {
+        if (_nameToEnemyStatusData.TryGetValue(name, out EnemyStatusData data))
+            return data;
+
+        return null;
+    }
+
+    public EnemyStatusData GetEnemyStatusDataById(int id)
+    {
+        if (_idToEnemyStatusData.TryGetValue(id, out EnemyStatusData data))
             return data;
 
         return null;

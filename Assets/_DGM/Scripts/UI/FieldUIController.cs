@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,12 +12,15 @@ public enum ENPC
 public class FieldUIController : Singleton<FieldUIController>
 {
     [SerializeField] private GameObject _menuGo;
+    //[SerializeField] private RectTransform _cursorRt;
 
     [SerializeField] private GameObject _questDetailGo;
     [SerializeField] private SlideAnim _slideAnim;
 
     [SerializeField] private GameObject _questGo;
     [SerializeField] private GameObject _questCloseGo;
+    [SerializeField] private TMP_Text _questTitle;
+    [SerializeField] private TMP_Text _questDescription;
 
     [SerializeField] private GameObject _interactOuter;
     [SerializeField] private GameObject _interactDialogue;
@@ -24,6 +28,7 @@ public class FieldUIController : Singleton<FieldUIController>
 
     [SerializeField] private GameObject _dialoguePanelGo;
     [SerializeField] private TMP_Text _dialogueText;
+    [SerializeField] private GameObject _dialogueFKeyOuter;
 
     public int _dialogueIndex = 0;
 
@@ -33,6 +38,7 @@ public class FieldUIController : Singleton<FieldUIController>
 
     private bool _isShowQuestDetail = false;
 
+    private Quest currentQuest = null;
     protected override void Awake()
     {
         base.Awake();
@@ -57,7 +63,10 @@ public class FieldUIController : Singleton<FieldUIController>
 
     private void OnDestroy()
     {
-        _input.OnQuestOpen -= SetQPressed;
+        if (_input != null)
+        {
+            _input.OnQuestOpen -= SetQPressed;
+        }
     }
 
     private void SetQPressed(bool isPressed)
@@ -73,7 +82,9 @@ public class FieldUIController : Singleton<FieldUIController>
             return;
 
         _isQPressed = false;
-        
+
+        ShowCurrentQuest();
+
         if (_isShowQuestDetail)
         {
             _questGo.SetActive(true);
@@ -124,6 +135,9 @@ public class FieldUIController : Singleton<FieldUIController>
 
             if (_npcName == ENPC.CherubimonGood.ToString())
             {
+                if (GameManager.Instance.HasDigimon)
+                    return;
+                
                 ToggleMenu(true);
             }
 
@@ -144,5 +158,42 @@ public class FieldUIController : Singleton<FieldUIController>
     {
         _dialogueIndex = 0;
         _dialoguePanelGo.SetActive(enabled);
+    }
+
+    //public void InitCursorPos()
+    //{
+    //    _cursorRt.anchoredPosition = new Vector2(-600f, -300f);
+    //}
+
+    public void ShowMessage(string msg)
+    {
+        ShowMessageAsync(msg).Forget();
+    }
+
+    private async UniTaskVoid ShowMessageAsync(string msg)
+    {
+        _dialogueFKeyOuter.SetActive(false);
+        _dialoguePanelGo.SetActive(true);
+        _dialogueText.text = msg;
+        
+        await UniTask.Delay(2000);
+
+        _dialoguePanelGo.SetActive(false);
+        _dialogueFKeyOuter.SetActive(true);
+    }
+
+    public void ShowCurrentQuest()
+    {
+        Quest currentQuest = QuestManager.Instance.GetCurrentQuest();
+        if (currentQuest == null)
+        {
+            _questTitle.text = "";
+            _questDescription.text = "Äù½ºÆ® ¾øÀ½";
+        }
+        else
+        {
+            _questTitle.text = currentQuest.Title;
+            _questDescription.text = currentQuest.Description;
+        }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
@@ -146,15 +145,12 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         {
             AsyncOperationHandle<GameObject> prefabHandle = Addressables.LoadAssetAsync<GameObject>(digimonKey);
 
-            Debug.Log("LoadDigimon 1");
             //await prefabHandle.Task.AsUniTask().AttachExternalCancellation(token);
             await prefabHandle.Task;
             GameObject digimonPrefab = null;
             if (prefabHandle.Status == AsyncOperationStatus.Succeeded)
             {
                 digimonPrefab = prefabHandle.Result;
-                Debug.Log("LoadDigimon 프리팹 로드 완료");
-
             }
 
             if (digimonPrefab == null)
@@ -183,14 +179,21 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             Debug.Log($"data : {data.KorName}");
 
             GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
-            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
-            status.Level = level;
+
+            DigimonStatus status = digimonGo.GetComponent<DigimonStatus>();
+
+            if (status == null)
+                status = digimonGo.AddComponent<DigimonStatus>();
+
+            if (status != null)
+            {
+                status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+                status.Level = level;
+            }
 
             if (!isEnemy)
             {
                 DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
-                Debug.Log("LoadDigimon DigimonFollow 추가 완료");
             }
 
             OnDigimonSpawned?.Invoke(digimonGo);
