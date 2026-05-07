@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class OverheadUI : MonoBehaviour
 {
-    [SerializeField] private float _heightOffset;
+    [SerializeField] private float _smallHeightOffset;
+    [SerializeField] private float _mediumHeightOffset;
+    [SerializeField] private float _largeHeightOffset;
 
     [SerializeField] private GameObject _overheadUIPrefab;
     [SerializeField] private List<GameObject> _enemyList = new List<GameObject>();
@@ -13,12 +16,11 @@ public class OverheadUI : MonoBehaviour
     private List<GameObject> _overheadList = new List<GameObject>();
     private List<TMP_Text> _nameTextList = new List<TMP_Text>();
     private List<TMP_Text> _attrTextList = new List<TMP_Text>();
-
+    private List<EnemyStatusData> _enemyStatusDataList = new List<EnemyStatusData>();
+    private List<DigimonStatus> _enemyStatusList = new List<DigimonStatus>();
     void Start()
     {
         MakeOverheadUI();
-
-        Debug.Log($"{_overheadList.Count} {_nameTextList.Count} {_attrTextList.Count}");
     }
 
     void LateUpdate()
@@ -28,7 +30,7 @@ public class OverheadUI : MonoBehaviour
 
         for (int i = 0; i < _enemyList.Count; i++)
         {
-            _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _heightOffset;
+            _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _smallHeightOffset;
         }
     }
 
@@ -40,7 +42,7 @@ public class OverheadUI : MonoBehaviour
             DigimonStatus enemyStatus = enemy.AddComponent<DigimonStatus>();
 
             EnemyStatusData data = DigimonDB.Instance.GetEnemyStatusDataById(5001 + i);
-            
+
             GrowthType growthType = DigimonDB.Instance.GetGrowthType(data.GrowthType);
             EvoTree evoTree = DigimonDB.Instance.GetEvoTreeById(5001 + i);
 
@@ -49,29 +51,32 @@ public class OverheadUI : MonoBehaviour
             GameObject overheadUI = Instantiate(_overheadUIPrefab, enemy.transform.position, _overheadUIPrefab.transform.rotation, transform);
 
             TMP_Text nameText = overheadUI.transform.GetChild(0).GetComponent<TMP_Text>(); // Name
-            TMP_Text attrText = overheadUI.transform.GetChild(1).GetComponent<TMP_Text>(); // Attribute
-            string name = $"Lv.{data.Level} {enemyStatus.DigimonNameKor}";
-            string attr = enemyStatus.Attr.ToString().Substring(0, 2);
+            //TMP_Text attrText = overheadUI.transform.GetChild(1).GetComponent<TMP_Text>(); // Attribute
+            string name = $"Lv.{data.Level} {enemyStatus.DigimonNameKor} ";
 
-            nameText.text = name;
+            string attr = enemyStatus.Attr.ToString().Substring(0, 2);
+            
             if (attr != "No")
             {
-                attrText.text = attr;
-                attrText.color = attr switch
+                string colorCode = enemyStatus.Attr switch
                 {
-                    "Va" => Color.green,
-                    "Da" => Color.blue,
-                    "Vi" => Color.red,
-                    _ => Color.yellow,
+                    EAttribute.Vaccine => "#00FF00",
+                    EAttribute.Data => "#0000FF",
+                    EAttribute.Virus => "#FF0000",
+                    _ => "#FFFF00",
                 };
-            }
 
+                name += $"<color={colorCode}>{enemyStatus.Attr.ToString().Substring(0, 2)}</color>";
+            }
+            
+            nameText.text = name;
+
+            _enemyStatusList.Add(enemyStatus);
+            _enemyStatusDataList.Add(data);
             _overheadList.Add(overheadUI);
             _nameTextList.Add(nameText);
-            _attrTextList.Add(attrText);
+            //_attrTextList.Add(attrText);
 
-            Debug.Log($"{name} {attr}");
-            
         }
 
     }

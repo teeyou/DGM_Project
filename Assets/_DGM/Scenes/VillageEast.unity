@@ -7543,7 +7543,7 @@ Transform:
   m_GameObject: {fileID: 723422070}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
-  m_LocalPosition: {x: -7, y: 5, z: -20}
+  m_LocalPosition: {x: 0, y: 5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18288,6 +18288,7 @@ GameObject:
   - component: {fileID: 981433037}
   - component: {fileID: 981433036}
   - component: {fileID: 981433035}
+  - component: {fileID: 981433040}
   m_Layer: 5
   m_Name: Overhead UI Canvas
   m_TagString: Untagged
@@ -18370,7 +18371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e5b04ae73aab046962cabad3a3cd94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heightOffset: 0
+  _smallHeightOffset: 0
+  _mediumHeightOffset: 50
+  _largeHeightOffset: 0
   _overheadUIPrefab: {fileID: 2416273781732304850, guid: b8f4d5bc320d03543820bfd94cbf1277, type: 3}
   _enemyList:
   - {fileID: 1284872248}
@@ -18402,6 +18405,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &981433040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981433034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e5b04ae73aab046962cabad3a3cd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _smallHeightOffset: 0
+  _mediumHeightOffset: 0
+  _largeHeightOffset: 0
+  _overheadUIPrefab: {fileID: 0}
+  _enemyList: []
 --- !u!1001 &982548653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19646,7 +19666,7 @@ Transform:
   m_GameObject: {fileID: 1358551384}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
-  m_LocalPosition: {x: -7, y: 5, z: -20}
+  m_LocalPosition: {x: 0, y: 5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
