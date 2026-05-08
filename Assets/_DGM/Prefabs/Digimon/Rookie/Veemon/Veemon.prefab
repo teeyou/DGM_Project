@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3112411368886446347}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_wrist_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8216565320758344779}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8659752652284575648}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr114
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4259726883865304098}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_mabutaT_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6086243096413270660}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi12_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3301782426162684713}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5616901028338924450}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_mabutaT_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4617525337845634309}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tail_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1978012072610653021}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5924797001978737371}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_shoulder_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4770604759551274105}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno1_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4843443233174146704}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ancon_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8524544136404942892}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4669257289915767146}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HUDTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6458945151311925178}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ago_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5352380479895576436}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ancon_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5221182761263492276}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6761274506623083443}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_wrist_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1425630673367957896}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno2_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,7 +623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 760115088692634741}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3086012349343211439}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi52_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5547201877998095670}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi32_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4718458844609669359}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi52_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +748,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7030695188213067324}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi12_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4293333068153887181}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi42_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -811,7 +811,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2979270458408534851}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_toe_l_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +842,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3521312185792447036}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi32_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +874,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9212113164068144920}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi22_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -905,7 +905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2794873250809618341}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi42_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -937,7 +937,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738702896140258545}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi21_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -969,7 +969,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401075400021671817}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi52_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,7 +1000,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7780706566520469867}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_toe_r_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1032,7 +1032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8949125463362988141}
   - component: {fileID: 1365959180615528982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr114_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1178,7 +1178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3851185967289162437}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CharacterFaceCenterTarget_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1209,7 +1209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3393052533201823702}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi32_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1242,7 +1242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5296265922096227344}
   - component: {fileID: 2058538828163035845}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Veemon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 392707018827237899}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr114.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1328,7 +1328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6054142716200858956}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi22_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1360,7 +1360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5195851678923642444}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno2_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1392,7 +1392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8386292277892792779}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HUDTarget_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1423,7 +1423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4947142733467077696}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_leg_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1455,7 +1455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6182668495485537677}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi42_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1487,7 +1487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2805180869439043398}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tail_b_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1518,7 +1518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 296640699149006432}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1550,7 +1550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2242679823985496708}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi51_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1582,7 +1582,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4399189366970588388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_mabutaT_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1614,7 +1614,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7880687240987189597}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi51_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1646,7 +1646,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1522311398104314104}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi11_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1678,7 +1678,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181545062227832548}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_foot_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1710,7 +1710,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1469037141338998634}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi22_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1741,7 +1741,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3583814064844809261}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi31_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1773,7 +1773,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6705375866372276055}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CharacterFaceCenterTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1805,7 +1805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6615473637714176408}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_leg_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1837,7 +1837,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924097871609468752}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1868,7 +1868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3981940908193690929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_arm_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1900,7 +1900,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2399319143147161513}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_knee_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1932,7 +1932,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2671891758553127178}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_arm_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1964,7 +1964,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7302919330400609265}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_toe_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1996,7 +1996,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4449050199677331107}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi32_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2027,7 +2027,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6570327141635924547}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi31_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2059,7 +2059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1550108171906550362}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_center_U
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,7 +2092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6056132762405288919}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2124,7 +2124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7118166241221607002}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CharacterCenterTarget_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2155,7 +2155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4171205480043177951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi21_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2187,7 +2187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1025379618601070836}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2225,7 +2225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453418741862627694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi12_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2256,7 +2256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2951819295541700436}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi11_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2288,7 +2288,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 225447029834325745}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2322,7 +2322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9023012998374175249}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi12_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2353,7 +2353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5133142519548277590}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi41_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2385,7 +2385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7858304473208892083}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2417,7 +2417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8796944848915397679}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2448,7 +2448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5894279110392504300}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tail_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2480,7 +2480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1008768878709228325}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2514,7 +2514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3123476180247553428}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi52_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2546,7 +2546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6155747068875419686}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_foot_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2578,7 +2578,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3295523255928922303}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno2_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2609,7 +2609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5854343876361058002}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tsuno1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2641,7 +2641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4479924669844751703}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ago
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2673,7 +2673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7366777304585625697}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi41_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2705,7 +2705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3070779770028077669}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_mabutaT_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2736,7 +2736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8108618498572195897}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2769,7 +2769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3214590301932642890}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CharacterCenterTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2801,7 +2801,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6981585931203874095}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr114.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2832,7 +2832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4690621237859028629}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2868,7 +2868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527912082143398591}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi42_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2899,7 +2899,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4980429161793196684}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_yubi22_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2931,7 +2931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3194236236168916501}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_knee_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2963,7 +2963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361999267546365292}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_toe_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2995,7 +2995,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4309962337787971260}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3026,7 +3026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1612185328072395638}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_shoulder_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,6 +14,12 @@ public class NPC : MonoBehaviour, IInteractable
     {
         if (target.tag == "Player")
         {
+            GameManager.Instance.IsPlayerInteracting = true;
+            FieldUIController.Instance.ToggleMenuButton(false);
+            FieldUIController.Instance.ToggleQuestButton(false);
+
+            InputManager.Instance.SwitchToMenuUIMap();
+
             if (GameManager.Instance.HasDigimon)
                 FieldUIController.Instance.ShowDialogue(_completeList, _npcName.ToString());
             else

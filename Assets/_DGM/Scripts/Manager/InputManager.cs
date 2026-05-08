@@ -10,12 +10,15 @@ public class InputManager : Singleton<InputManager>
 
     [SerializeField] private InputActionReference _menuUp;
     [SerializeField] private InputActionReference _menuDown;
-    [SerializeField] private InputActionReference _menuSelect;
+    [SerializeField] private InputActionReference _menuSelect;      // Enter
     [SerializeField] private InputActionReference _menuLeft;
     [SerializeField] private InputActionReference _menuRight;
+    [SerializeField] private InputActionReference _menuInteract;    // F
+    [SerializeField] private InputActionReference _menuEsc;        // ESC
 
-    [SerializeField] private InputActionReference _questOpen;
-    [SerializeField] private InputActionReference _interact;
+    [SerializeField] private InputActionReference _esc;
+    [SerializeField] private InputActionReference _questOpen;       // Q
+    [SerializeField] private InputActionReference _interact;        // F
 
     [SerializeField] private InputActionAsset _inputActions;
 
@@ -30,10 +33,13 @@ public class InputManager : Singleton<InputManager>
     public event Action<float> OnZoom;
 
     public event Action<Vector2> OnMenuMove;
-    public event Action<bool> OnSelect;
+    public event Action<bool> OnSelect;     //Enter
 
-    public event Action<bool> OnQuestOpen;
-    public event Action<bool> OnInteract;
+    public event Action<bool> OnQuestOpen;  //Q
+    public event Action<bool> OnInteract;   //F
+
+    public event Action<bool> OnEsc;        //ESC
+    public event Action<bool> OnMenuEsc;        //ESC
 
     protected override void Awake()
     {
@@ -96,10 +102,19 @@ public class InputManager : Singleton<InputManager>
         if (_menuRight == null || _menuRight.action == null)
             return;
 
+        if (_menuInteract == null || _menuInteract.action == null)
+            return;
+
+        if (_menuEsc == null || _menuEsc.action == null)
+            return;
+
         if (_questOpen == null || _questOpen.action == null)
             return;
 
         if (_interact == null || _interact.action == null)
+            return;
+
+        if (_esc == null || _esc.action == null)
             return;
 
         _move.action.performed += OnMovePerformed;
@@ -124,12 +139,20 @@ public class InputManager : Singleton<InputManager>
         _menuRight.action.started += OnMoveRight;
         _menuRight.action.canceled += OnMoveRightCanceled;
 
+        _menuInteract.action.started += OnInteractStarted;
+        _menuInteract.action.canceled += OnInteractCanceled;
+
+        _menuEsc.action.started += OnMenuEscStarted;
+        _menuEsc.action.canceled += OnMenuEscCanceled;
+
         _questOpen.action.started += OnQuestOpenStarted;
         _questOpen.action.canceled += OnQuestOpenCanceled;
 
         _interact.action.started += OnInteractStarted;
         _interact.action.canceled += OnInteractCanceled;
 
+        _esc.action.started += OnEscStarted;
+        _esc.action.canceled += OnEscCanceled;
         _isBind = true;
     }
 
@@ -185,6 +208,12 @@ public class InputManager : Singleton<InputManager>
             _menuRight.action.canceled -= OnMoveRightCanceled;
         }
 
+        if (_menuInteract != null && _menuInteract.action != null)
+        {
+            _menuInteract.action.started -= OnInteractStarted;
+            _menuInteract.action.canceled -= OnInteractCanceled;
+        }
+
         if (_questOpen != null && _questOpen.action != null)
         {
             _questOpen.action.started -= OnQuestOpenStarted;
@@ -195,6 +224,18 @@ public class InputManager : Singleton<InputManager>
         {
             _interact.action.started -= OnInteractStarted;
             _interact.action.canceled -= OnInteractCanceled;
+        }
+
+        if (_esc != null && _esc.action != null)
+        {
+            _esc.action.started -= OnEscStarted;
+            _esc.action.canceled -= OnEscCanceled;
+        }
+
+        if (_menuEsc != null && _menuEsc.action != null)
+        {
+            _menuEsc.action.started -= OnMenuEscStarted;
+            _menuEsc.action.canceled -= OnMenuEscCanceled;
         }
 
         _isBind = false;
@@ -215,8 +256,11 @@ public class InputManager : Singleton<InputManager>
             _menuSelect.action.Enable();
             _menuLeft.action.Enable();
             _menuRight.action.Enable();
+            _menuInteract.action.Enable();
+            _menuEsc.action.Enable();
             _questOpen.action.Enable();
             _interact.action.Enable();
+            _esc.action.Enable();
         }
 
         else
@@ -229,8 +273,11 @@ public class InputManager : Singleton<InputManager>
             _menuSelect.action.Disable();
             _menuLeft.action.Disable();
             _menuRight.action.Disable();
+            _menuInteract.action.Disable();
+            _menuEsc.action.Disable();
             _questOpen.action.Disable();
             _interact.action.Disable();
+            _esc.action.Disable();
         }
     }
 
@@ -335,16 +382,42 @@ public class InputManager : Singleton<InputManager>
         OnInteract?.Invoke(false);
     }
 
+    private void OnEscStarted(InputAction.CallbackContext context)
+    {
+        OnEsc?.Invoke(true);
+    }
+
+    private void OnEscCanceled(InputAction.CallbackContext context)
+    {
+        OnEsc?.Invoke(false);
+    }
+
+    private void OnMenuEscStarted(InputAction.CallbackContext context)
+    {
+        OnMenuEsc?.Invoke(true);
+    }
+
+    private void OnMenuEscCanceled(InputAction.CallbackContext context)
+    {
+        OnMenuEsc?.Invoke(false);
+    }
+
     public void SwitchToPlayerMap()
     {
-        _menuMap.Disable();
-        _playerMap.Enable();
+        if (_menuMap.enabled)
+        {
+            _menuMap.Disable();
+            _playerMap.Enable();
+        }
     }
 
     public void SwitchToMenuUIMap()
     {
-        _playerMap.Disable();
-        _menuMap.Enable();
+        if (_playerMap.enabled)
+        {
+            _playerMap.Disable();
+            _menuMap.Enable();
+        }
     }
 
     public void EnableMenuUI(bool enabled)
@@ -359,6 +432,8 @@ public class InputManager : Singleton<InputManager>
             _menuSelect.action.Enable();
             _menuLeft.action.Enable();
             _menuRight.action.Enable();
+            _menuInteract.action.Enable();
+            _menuEsc.action.Enable();
         }
 
         else
@@ -368,6 +443,8 @@ public class InputManager : Singleton<InputManager>
             _menuSelect.action.Disable();
             _menuLeft.action.Disable();
             _menuRight.action.Disable();
+            _menuInteract.action.Disable();
+            _menuEsc.action.Disable();
         }
     }
 

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957338908686725601}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2984964839464252668}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ago
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1907494394931733493}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hane1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 324495535179153946}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_mune
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3262908064629459619}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ago_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7708816408301911838}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_point00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2505402941811687776}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FP01_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7293832717564506874}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5741902647226707893}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_R_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1775698507085322041}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_kakato_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2518069184088345773}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 698888462710677731}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_sippo1_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3366392243163491116}
   - component: {fileID: 6145054581380702089}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr307_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814897264395495913}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hane2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1359351734567040105}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_kata_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8585804451816134244}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ago_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2817475291006114256}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_mesh_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,7 +652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5839177813904376402}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -684,7 +684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4645704911363981771}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hiza_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -716,7 +716,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2485878401286081105}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +748,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4319948144715309448}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4363246986717456324}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2142575607403247875}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr307_armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -848,7 +848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5613151020379830057}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hane2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,7 +880,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7536607642842496739}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_mesh_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3632405665633413916}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_te_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -943,7 +943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1443875593613236443}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_sippo1_L_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3534094050739436324}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ude_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2954043108166643062}
   - component: {fileID: 751555352627157889}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr307_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5953933759009648442}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,7 +1166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3067328733916398688}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_ude_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1198,7 +1198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3067560386001137849}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_L_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1229,7 +1229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6769007629273246894}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1261,7 +1261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1235916042336573615}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hiza_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1293,7 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4433328046187690576}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GRP_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1325,7 +1325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2998375276788054665}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1357,7 +1357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5949507805038600289}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_kata_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1389,7 +1389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5611709567770012054}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_R_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1421,7 +1421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7736546399192444852}
   - component: {fileID: 5225177320441649008}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Biyomon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1477,7 +1477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5281849740907836954}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1509,7 +1509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2674493945824222050}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CP01_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1540,7 +1540,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8439643360691112052}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_momo_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1572,7 +1572,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4399545179593974080}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1604,7 +1604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5296827879228105451}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_te_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1636,7 +1636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5071055278005956086}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_kakato_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1668,7 +1668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1859806066915053730}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1700,7 +1700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 176598559010436955}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1732,7 +1732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5548108237681309122}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tume_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1764,7 +1764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7573299513557382707}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1797,7 +1797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6491592072308306244}
   - component: {fileID: 1105837506303072548}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: chr307_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1924,7 +1924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8049762798012007109}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GP01_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1955,7 +1955,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 208629141048232951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_momo_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1987,7 +1987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5376877288604555988}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2019,7 +2019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6255310168172102587}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_hane2_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2050,7 +2050,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 780099714800624616}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FP01_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2082,7 +2082,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4890144127430226110}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TP01_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2113,7 +2113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8098936315766616751}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_atama
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2146,7 +2146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6455839638720006433}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GP01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2178,7 +2178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7986474778076374910}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_sippo1_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2210,7 +2210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 559891788996920376}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: J_tumasaki_L_end_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}

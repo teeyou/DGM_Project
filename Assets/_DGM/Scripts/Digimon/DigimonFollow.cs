@@ -3,13 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DigimonFollow : MonoBehaviour
 {
+    [SerializeField] private float _rotationSharpness = 10f;
+
+    private const float MUST_STOP_OFFSET = 2f;
     private const float STOP_OFFSET = 3f;
     private const float MOVE_OFFSET = 4f;
     private const float TELEPORT_OFFSET = 10f;
     private Transform _playerTr;
+
+    private float _groundStick = -2f;
+    private CharacterController _cc;
+    private float _gravity = -9.81f;
+
+    private Vector3 _velocity;
 
     private CancellationTokenSource _cts;
     private CancellationToken _token;
@@ -18,6 +28,7 @@ public class DigimonFollow : MonoBehaviour
     private float _speed;
 
     private bool _isMoving = false;
+    private Coroutine _stopRoutine = null;
 
     private void Awake()
     {
@@ -45,6 +56,16 @@ public class DigimonFollow : MonoBehaviour
     void Start()
     {
         SetPlayer().Forget();
+
+        _cc = GetComponent<CharacterController>();
+        _cc.skinWidth = 0.01f;
+        _cc.height = 2f;
+        _cc.center = new Vector3(0f, 1f, 0f);
+
+        if (_cc == null)
+        {
+            Debug.LogError("cc NULL");
+        }
     }
 
     void Update()
@@ -52,9 +73,23 @@ public class DigimonFollow : MonoBehaviour
         if (_playerTr == null)
             return;
 
-        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        TickGravity();
+
+        //transform.position = new Vector3(transform.position.x, _playerTr.position.y, transform.position.z);
 
         float dist = Vector3.Distance(transform.position, _playerTr.position);
+
+        if (dist < MUST_STOP_OFFSET)
+        {
+            if (_stopRoutine != null)
+            {
+                StopCoroutine(_stopRoutine);
+                _stopRoutine = null;
+            }
+
+            _isMoving = false;
+            _animator.SetBool("Move", false);
+        }
 
         if (!_isMoving && dist > MOVE_OFFSET)
         {
@@ -63,8 +98,21 @@ public class DigimonFollow : MonoBehaviour
         }
         else if (_isMoving && dist < STOP_OFFSET)
         {
-            _isMoving = false;
-            _animator.SetBool("Move", false);
+            //_isMoving = false;
+            //_animator.SetBool("Move", false);
+
+            if (_stopRoutine == null)
+            {
+                _stopRoutine = StartCoroutine(CoDelayStop());
+            }
+
+            else
+            {
+                StopCoroutine(_stopRoutine);
+                _stopRoutine = null;
+
+                _stopRoutine = StartCoroutine(CoDelayStop());
+            }
         }
 
         if (_isMoving)
@@ -82,46 +130,41 @@ public class DigimonFollow : MonoBehaviour
             dir.y = 0f;
             dir.Normalize();
 
-            transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * 10f);
-            transform.position += dir * _speed * Time.deltaTime;
+            //transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * 10f);
+            float t = 1f - Mathf.Exp(-_rotationSharpness * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), t);
+
+            Vector3 velocity = dir * _speed + _velocity;
+            _cc.Move(velocity * Time.deltaTime);
+            //transform.position += dir * _speed * Time.deltaTime;
         }
 
-        //if (dist < STOP_OFFSET)
-        //{
-        //    _animator.SetBool("Move", false);
-        //    return;
-        //}
+        else
+        {
+            _cc.Move(_velocity * Time.deltaTime);
+        }
+    }
 
-        //else
-        //{
-        //    // 너무 멀리 떨어져있으면 플레이어 뒤로 이동
-        //    if (dist > 10f)
-        //    {
-        //        _animator.SetBool("Move", false);
-        //        transform.rotation = _playerTr.rotation;
-        //        transform.position = _playerTr.position + transform.forward * -STOP_OFFSET;
-        //        return;
-        //    }
+    private void TickGravity()
+    {
+        if (_cc.isGrounded)
+        {
+            if (_velocity.y < 0f)
+            {
+                _velocity.y = _groundStick;
+            }
+        }
 
-        //    if (dist > MOVE_OFFSET)
-        //    {
-        //        Vector3 dir = _playerTr.position - transform.position;
-        //        dir.y = 0f;
-        //        dir.Normalize();
+        _velocity.y += _gravity * Time.deltaTime;
+    }
 
-        //        transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * 10f);
+    private IEnumerator CoDelayStop()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isMoving = false;
+        _animator.SetBool("Move", false);
 
-        //        transform.position += dir * _speed * Time.deltaTime;
-
-        //        _animator.SetBool("Move", true);
-        //    }
-
-        //    else
-        //    {
-        //        _animator.SetBool("Move", false);
-        //    }
-
-        //}
+        _stopRoutine = null;
     }
 
     private async UniTaskVoid SetPlayer()

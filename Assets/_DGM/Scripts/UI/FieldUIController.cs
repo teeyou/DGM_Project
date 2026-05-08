@@ -11,7 +11,7 @@ public enum ENPC
 
 public class FieldUIController : Singleton<FieldUIController>
 {
-    [SerializeField] private GameObject _menuGo;
+    [SerializeField] private GameObject _digimonSelectMenuGo;
     //[SerializeField] private RectTransform _cursorRt;
 
     [SerializeField] private GameObject _questDetailGo;
@@ -30,6 +30,9 @@ public class FieldUIController : Singleton<FieldUIController>
     [SerializeField] private TMP_Text _dialogueText;
     [SerializeField] private GameObject _dialogueFKeyOuter;
 
+    [SerializeField] private GameObject _gameMenuGo;
+    [SerializeField] private GameObject _gameMenuButtonGo;
+    [SerializeField] private GameObject _questButtonGo;
     public int _dialogueIndex = 0;
 
     private InputManager _input;
@@ -38,7 +41,6 @@ public class FieldUIController : Singleton<FieldUIController>
 
     private bool _isShowQuestDetail = false;
 
-    private Quest currentQuest = null;
     protected override void Awake()
     {
         base.Awake();
@@ -136,9 +138,15 @@ public class FieldUIController : Singleton<FieldUIController>
             if (_npcName == ENPC.CherubimonGood.ToString())
             {
                 if (GameManager.Instance.HasDigimon)
+                {
+                    InputManager.Instance.SwitchToPlayerMap();
+                    GameManager.Instance.IsPlayerInteracting = false;
+                    ToggleMenuButton(true);
+                    ToggleQuestButton(true);
                     return;
-                
-                ToggleMenu(true);
+                }
+
+                ToggleDigimonSelectMenu(true);
             }
 
             else
@@ -149,9 +157,14 @@ public class FieldUIController : Singleton<FieldUIController>
         }
     }
 
-    public void ToggleMenu(bool enabled)
+    public void ToggleDigimonSelectMenu(bool enabled)
     {
-        _menuGo.SetActive(enabled);
+        if (enabled)
+        {
+            GameManager.Instance.IsBlockInteractionKey = true;
+        }
+
+        _digimonSelectMenuGo.SetActive(enabled);
     }
 
     public void ToggleDialoguePanel(bool enabled)
@@ -195,5 +208,43 @@ public class FieldUIController : Singleton<FieldUIController>
             _questTitle.text = currentQuest.Title;
             _questDescription.text = currentQuest.Description;
         }
+    }
+
+    //public void ShowGameMenu()
+    //{
+    //    _gameMenuGo.SetActive(true);
+    //    _input.SwitchToMenuUIMap();
+    //}
+
+    //public void HideGameMenu()
+    //{
+    //    _gameMenuGo.SetActive(false);
+    //    _input.SwitchToPlayerMap();
+    //}
+
+    public void ToggleGameMenu(bool enabled)
+    {
+        Debug.Log($"ToggleGameMenu enabled : {enabled}");
+        Debug.Log($"_gameMenuGo.activeSelf : {_gameMenuGo.activeSelf}");
+        if (!_gameMenuGo.activeSelf)
+        {
+            _gameMenuGo.SetActive(true);
+            _input.SwitchToMenuUIMap();
+        }
+        else
+        {
+            _gameMenuGo.SetActive(false);
+            _input.SwitchToPlayerMap();
+        }
+    }
+
+    public void ToggleMenuButton(bool enabled)
+    {
+        _gameMenuButtonGo.SetActive(enabled);
+    }
+
+    public void ToggleQuestButton(bool enabled)
+    {
+        _questButtonGo.SetActive(enabled);
     }
 }

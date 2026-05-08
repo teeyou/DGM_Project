@@ -23,7 +23,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
     private List<AsyncOperationHandle> _handleList = new List<AsyncOperationHandle>();
 
-    public event Action<GameObject> OnDigimonSpawned;
+    public event Action<GameObject,bool> OnDigimonSpawned;
 
     protected override void Awake()
     {
@@ -90,7 +90,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
         }
 
-        OnDigimonSpawned?.Invoke(digimonGo);
+        OnDigimonSpawned?.Invoke(digimonGo, isEnemy);
     }
 
     public async UniTaskVoid SpawnFriendDigimon(int level, string key, CancellationToken token)
@@ -159,16 +159,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
                 return;
             }
 
-            //DigimonStatusSO data = await LoadDigimonStatus(digimonKey, token);
-
-            //if (data == null)
-            //{
-            //    Debug.Log("디지몬 스탯 로드 실패");
-            //    return;
-            //}
-
             _keyToPrefab[digimonKey] = digimonPrefab;
-            //_keyToStatusSO[digimonKey] = data;
             _handleList.Add(prefabHandle);
 
             // 최초 스폰
@@ -194,9 +185,10 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             if (!isEnemy)
             {
                 DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
+                CharacterController cc = digimonGo.AddComponent<CharacterController>();
             }
 
-            OnDigimonSpawned?.Invoke(digimonGo);
+            OnDigimonSpawned?.Invoke(digimonGo, isEnemy);
             Debug.Log("디지몬 최초 스폰 완료");
         }
 
@@ -211,33 +203,5 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
         
     }
-
-    //private async UniTask<DigimonStatusSO> LoadDigimonStatus(string digimonKey, CancellationToken token)
-    //{
-    //    try
-    //    {
-    //        string statusKey = digimonKey + STATUS_SUFFIX;
-    //        AsyncOperationHandle<DigimonStatusSO> statusHandle = Addressables.LoadAssetAsync<DigimonStatusSO>(statusKey);
-
-    //        await statusHandle.Task.AsUniTask().AttachExternalCancellation(token);
-
-    //        if (statusHandle.Status == AsyncOperationStatus.Succeeded)
-    //        {
-    //            _handleList.Add(statusHandle);
-    //            return statusHandle.Result;
-    //        }
-    //    }
-    //    catch (OperationCanceledException)
-    //    {
-
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Debug.LogError($"Error! {e.Message}");
-    //    }
-
-    //    return null;
-    //}
-
 
 }

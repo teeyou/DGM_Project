@@ -7,7 +7,7 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
     private const float MAX_DISTANCE = 3f;
     
     [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _moveTimer = 3f;
+    [SerializeField] private float _moveTimer;
     
     private Animator _animator;
 

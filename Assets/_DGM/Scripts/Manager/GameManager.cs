@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : Singleton<GameManager>
 {
+    private List<GameObject> _playerDigimonList = new List<GameObject>();
     private Transform _playerTr;
     private MoveController _playerMoveController;
 
@@ -16,6 +17,8 @@ public class GameManager : Singleton<GameManager>
 
     private AsyncOperationHandle<EventChannel> _handle;
 
+    public bool IsBlockInteractionKey { get; set; } = false;
+    public bool IsPlayerInteracting { get; set; } = false;
     public bool HasDigimon { get; set; } = false;
 
     protected override void Awake()
@@ -29,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     {
         _handle = Addressables.LoadAssetAsync<EventChannel>("EventChannel");
         _handle.Completed += OnEventChannelLoaded;
+        DigimonSpawner.Instance.OnDigimonSpawned += OnDigimonSpawned;
     }
 
     private void OnDisable()
@@ -37,6 +41,27 @@ public class GameManager : Singleton<GameManager>
         {
             Addressables.Release(_handle);
         }
+    }
+
+    private void OnDigimonSpawned(GameObject digimon, bool isEnemy)
+    {
+        if (!isEnemy)
+        {
+            AddDigimon(digimon);
+        }
+    }
+
+    public void AddDigimon(GameObject digimon)
+    {
+        _playerDigimonList.Add(digimon);
+
+        Debug.Log($"AddDigimon {digimon.name}");
+        Debug.Log($"_playerDigimonList {_playerDigimonList.Count}");
+    }
+
+    public IReadOnlyList<GameObject> GetDigimonList()
+    {
+        return _playerDigimonList.AsReadOnly();
     }
 
     private void OnEventChannelLoaded(AsyncOperationHandle<EventChannel> handle)
@@ -66,11 +91,6 @@ public class GameManager : Singleton<GameManager>
     private void SetPlayer(GameObject player)
     {
         _playerTr = player.transform;
-
-        //CancellationTokenSource cts = new CancellationTokenSource();
-        //CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, this.GetCancellationTokenOnDestroy());
-        
-        //DigimonSpawner.Instance.SpawnFriendDigimon(1, "Koromon", linked.Token).Forget();    // 테스트 디지몬 소환
 
         Vector3 pos = new Vector3(-10f, 0f, -10f);
         Quaternion rot = Quaternion.identity;

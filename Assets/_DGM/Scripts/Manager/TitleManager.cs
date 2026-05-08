@@ -13,6 +13,8 @@ public class TitleManager : MonoBehaviour
 
     [SerializeField] private float _cursorPosAnimDuration;
 
+    [SerializeField] private GameObject _keyHelp;
+
     private bool _pressed = false;
     private bool _isShowAnyKey = false;
 
@@ -25,6 +27,7 @@ public class TitleManager : MonoBehaviour
 
     private void Awake()
     {
+        _keyHelp.SetActive(false);
         _pressAnyKeyGo.SetActive(false);
         _menuGo.SetActive(false);
 
@@ -232,6 +235,7 @@ public class TitleManager : MonoBehaviour
         // 사용자 입력 활성화
         AudioManager.Instance.PlaySFX("SelectSFX");
         _pressAnyKeyGo.SetActive(false);
+        _keyHelp.SetActive(true);
         _menuGo.SetActive(true);
         _input.EnableMenuUI(true);
         _cursorIndex = 0;

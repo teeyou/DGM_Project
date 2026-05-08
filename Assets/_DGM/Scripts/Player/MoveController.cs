@@ -27,10 +27,11 @@ public class MoveController : MonoBehaviour
 
     private CancellationTokenSource _cts;
 
-    private InputManager _inputManager;
+    private InputManager _input;
 
     private IInteractable _interactable = null;
     private bool _isFPressed = false;
+    private bool _isEscPressed = false;
 
     public float MoveSpeed => _moveSpeed;
 
@@ -41,11 +42,6 @@ public class MoveController : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
-
-    //public void OnMove(InputValue value)
-    //{
-    //    _inputVec = value.Get<Vector2>();
-    //}
 
     private void OnEnable()
     {
@@ -65,8 +61,9 @@ public class MoveController : MonoBehaviour
             _cts = null;
         }
 
-        _inputManager.OnMove -= HandleMove;
-        _inputManager.OnInteract -= HandleInteract;
+        _input.OnMove -= HandleMove;
+        _input.OnInteract -= HandleInteract;
+        _input.OnEsc -= HandleEsc;
     }
 
     private async UniTask BindInputManagerAsync(CancellationToken token)
@@ -75,10 +72,11 @@ public class MoveController : MonoBehaviour
         {
             await UniTask.WaitUntil(() => InputManager.Instance != null, PlayerLoopTiming.Update, token);
 
-            _inputManager = InputManager.Instance;
-            _inputManager.OnMove += HandleMove;
-            _inputManager.OnInteract += HandleInteract;
-            _inputManager.SwitchToPlayerMap();
+            _input = InputManager.Instance;
+            _input.OnMove += HandleMove;
+            _input.OnInteract += HandleInteract;
+            _input.OnEsc += HandleEsc;
+            _input.SwitchToPlayerMap();
         }
         catch (OperationCanceledException)
         {
@@ -106,16 +104,17 @@ public class MoveController : MonoBehaviour
         {
             SetRotation();
             _idleTimer = 0f;
+
+            Vector3 velocity = _moveDir * _moveSpeed + _velocity;
+            _cc.Move(velocity * Time.deltaTime);
         }
         
         else
         {
             _idleTimer += Time.deltaTime;
+            _cc.Move(_velocity * Time.deltaTime);
         }
 
-        Vector3 velocity = _moveDir * _moveSpeed + _velocity;
-        _cc.Move(velocity * Time.deltaTime);
- 
         PlayAnimation();
     }
 
@@ -179,6 +178,27 @@ public class MoveController : MonoBehaviour
 
     private void PlayAnimation()
     {
+        //float speed = _moveDir.magnitude * _moveSpeed;
+        //float speed01 = Mathf.InverseLerp(0f, _moveSpeed, speed); // 0 ~ 1 사이로 변환
+        //_animator.SetFloat("Speed", speed01);
+
+        //if (speed == 0f)
+        //{
+        //    if (_idleTimer >= _idleTime)
+        //    {
+        //        if (_isDancing)
+        //            return;
+
+        //        _isDancing = true;
+        //        _animator.SetTrigger("Dance");
+        //    }
+        //}
+
+        //else
+        //{
+        //    _isDancing = false;
+        //}
+
         if (_moveDir == Vector3.zero)
         {
             if (_idleTimer >= _idleTime)
@@ -195,7 +215,7 @@ public class MoveController : MonoBehaviour
                 _animator.SetBool("Move", false);
                 _isDancing = false;
             }
-            
+
         }
 
         else
@@ -224,6 +244,8 @@ public class MoveController : MonoBehaviour
     private void HandleInteract(bool isPressed)
     {
         _isFPressed = isPressed;
+        if (GameManager.Instance.IsBlockInteractionKey)
+            return;
 
         if (!_isFPressed)
             return;
@@ -234,5 +256,16 @@ public class MoveController : MonoBehaviour
         {
             _interactable.Interact(gameObject);
         }
+    }
+
+    private void HandleEsc(bool isPressed)
+    {
+        if (GameManager.Instance.IsPlayerInteracting)
+            return;
+
+        if (!isPressed)
+            return;
+
+        FieldUIController.Instance.ToggleGameMenu(true);
     }
 }
