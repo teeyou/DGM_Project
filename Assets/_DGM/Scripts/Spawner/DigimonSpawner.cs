@@ -23,7 +23,11 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
     private List<AsyncOperationHandle> _handleList = new List<AsyncOperationHandle>();
 
-    public event Action<GameObject,bool> OnDigimonSpawned;
+    public event Action<GameObject, DigimonStatus> OnFriendDigimonSpawned;
+
+    // 배틀 씬에서 사용
+    public event Action<GameObject, DigimonStatus> OnPlayerDigimonSpawned;
+    public event Action<GameObject, DigimonStatus> OnEnemyDigimonSpawned;
 
     protected override void Awake()
     {
@@ -51,8 +55,6 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
     private void Start()
     {
         _factory = DigimonFactory.Instance;
-
-        //SpawnDigimon("Koromon", new Vector3(-7f, 0f, -13f), Quaternion.identity, _token, this.GetCancellationTokenOnDestroy());
     }
 
     public void UnloadAll()
@@ -73,49 +75,19 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         _keyToPrefab.Clear();
     }
 
-    private void Spawn(int level, string key, Vector3 pos, Quaternion rot, bool isEnemy)
-    {
-        // 최초 스폰
-        DigimonDB db = DigimonDB.Instance;
-        StatusData data = db.GetStatusDataByName(key);
-
-        GameObject digimonGo = _factory.CreateDigimon(_keyToPrefab[key], pos, rot);
-        DigimonStatus status = digimonGo.GetComponent<DigimonStatus>();
-        status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
-        //status.Init(_keyToStatusSO[key]);
-        status.Level = level;
-
-        if (!isEnemy)
-        {
-            DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
-        }
-
-        OnDigimonSpawned?.Invoke(digimonGo, isEnemy);
-    }
-
     public async UniTaskVoid SpawnFriendDigimon(int level, string key, CancellationToken token)
     {
         try
         {
-            Debug.Log("SpawnFriendDigimon Start");
             await UniTask.WaitUntil(() => GameManager.Instance.IsExistsPlayer(), PlayerLoopTiming.Update);
             Transform playerTr = GameManager.Instance.GetPlayer().transform;
-
-            Debug.Log("playerTr 로드 완료");
 
             Vector3 pos = playerTr.position + playerTr.forward * -FRIEND_OFFSET;
             pos.y = 0f;
             Quaternion rot = playerTr.rotation;
 
-            if (_keyToPrefab.ContainsKey(key) && _keyToStatusSO.ContainsKey(key))
-            {
-                Debug.Log("딕셔너리에서 로드");
-                Spawn(level, key, pos, rot, false);
-                return;
-            }
-
-            // 캐시된게 없으면 어드레서블에서 로드해서 스폰
-            await LoadDigimon(level, key, pos, rot, token, false);
+            // 어드레서블에서 로드해서 스폰
+            LoadFriendDigimon(level, key, pos, rot, token).Forget();
 
         }
         catch (OperationCanceledException)
@@ -128,24 +100,35 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         }
     }
 
-    public void SpawnDigimon(int level, string key, Vector3 pos, Quaternion rot, CancellationToken token)
+    public void SpawnPlayerDigimon(int idx, string key, Vector3 pos, Quaternion rot)
     {
-        if (_keyToPrefab.ContainsKey(key) && _keyToStatusSO.ContainsKey(key))
+        if (_keyToPrefab.ContainsKey(key))
         {
-            Spawn(level, key, pos, rot, true);
+            SpawnDigimon(idx, key, pos, rot);
             return;
         }
 
-        LoadDigimon(level, key, pos, rot, token, true).Forget();
+        LoadAndSpawnPlayerDigimon(idx, key, pos, rot).Forget();
     }
 
-    private async UniTask LoadDigimon(int level, string digimonKey, Vector3 pos, Quaternion rot, CancellationToken token, bool isEnemy)
+    private void SpawnDigimon(int idx, string key, Vector3 pos, Quaternion rot)
+    {
+        GameObject go = _factory.CreateDigimon(_keyToPrefab[key], pos, rot);
+        Debug.Log(go.scene.name);
+
+        DigimonStatus status = go.AddComponent<DigimonStatus>();
+
+        status.Init(GameManager.Instance.GetDigimonStatus(idx));
+
+        OnPlayerDigimonSpawned?.Invoke(go, status);
+    }
+
+    private async UniTaskVoid LoadAndSpawnPlayerDigimon(int idx, string prefabKey, Vector3 pos, Quaternion rot)
     {
         try
         {
-            AsyncOperationHandle<GameObject> prefabHandle = Addressables.LoadAssetAsync<GameObject>(digimonKey);
+            AsyncOperationHandle<GameObject> prefabHandle = Addressables.LoadAssetAsync<GameObject>(prefabKey);
 
-            //await prefabHandle.Task.AsUniTask().AttachExternalCancellation(token);
             await prefabHandle.Task;
             GameObject digimonPrefab = null;
             if (prefabHandle.Status == AsyncOperationStatus.Succeeded)
@@ -159,37 +142,17 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
                 return;
             }
 
-            _keyToPrefab[digimonKey] = digimonPrefab;
+            // 프리팹 캐싱
+            _keyToPrefab[prefabKey] = digimonPrefab;
             _handleList.Add(prefabHandle);
-
-            // 최초 스폰
-            DigimonDB db = DigimonDB.Instance;
-            StatusData data = db.GetStatusDataByName(digimonKey);
-
-            Debug.Log("LoadDigimon StatusData 로드 완료");
-            Debug.Log($"data : {data.KorName}");
 
             GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
 
-            DigimonStatus status = digimonGo.GetComponent<DigimonStatus>();
+            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
 
-            if (status == null)
-                status = digimonGo.AddComponent<DigimonStatus>();
+            status.Init(GameManager.Instance.GetDigimonStatus(idx));
 
-            if (status != null)
-            {
-                status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
-                status.Level = level;
-            }
-
-            if (!isEnemy)
-            {
-                DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
-                CharacterController cc = digimonGo.AddComponent<CharacterController>();
-            }
-
-            OnDigimonSpawned?.Invoke(digimonGo, isEnemy);
-            Debug.Log("디지몬 최초 스폰 완료");
+            OnPlayerDigimonSpawned?.Invoke(digimonGo, status);
         }
 
         catch (OperationCanceledException)
@@ -200,8 +163,126 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         {
             Debug.LogError($"Error! {e.Message}");
         }
+    }
 
-        
+    public void SpawnEnemyDigimon(int id, string key, Vector3 pos, Quaternion rot, CancellationToken token = default)
+    {
+        if (_keyToPrefab.ContainsKey(key))
+        {
+            SpawnEnemy(id, key, pos, rot);
+            return;
+        }
+
+        LoadAndSpawnEnemyDigimon(id, key, pos, rot, token).Forget();
+    }
+
+    private async UniTask LoadFriendDigimon(int level, string prefabKey, Vector3 pos, Quaternion rot, CancellationToken token)
+    {
+        try
+        {
+            AsyncOperationHandle<GameObject> prefabHandle = Addressables.LoadAssetAsync<GameObject>(prefabKey);
+
+            await prefabHandle.Task;
+
+            GameObject digimonPrefab = null;
+            if (prefabHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                digimonPrefab = prefabHandle.Result;
+            }
+
+            if (digimonPrefab == null)
+            {
+                Debug.Log("디지몬 프리팹 로드 실패");
+                return;
+            }
+
+            _keyToPrefab[prefabKey] = digimonPrefab;
+            _handleList.Add(prefabHandle);
+
+            // 최초 스폰
+            DigimonDB db = DigimonDB.Instance;
+            StatusData data = db.GetStatusDataByName(prefabKey);
+
+            GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
+
+            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
+            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+
+            DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
+            CharacterController cc = digimonGo.AddComponent<CharacterController>();
+            GameManager.Instance.FollowDigimon = digimonGo;
+
+            OnFriendDigimonSpawned?.Invoke(digimonGo, status);  //GameManager에서 AddDigimon
+        }
+
+        catch (OperationCanceledException)
+        {
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error! {e.Message}");
+        }
+    }
+
+    private void SpawnEnemy(int id, string prefabKey, Vector3 pos, Quaternion rot)
+    {
+        DigimonDB db = DigimonDB.Instance;
+        EnemyStatusData data = db.GetEnemyStatusDataById(id);
+
+        GameObject digimonGo = _factory.CreateDigimon(_keyToPrefab[prefabKey], pos, rot);
+
+        DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
+        status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+
+        OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
+    }
+
+    private async UniTask LoadAndSpawnEnemyDigimon(int id, string prefabKey, Vector3 pos, Quaternion rot, CancellationToken token)
+    {
+        try
+        {
+            AsyncOperationHandle<GameObject> prefabHandle = Addressables.LoadAssetAsync<GameObject>(prefabKey);
+
+            await prefabHandle.Task;
+            GameObject digimonPrefab = null;
+            if (prefabHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                digimonPrefab = prefabHandle.Result;
+            }
+
+            if (digimonPrefab == null)
+            {
+                Debug.Log("디지몬 프리팹 로드 실패");
+                return;
+            }
+
+            // 프리팹 캐싱
+            _keyToPrefab[prefabKey] = digimonPrefab;
+            _handleList.Add(prefabHandle);
+
+            DigimonDB db = DigimonDB.Instance;
+            EnemyStatusData data = db.GetEnemyStatusDataById(id);
+            Debug.Log($"EnemyStatusData data : {data}");
+
+            Debug.Log($"digimonPrefab : {digimonPrefab}");
+            GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
+            Debug.Log($"Enemy digimonGo : {digimonGo}");
+
+            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
+            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+
+            OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
+        }
+
+        catch (OperationCanceledException)
+        {
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error! {e.Message}");
+        }
     }
 
 }

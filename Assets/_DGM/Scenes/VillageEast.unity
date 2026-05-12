@@ -1560,6 +1560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8c130000
 --- !u!65 &471270516
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13055,6 +13056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8e130000
 --- !u!65 &871353763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18726,6 +18728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 92130000
 --- !u!65 &1014104843
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19206,6 +19209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 91130000
 --- !u!65 &1105995072
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19452,6 +19456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 891300009113000092130000
 --- !u!65 &1284872251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25501,6 +25506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 5
+  _partyList: 90130000
 --- !u!65 &1616101533
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25710,6 +25716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8d130000
 --- !u!65 &1633677601
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36700,6 +36707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8b130000
 --- !u!65 &1798868452
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37262,6 +37270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8a130000
 --- !u!65 &1908867511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37547,6 +37556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _moveTimer: 3
+  _partyList: 8f130000
 --- !u!65 &1970359943
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77443,14 +77453,14 @@ SceneRoots:
   - {fileID: 1069018572}
   - {fileID: 293745375}
   - {fileID: 1000845315}
-  - {fileID: 1616101529}
   - {fileID: 1284872247}
-  - {fileID: 871353759}
-  - {fileID: 471270512}
-  - {fileID: 1014104839}
-  - {fileID: 1970359939}
-  - {fileID: 1798868448}
-  - {fileID: 1105995068}
   - {fileID: 1908867507}
+  - {fileID: 1798868448}
+  - {fileID: 471270512}
   - {fileID: 1633677597}
+  - {fileID: 871353759}
+  - {fileID: 1970359939}
+  - {fileID: 1616101529}
+  - {fileID: 1105995068}
+  - {fileID: 1014104839}
   - {fileID: 981433039}

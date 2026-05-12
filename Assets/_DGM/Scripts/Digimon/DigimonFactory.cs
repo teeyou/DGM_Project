@@ -23,8 +23,10 @@ public class DigimonFactory : Singleton<DigimonFactory>
     public GameObject CreateDigimon(GameObject prefab, Vector3 pos, Quaternion rot)
     {
         if (prefab == null)
+        {
             return null;
 
+        }
         return Instantiate(prefab, pos, rot);
     }
 

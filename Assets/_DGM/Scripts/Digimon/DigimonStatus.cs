@@ -23,6 +23,26 @@ public class DigimonStatus : MonoBehaviour
     private GrowthType growthType;
     private EvoTree evoTree;
 
+    public void Init(DigimonStatus data)
+    {
+        this.growthType = data.growthType;
+        this.evoTree = data.evoTree;
+
+        this.digimonNameKor = data.digimonNameKor;
+        this.digimonName = data.digimonName;
+        this.attr = data.attr;
+        this.grade = data.grade;
+        this.type = data.type;
+        this.level = data.level;
+
+        this.hp = data.hp;
+        this.atk = data.atk;
+        this.def = data.def;
+        this.intel = data.intel;
+        this.speed = data.speed;
+
+
+    }
     public void Init(StatusData data, GrowthType growthType, EvoTree evoTree)
     {
         this.statusData = data;
@@ -35,8 +55,16 @@ public class DigimonStatus : MonoBehaviour
         grade = (EGrade)Enum.Parse(typeof(EGrade), data.Grade);
         type = (EType)Enum.Parse(typeof(EType), data.Type);
 
-        level = 1;
-        //level = data.Level;
+        if (data is EnemyStatusData enemyData)
+        {
+            level = enemyData.Level;
+        }
+
+        else
+        {
+            level = 1;
+        }
+
         hp = data.BaseHP;
         atk = data.BaseATK;
         def = data.BaseDEF;

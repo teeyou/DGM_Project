@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2672813582928761939}
   - component: {fileID: 7327088102191207125}
   - component: {fileID: 7599851661376599521}
-  - component: {fileID: 7201010152879229318}
+  - component: {fileID: 4466569691682059371}
   m_Layer: 0
   m_Name: Digitama_Blue
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3302605354358996889}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7201010152879229318
-CapsuleCollider:
+--- !u!65 &4466569691682059371
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,8 +103,6 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.5
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: -0.00000032782555, y: 1, z: -0.00000032782555}
+  serializedVersion: 3
+  m_Size: {x: 1.9999988, y: 8, z: 1.9999993}
+  m_Center: {x: -0.00000032782555, y: 3, z: -0.00000032782555}

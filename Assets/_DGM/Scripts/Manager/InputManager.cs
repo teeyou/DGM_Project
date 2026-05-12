@@ -20,6 +20,16 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _questOpen;       // Q
     [SerializeField] private InputActionReference _interact;        // F
 
+
+    [SerializeField] private InputActionReference _battleLeftArrow;
+    [SerializeField] private InputActionReference _battleRightArrow;
+    [SerializeField] private InputActionReference _battleA;         //Attack
+    [SerializeField] private InputActionReference _battleS;         //Skill
+    [SerializeField] private InputActionReference _battleD;         //Guard
+    [SerializeField] private InputActionReference _battleF;         //Select
+    [SerializeField] private InputActionReference _battleC;         //Cancel
+    [SerializeField] private InputActionReference _battleR;         //Run
+
     [SerializeField] private InputActionAsset _inputActions;
 
     private InputActionMap _playerMap;

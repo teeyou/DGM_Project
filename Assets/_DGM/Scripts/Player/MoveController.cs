@@ -138,6 +138,21 @@ public class MoveController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        //if (_interactable != null)
+        //{
+        //    if (other.tag == "NPC")
+        //    {
+        //        FieldUIController.Instance.ToggleInteractButton(true);
+        //    }
+        //    else if (other.tag == "Enemy")
+        //    {
+        //        FieldUIController.Instance.ToggleInteractCombatButton(true);
+        //    }
+        //}
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (_interactable != null)

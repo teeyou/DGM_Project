@@ -10,6 +10,11 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class GameManager : Singleton<GameManager>
 {
     private List<GameObject> _playerDigimonList = new List<GameObject>();
+    private List<DigimonStatus> _playerDigimonStatusList = new List<DigimonStatus>();
+
+    public List<int> _battleList = new List<int>();
+    
+    private GameObject _followDigimon;
     private Transform _playerTr;
     private MoveController _playerMoveController;
 
@@ -17,9 +22,13 @@ public class GameManager : Singleton<GameManager>
 
     private AsyncOperationHandle<EventChannel> _handle;
 
+    public GameObject FollowDigimon { get { return _followDigimon; } set { _followDigimon = value; } }
+
     public bool IsBlockInteractionKey { get; set; } = false;
     public bool IsPlayerInteracting { get; set; } = false;
     public bool HasDigimon { get; set; } = false;
+
+
 
     protected override void Awake()
     {
@@ -32,7 +41,7 @@ public class GameManager : Singleton<GameManager>
     {
         _handle = Addressables.LoadAssetAsync<EventChannel>("EventChannel");
         _handle.Completed += OnEventChannelLoaded;
-        DigimonSpawner.Instance.OnDigimonSpawned += OnDigimonSpawned;
+        DigimonSpawner.Instance.OnFriendDigimonSpawned += OnDigimonSpawned;
     }
 
     private void OnDisable()
@@ -43,25 +52,33 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void OnDigimonSpawned(GameObject digimon, bool isEnemy)
+    private void OnDigimonSpawned(GameObject digimon, DigimonStatus status)
     {
-        if (!isEnemy)
-        {
-            AddDigimon(digimon);
-        }
+        AddDigimon(digimon, status);
     }
 
-    public void AddDigimon(GameObject digimon)
+    public void AddDigimon(GameObject digimon, DigimonStatus status)
     {
         _playerDigimonList.Add(digimon);
-
-        Debug.Log($"AddDigimon {digimon.name}");
-        Debug.Log($"_playerDigimonList {_playerDigimonList.Count}");
+        _playerDigimonStatusList.Add(status);
     }
 
     public IReadOnlyList<GameObject> GetDigimonList()
     {
         return _playerDigimonList.AsReadOnly();
+    }
+
+    public IReadOnlyList<DigimonStatus> GetDigimonStatusList()
+    {
+        return _playerDigimonStatusList.AsReadOnly();
+    }
+
+    public DigimonStatus GetDigimonStatus(int idx)
+    {
+        if (idx < 0 || idx >= _playerDigimonStatusList.Count)
+            return null;
+
+        return _playerDigimonStatusList[idx];
     }
 
     private void OnEventChannelLoaded(AsyncOperationHandle<EventChannel> handle)
@@ -118,6 +135,12 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void SetPlayerActive(bool enabled)
+    {
+        _playerTr.gameObject.SetActive(enabled);
+        _followDigimon.SetActive(enabled);
+    }
+
     public void TogglePlayerMoveController(bool enabled)
     {
         if (_playerMoveController == null)
@@ -131,4 +154,19 @@ public class GameManager : Singleton<GameManager>
     public bool IsExistsPlayer() => _playerTr != null;
 
     public GameObject GetPlayer() => _playerTr.gameObject;
+
+    public void ClearBattleList()
+    {
+        _battleList.Clear();
+    }
+
+    public void AddBattleList(int id)
+    {
+        _battleList.Add(id);
+    }
+
+    public IReadOnlyList<int> GetBattleList()
+    {
+        return _battleList.AsReadOnly();
+    }
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Playables;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -15,11 +16,16 @@ public enum ESceneId
     Village,
     VillageEast,
     Forest,
-    Temple
+    Temple,
+    VillageEastBattle,
+    ForestBattle,
+    TempleBattle,
 }
 
 public class SceneLoader : Singleton<SceneLoader>
 {
+    public event Action OnBattleSceneLoaded;
+
     private string _loadingKey = "Loading";
     private AsyncOperationHandle<SceneInstance> _loadingHandle;
     private AsyncOperationHandle<SceneInstance> _handle;
@@ -33,6 +39,19 @@ public class SceneLoader : Singleton<SceneLoader>
         base.Awake();
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    public ESceneId ConvertStringToESceneId(string sceneName)
+    {
+        if (Enum.TryParse(sceneName, out ESceneId targetScene))
+        {
+            return targetScene;
+        }
+        else
+        {
+            Debug.Log("GetCurrentESceneId 에러 발생");
+            return ESceneId.Title;
+        }
     }
 
     public string GetCurrentSceneName()
@@ -104,5 +123,60 @@ public class SceneLoader : Singleton<SceneLoader>
             Debug.LogError($"Error : {e.Message}");
         }
         
+    }
+
+    private async UniTaskVoid LoadBattleSceneAsync(ESceneId current, ESceneId target)
+    {
+        try
+        {
+            if (_isLoading)
+                return;
+
+            _isLoading = true;
+
+            if (current != ESceneId.Title && GameManager.Instance != null)
+            {
+                GameManager.Instance.TogglePlayerMoveController(false);
+            }
+
+            _loadingHandle = Addressables.LoadSceneAsync(_loadingKey, LoadSceneMode.Additive);  // 로딩 씬 바로 띄움
+
+            await _loadingHandle.Task;  // 로딩 씬 활성화
+
+            // 플레이어 비활성화
+            GameManager.Instance.SetPlayerActive(false);
+
+            // 기존 씬 언로드
+            Scene currentScene = SceneManager.GetActiveScene();
+            await SceneManager.UnloadSceneAsync(currentScene);
+
+            string key = target.ToString();     // 타겟 씬
+
+            _handle = Addressables.LoadSceneAsync(key, LoadSceneMode.Additive, false);  // 수동으로 제어
+
+            await _handle.Task; // 씬 전환 준비 완료
+
+            await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
+
+            await UniTask.Delay(2000);
+
+            await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
+
+            string clipKey = key + "BGM";
+            AudioManager.Instance.PlayBGM(clipKey);     // 배경음악 재생
+            _isLoading = false;
+
+            OnBattleSceneLoaded?.Invoke();
+        }
+
+        catch (Exception e)
+        {
+            Debug.LogError($"Error : {e.Message}");
+        }
+    }
+
+    public void LoadBattleScene(string current, string target)
+    {
+        LoadBattleSceneAsync(ConvertStringToESceneId(current), ConvertStringToESceneId(target)).Forget();
     }
 }

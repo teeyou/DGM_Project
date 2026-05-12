@@ -8,7 +8,8 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
     
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _moveTimer;
-    
+    [SerializeField] private List<int> _partyList;
+
     private Animator _animator;
 
     private Vector3 _startPos;
@@ -17,6 +18,7 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     private float _timer;
     private bool _isMoving = false;
+    public IReadOnlyList<int> PartyList => _partyList;
 
     private void Awake()
     {
@@ -79,6 +81,13 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     public void Interact(GameObject target)
     {
-        Debug.Log("배틀 시작");
+        for (int i = 0; i < _partyList.Count; i++)
+        {
+            int id = _partyList[i];
+            GameManager.Instance.AddBattleList(id);
+        }
+
+        string currentSceneName = SceneLoader.Instance.GetCurrentSceneName();
+        SceneLoader.Instance.LoadBattleScene(currentSceneName, currentSceneName + "Battle");
     }
 }
