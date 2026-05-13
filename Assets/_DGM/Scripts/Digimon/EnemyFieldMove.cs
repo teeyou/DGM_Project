@@ -88,6 +88,10 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
         }
 
         string currentSceneName = SceneLoader.Instance.GetCurrentSceneName();
-        SceneLoader.Instance.LoadBattleScene(currentSceneName, currentSceneName + "Battle");
+        GameManager.Instance.ReturnSceneName = currentSceneName;
+        SceneLoader.Instance.LoadTargetScene(currentSceneName + "Battle", false);
+
+        FieldUIController.Instance.ToggleFieldCanvas(false);
+        InputManager.Instance.SwitchToBattleMap();
     }
 }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprites Baby
+  m_EditorClassIdentifier: 
+  m_GroupName: Sprites Baby
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 10fcc39fcb3324a49bedba5bcf0ac95f
+  m_SerializeEntries:
+  - m_GUID: 70db3403cbf68d3448a209184fd32e24
+    m_Address: Bukamon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpritesBaby
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7252806777b86724d8965eb4293997ce
+    m_Address: Motimon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpritesBaby
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abd493d2b6a48cd4283977059a2569dc
+    m_Address: Koromon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SpritesBaby
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c1e68065f3942ec41af8f8a392a71f46, type: 2}
+    - {fileID: 11400000, guid: f38b7c9808926954ea2c4abfe3ec3a79, type: 2}

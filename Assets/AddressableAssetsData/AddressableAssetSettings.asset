@@ -44,6 +44,7 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: 8cf4983a160592a4d88391d5983dd73e, type: 2}
   - {fileID: 11400000, guid: d68bdbaf4aa78c14bb24a64877d7e731, type: 2}
   - {fileID: 11400000, guid: 2e459078da1ebbf4ba90d18c70c07169, type: 2}
   - {fileID: 11400000, guid: d9cb0bf8bdcd23d4f8d5ec06c77f6a2e, type: 2}
@@ -99,6 +100,8 @@ MonoBehaviour:
     - default
     - BGM
     - SFX
+    - SpritesBaby
+    - SpritesRookie
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3d2611dbb8c2f984484d78109e013d0c, type: 2}

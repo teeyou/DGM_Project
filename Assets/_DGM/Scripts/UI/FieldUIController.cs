@@ -11,6 +11,9 @@ public enum ENPC
 
 public class FieldUIController : Singleton<FieldUIController>
 {
+    [SerializeField] private GameObject _HUDCanvas;
+    [SerializeField] private GameObject _MiniMapCanvas;
+
     [SerializeField] private GameObject _digimonSelectMenuGo;
     //[SerializeField] private RectTransform _cursorRt;
 
@@ -246,5 +249,21 @@ public class FieldUIController : Singleton<FieldUIController>
     public void ToggleQuestButton(bool enabled)
     {
         _questButtonGo.SetActive(enabled);
+    }
+
+    public void ToggleHUDCanvas(bool enabled)
+    {
+        _HUDCanvas.SetActive(enabled);
+    }
+
+    public void ToggleMiniMapCanvas(bool enabled)
+    {
+        _MiniMapCanvas.SetActive(enabled);
+    }
+
+    public void ToggleFieldCanvas(bool enabled)
+    {
+        ToggleHUDCanvas(enabled);
+        ToggleMiniMapCanvas(enabled);
     }
 }

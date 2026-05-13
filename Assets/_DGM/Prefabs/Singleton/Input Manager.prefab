@@ -57,4 +57,12 @@ MonoBehaviour:
   _esc: {fileID: -1849944633613893800, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
   _questOpen: {fileID: 7025516274499910436, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
   _interact: {fileID: -4434554132447414626, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleLeft: {fileID: -4517686161798043150, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleRight: {fileID: 1777708452370060220, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleEvo: {fileID: -5882728744231543095, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleAttack: {fileID: 234256429791099785, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleSkill: {fileID: 7524377781168796866, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleGuard: {fileID: 8013787161343472416, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleSelect: {fileID: -3251896516634570992, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
+  _battleRun: {fileID: -8339788115927268831, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}
   _inputActions: {fileID: -944628639613478452, guid: b33e8ee032056f745b787d879fa38d0a, type: 3}

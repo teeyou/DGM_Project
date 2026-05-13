@@ -21,19 +21,20 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _interact;        // F
 
 
-    [SerializeField] private InputActionReference _battleLeftArrow;
-    [SerializeField] private InputActionReference _battleRightArrow;
-    [SerializeField] private InputActionReference _battleA;         //Attack
-    [SerializeField] private InputActionReference _battleS;         //Skill
-    [SerializeField] private InputActionReference _battleD;         //Guard
-    [SerializeField] private InputActionReference _battleF;         //Select
-    [SerializeField] private InputActionReference _battleC;         //Cancel
-    [SerializeField] private InputActionReference _battleR;         //Run
+    [SerializeField] private InputActionReference _battleLeft;
+    [SerializeField] private InputActionReference _battleRight;
+    [SerializeField] private InputActionReference _battleEvo;         //Evo
+    [SerializeField] private InputActionReference _battleAttack;         //Attack
+    [SerializeField] private InputActionReference _battleSkill;         //Skill
+    [SerializeField] private InputActionReference _battleGuard;         //Guard
+    [SerializeField] private InputActionReference _battleSelect;         //Select
+    [SerializeField] private InputActionReference _battleRun;         //Run
 
     [SerializeField] private InputActionAsset _inputActions;
 
     private InputActionMap _playerMap;
     private InputActionMap _menuMap;
+    private InputActionMap _battleMap;
 
     private bool _isBind = false;
 
@@ -51,6 +52,22 @@ public class InputManager : Singleton<InputManager>
     public event Action<bool> OnEsc;        //ESC
     public event Action<bool> OnMenuEsc;        //ESC
 
+    public event Action<bool> OnEvo;
+    public event Action<bool> OnAttack;
+    public event Action<bool> OnSkill;
+    public event Action<bool> OnGuard;
+    public event Action<bool> OnRun;
+
+    public void ShowCurrentMap()
+    {
+        foreach (var map in _inputActions.actionMaps)
+        {
+            if (map.enabled)
+            {
+                Debug.Log("현재 활성화된 Action Map: " + map.name);
+            }
+        }
+    }
     protected override void Awake()
     {
         base.Awake();
@@ -61,6 +78,7 @@ public class InputManager : Singleton<InputManager>
 
         _playerMap = _inputActions.FindActionMap("Player");
         _menuMap = _inputActions.FindActionMap("Menu UI");
+        _battleMap = _inputActions.FindActionMap("Battle");
     }
 
     private void OnDestroy()
@@ -127,6 +145,31 @@ public class InputManager : Singleton<InputManager>
         if (_esc == null || _esc.action == null)
             return;
 
+        if (_battleLeft == null || _battleLeft.action == null)
+            return;
+
+        if (_battleRight == null || _battleRight.action == null)
+            return;
+
+        if (_battleEvo == null || _battleEvo.action == null)
+            return;
+
+        if (_battleAttack == null || _battleAttack.action == null)
+            return;
+
+        if (_battleSkill == null || _battleSkill.action == null)
+            return;
+
+        if (_battleGuard == null || _battleGuard.action == null)
+            return;
+
+        if (_battleSelect == null || _battleSelect.action == null)
+            return;
+
+        if (_battleRun == null || _battleRun.action == null)
+            return;
+        
+
         _move.action.performed += OnMovePerformed;
         _move.action.canceled += OnMoveCanceled;
 
@@ -163,6 +206,16 @@ public class InputManager : Singleton<InputManager>
 
         _esc.action.started += OnEscStarted;
         _esc.action.canceled += OnEscCanceled;
+
+        _battleLeft.action.started += OnMoveLeft;
+        _battleRight.action.started += OnMoveRight;
+        _battleEvo.action.started += OnEvoStarted;
+        _battleAttack.action.started += OnAttackStarted;
+        _battleSkill.action.started += OnSkillStarted;
+        _battleGuard.action.started += OnGuardStarted;
+        _battleSelect.action.started += OnSelectStarted;
+        _battleRun.action.started += OnRunStarted;
+
         _isBind = true;
     }
 
@@ -248,6 +301,46 @@ public class InputManager : Singleton<InputManager>
             _menuEsc.action.canceled -= OnMenuEscCanceled;
         }
 
+        if (_battleLeft != null && _battleLeft.action != null)
+        {
+            _battleLeft.action.started -= OnMoveLeft;
+        }
+
+        if (_battleRight != null && _battleRight.action != null)
+        {
+            _battleRight.action.started -= OnMoveRight;
+        }
+
+        if (_battleEvo != null && _battleEvo.action != null)
+        {
+            _battleEvo.action.started -= OnEvoStarted;
+        }
+
+        if (_battleAttack != null && _battleAttack.action != null)
+        {
+            _battleAttack.action.started -= OnAttackStarted;
+        }
+
+        if (_battleSkill != null && _battleSkill.action != null)
+        {
+            _battleSkill.action.started -= OnSkillStarted;
+        }
+
+        if (_battleGuard != null && _battleGuard.action != null)
+        {
+            _battleGuard.action.started -= OnGuardStarted;
+        }
+
+        if (_battleSelect != null && _battleSelect.action != null)
+        {
+            _battleSelect.action.started -= OnSelectStarted;
+        }
+
+        if (_battleRun != null && _battleRun.action != null)
+        {
+            _battleRun.action.started -= OnRunStarted;
+        }
+
         _isBind = false;
     }
 
@@ -261,16 +354,11 @@ public class InputManager : Singleton<InputManager>
             _move.action.Enable();
             _mouseRightClick.action.Enable();
             _zoom.action.Enable();
-            _menuUp.action.Enable();
-            _menuDown.action.Enable();
-            _menuSelect.action.Enable();
-            _menuLeft.action.Enable();
-            _menuRight.action.Enable();
-            _menuInteract.action.Enable();
-            _menuEsc.action.Enable();
             _questOpen.action.Enable();
             _interact.action.Enable();
             _esc.action.Enable();
+            EnableMenuUI(true);
+            EnableBattle(true);
         }
 
         else
@@ -278,16 +366,11 @@ public class InputManager : Singleton<InputManager>
             _move.action.Disable();
             _mouseRightClick.action.Disable();
             _zoom.action.Disable();
-            _menuUp.action.Disable();
-            _menuDown.action.Disable();
-            _menuSelect.action.Disable();
-            _menuLeft.action.Disable();
-            _menuRight.action.Disable();
-            _menuInteract.action.Disable();
-            _menuEsc.action.Disable();
             _questOpen.action.Disable();
             _interact.action.Disable();
             _esc.action.Disable();
+            EnableMenuUI(false);
+            EnableBattle(false);
         }
     }
 
@@ -412,22 +495,50 @@ public class InputManager : Singleton<InputManager>
         OnMenuEsc?.Invoke(false);
     }
 
+    private void OnEvoStarted(InputAction.CallbackContext context)
+    {
+        OnEvo?.Invoke(true);
+    }
+
+    private void OnAttackStarted(InputAction.CallbackContext context)
+    {
+        OnAttack?.Invoke(true);
+    }
+
+    private void OnSkillStarted(InputAction.CallbackContext context)
+    {
+        OnSkill?.Invoke(true);
+    }
+
+    private void OnGuardStarted(InputAction.CallbackContext context)
+    {
+        OnGuard?.Invoke(true);
+    }
+
+    private void OnRunStarted(InputAction.CallbackContext context)
+    {
+        OnRun?.Invoke(true);
+    }
+   
     public void SwitchToPlayerMap()
     {
-        if (_menuMap.enabled)
-        {
-            _menuMap.Disable();
-            _playerMap.Enable();
-        }
+        _playerMap.Enable();
+        _menuMap.Disable();
+        _battleMap.Disable();
     }
 
     public void SwitchToMenuUIMap()
     {
-        if (_playerMap.enabled)
-        {
-            _playerMap.Disable();
-            _menuMap.Enable();
-        }
+        _playerMap.Disable();
+        _menuMap.Enable();
+        _battleMap.Disable();
+    }
+
+    public void SwitchToBattleMap()
+    {
+        _playerMap.Disable();
+        _menuMap.Disable();
+        _battleMap.Enable();
     }
 
     public void EnableMenuUI(bool enabled)
@@ -455,6 +566,36 @@ public class InputManager : Singleton<InputManager>
             _menuRight.action.Disable();
             _menuInteract.action.Disable();
             _menuEsc.action.Disable();
+        }
+    }
+
+    public void EnableBattle(bool enabled)
+    {
+        if (!_isBind)
+            return;
+
+        if (enabled)
+        {
+            _battleLeft.action.Enable();
+            _battleRight.action.Enable();
+            _battleEvo.action.Enable();
+            _battleAttack.action.Enable();
+            _battleSkill.action.Enable();
+            _battleGuard.action.Enable();
+            _battleSelect.action.Enable();
+            _battleRun.action.Enable();
+        }
+
+        else
+        {
+            _battleLeft.action.Disable();
+            _battleRight.action.Disable();
+            _battleEvo.action.Disable();
+            _battleAttack.action.Disable();
+            _battleSkill.action.Disable();
+            _battleGuard.action.Disable();
+            _battleSelect.action.Disable();
+            _battleRun.action.Disable();
         }
     }
 

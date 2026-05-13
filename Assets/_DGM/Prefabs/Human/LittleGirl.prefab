@@ -853,7 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a2e23dfd76af048b3849057e68fca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 
+  _id: Player
 --- !u!143 &8966079906697411419
 CharacterController:
   m_ObjectHideFlags: 0

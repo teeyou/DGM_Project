@@ -6,12 +6,14 @@ using System.Data;
 using System.IO;
 using UnityEngine;
 
+[Serializable]
 public class EvoTree
 {
     public int ID;
     public int Next;
 }
 
+[Serializable]
 public class GrowthType
 {
     public string Type;

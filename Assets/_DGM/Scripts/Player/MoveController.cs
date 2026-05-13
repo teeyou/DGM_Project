@@ -49,7 +49,22 @@ public class MoveController : MonoBehaviour
 
         _cts = new CancellationTokenSource();
 
-        BindInputManagerAsync(_cts.Token).Forget();
+        if (_input == null)
+        {
+            Debug.Log("input NULL - BindInputManagerAsync 실행");
+            BindInputManagerAsync(_cts.Token).Forget();
+        }
+        else
+        {
+            Debug.Log("_input 존재");
+            _input.SwitchToPlayerMap();
+            _input.OnMove += HandleMove;
+            _input.OnInteract += HandleInteract;
+            _input.OnEsc += HandleEsc;
+        }
+
+        if (_input != null)
+            _input.ShowCurrentMap();
     }
 
     private void OnDisable()
@@ -77,6 +92,8 @@ public class MoveController : MonoBehaviour
             _input.OnInteract += HandleInteract;
             _input.OnEsc += HandleEsc;
             _input.SwitchToPlayerMap();
+
+            Debug.Log("BindInputManagerAsync 완료");
         }
         catch (OperationCanceledException)
         {
@@ -125,21 +142,6 @@ public class MoveController : MonoBehaviour
             _interactable = other.transform.GetComponent<IInteractable>();
         }
 
-        if (_interactable != null)
-        {
-            if (other.tag == "NPC")
-            {
-                FieldUIController.Instance.ToggleInteractButton(true);
-            }
-            else if (other.tag == "Enemy")
-            {
-                FieldUIController.Instance.ToggleInteractCombatButton(true);
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
         //if (_interactable != null)
         //{
         //    if (other.tag == "NPC")
@@ -151,6 +153,28 @@ public class MoveController : MonoBehaviour
         //        FieldUIController.Instance.ToggleInteractCombatButton(true);
         //    }
         //}
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (_interactable != null)
+        {
+            if (other.tag == "NPC")
+            {
+                if (GameManager.Instance.IsPlayerInteracting)
+                {
+                    FieldUIController.Instance.ToggleInteractButton(false);
+                }
+                else
+                {
+                    FieldUIController.Instance.ToggleInteractButton(true);
+                }
+            }
+            else if (other.tag == "Enemy")
+            {
+                FieldUIController.Instance.ToggleInteractCombatButton(true);
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)

@@ -9,6 +9,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private string _returnSceneName;
+
     private List<GameObject> _playerDigimonList = new List<GameObject>();
     private List<DigimonStatus> _playerDigimonStatusList = new List<DigimonStatus>();
 
@@ -28,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     public bool IsPlayerInteracting { get; set; } = false;
     public bool HasDigimon { get; set; } = false;
 
-
+    public string ReturnSceneName { get { return _returnSceneName; } set { _returnSceneName = value; } }
 
     protected override void Awake()
     {
@@ -137,12 +139,21 @@ public class GameManager : Singleton<GameManager>
 
     public void SetPlayerActive(bool enabled)
     {
+        if (_playerTr == null)
+            return;
+
+        if (_followDigimon == null)
+            return;
+
         _playerTr.gameObject.SetActive(enabled);
         _followDigimon.SetActive(enabled);
     }
 
     public void TogglePlayerMoveController(bool enabled)
     {
+        if (_playerTr == null)
+            return;
+
         if (_playerMoveController == null)
         {
             _playerMoveController = _playerTr.GetComponent<MoveController>();

@@ -24,6 +24,8 @@ public enum ESceneId
 
 public class SceneLoader : Singleton<SceneLoader>
 {
+    [SerializeField] private int _delay;
+
     public event Action OnBattleSceneLoaded;
 
     private string _loadingKey = "Loading";
@@ -125,7 +127,7 @@ public class SceneLoader : Singleton<SceneLoader>
         
     }
 
-    private async UniTaskVoid LoadBattleSceneAsync(ESceneId current, ESceneId target)
+    private async UniTaskVoid LoadTargetSceneAsync(ESceneId target, bool isReturn)
     {
         try
         {
@@ -134,17 +136,22 @@ public class SceneLoader : Singleton<SceneLoader>
 
             _isLoading = true;
 
-            if (current != ESceneId.Title && GameManager.Instance != null)
+            if (!isReturn)
             {
                 GameManager.Instance.TogglePlayerMoveController(false);
             }
+            
+            await FadeInOut.Instance.FadeInAsync();
 
             _loadingHandle = Addressables.LoadSceneAsync(_loadingKey, LoadSceneMode.Additive);  // 로딩 씬 바로 띄움
 
             await _loadingHandle.Task;  // 로딩 씬 활성화
 
             // 플레이어 비활성화
-            GameManager.Instance.SetPlayerActive(false);
+            if (!isReturn)
+            {
+                GameManager.Instance.SetPlayerActive(false);
+            }
 
             // 기존 씬 언로드
             Scene currentScene = SceneManager.GetActiveScene();
@@ -158,15 +165,32 @@ public class SceneLoader : Singleton<SceneLoader>
 
             await _handle.Result.ActivateAsync();   // 씬 전환 직접 호출
 
-            await UniTask.Delay(2000);
+            //await UniTask.Delay(2000);
 
             await Addressables.UnloadSceneAsync(_loadingHandle);    // 로딩 씬 언로드
+
+            if (isReturn)
+            {
+                FieldUIController.Instance.ToggleFieldCanvas(true);
+                InputManager.Instance.SwitchToPlayerMap();
+
+                GameManager.Instance.SetPlayerActive(true);
+                GameManager.Instance.TogglePlayerMoveController(true);
+
+                await UniTask.Delay(_delay);
+
+                await FadeInOut.Instance.FadeOutAsync();
+            }
 
             string clipKey = key + "BGM";
             AudioManager.Instance.PlayBGM(clipKey);     // 배경음악 재생
             _isLoading = false;
 
-            OnBattleSceneLoaded?.Invoke();
+            if (!isReturn)
+            {
+                OnBattleSceneLoaded?.Invoke();
+
+            }
         }
 
         catch (Exception e)
@@ -175,8 +199,8 @@ public class SceneLoader : Singleton<SceneLoader>
         }
     }
 
-    public void LoadBattleScene(string current, string target)
+    public void LoadTargetScene(string target, bool isReturn)
     {
-        LoadBattleSceneAsync(ConvertStringToESceneId(current), ConvertStringToESceneId(target)).Forget();
+        LoadTargetSceneAsync(ConvertStringToESceneId(target), isReturn).Forget();
     }
 }
