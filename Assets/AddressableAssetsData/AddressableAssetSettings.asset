@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b6c74a6dcb15fe74da7c261a14504148
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 6d66daffc0debdeead33030e3f0cec45
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: 8cf4983a160592a4d88391d5983dd73e, type: 2}
   - {fileID: 11400000, guid: d68bdbaf4aa78c14bb24a64877d7e731, type: 2}
+  - {fileID: 11400000, guid: aa678665370640f4a96395c20e2062f2, type: 2}
   - {fileID: 11400000, guid: 2e459078da1ebbf4ba90d18c70c07169, type: 2}
   - {fileID: 11400000, guid: d9cb0bf8bdcd23d4f8d5ec06c77f6a2e, type: 2}
   - {fileID: 11400000, guid: 9966cc3a4235ac14ab5aee381cc531a6, type: 2}
@@ -100,8 +101,7 @@ MonoBehaviour:
     - default
     - BGM
     - SFX
-    - SpritesBaby
-    - SpritesRookie
+    - DigimonSprites
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3d2611dbb8c2f984484d78109e013d0c, type: 2}

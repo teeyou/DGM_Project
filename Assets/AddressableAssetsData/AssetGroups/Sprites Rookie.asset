@@ -21,19 +21,19 @@ MonoBehaviour:
     m_Address: Guilmon
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SpritesRookie
+    - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4612723c187695645a8b62f43ea59c64
     m_Address: Veemon
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SpritesRookie
+    - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9739a6d82a07ff48af47b7b255a8400
     m_Address: Agumon
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SpritesRookie
+    - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}

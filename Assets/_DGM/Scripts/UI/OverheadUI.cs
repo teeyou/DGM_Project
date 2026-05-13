@@ -60,9 +60,10 @@ public class OverheadUI : MonoBehaviour
                 string colorCode = enemyStatus.Attr switch
                 {
                     EAttribute.Vaccine => "#00FF00",
-                    EAttribute.Data => "#0000FF",
+                    EAttribute.Data => "#00C0FF",
                     EAttribute.Virus => "#FF0000",
-                    _ => "#FFFF00",
+                    EAttribute.Free => "FFFF00",
+                    _ => "#FFFFFF",
                 };
 
                 name += $"<color={colorCode}>{enemyStatus.Attr.ToString().Substring(0, 2)}</color>";

@@ -119,7 +119,8 @@ public class DigimonStatus : MonoBehaviour
 
     private void Awake()
     {
-        //_currentHP = HP;
+        _currentHP = HP;
+        _actionCount = 10;
         _animator = GetComponent<Animator>();
     }
     public void Attack()

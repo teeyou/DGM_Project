@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public enum EAttribute
 {
@@ -43,6 +44,8 @@ public class DigimonDB : Singleton<DigimonDB>
 
     private ExcelReader _excelReader = new ExcelReader();
 
+    private Dictionary<string, Sprite> _nameToSprite = new Dictionary<string, Sprite>();
+
     protected override void Awake()
     {
         base.Awake();
@@ -52,7 +55,23 @@ public class DigimonDB : Singleton<DigimonDB>
         DontDestroyOnLoad(gameObject);
     }
 
+    
     private void Start()
+    {
+        CacheExcelData();
+        CacheDigimonSprites();
+    }
+
+    private void CacheDigimonSprites()
+    {
+        Addressables.LoadAssetsAsync<Sprite>("DigimonSprites", sprite =>
+        {
+            _nameToSprite[sprite.name] = sprite;
+            Debug.Log($"{sprite.name} 스프라이트 캐싱");
+        });
+    }
+
+    private void CacheExcelData()
     {
         _excelReader.LoadExcelData();
 
@@ -81,9 +100,7 @@ public class DigimonDB : Singleton<DigimonDB>
         {
             _idToEvoTree[_excelReader.EvoTreeList[i].ID] = _excelReader.EvoTreeList[i];
         }
-
     }
-
 
     public StatusData GetStatusDataByName(string name)
     {
@@ -131,4 +148,21 @@ public class DigimonDB : Singleton<DigimonDB>
         return null;
     }
 
+    public Sprite GetDigimonSprite(string digimonName)
+    {
+        if (_nameToSprite.TryGetValue(digimonName, out Sprite sprite))
+            return sprite;
+        else
+            return null; 
+    }
+
+    public bool HasDigimonSprites()
+    {
+        return _nameToSprite.Count > 0;
+    }
+
+    public Dictionary<string, Sprite> GetDigimonSprites()
+    {
+        return _nameToSprite;
+    }
 }
