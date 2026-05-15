@@ -81,17 +81,22 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     public void Interact(GameObject target)
     {
+        Debug.Log("적 디지몬 상호작용");
+        Debug.Log($"_partyList.Count : {_partyList.Count}");
         for (int i = 0; i < _partyList.Count; i++)
         {
             int id = _partyList[i];
             GameManager.Instance.AddBattleList(id);
+            Debug.Log($"GameManage.GetBattleList : {GameManager.Instance.GetBattleList().Count}");
         }
+
+        FieldUIController.Instance.ToggleFieldCanvas(false);
+        InputManager.Instance.SwitchToBattleMap();
 
         string currentSceneName = SceneLoader.Instance.GetCurrentSceneName();
         GameManager.Instance.ReturnSceneName = currentSceneName;
         SceneLoader.Instance.LoadTargetScene(currentSceneName + "Battle", false);
 
-        FieldUIController.Instance.ToggleFieldCanvas(false);
-        InputManager.Instance.SwitchToBattleMap();
+
     }
 }

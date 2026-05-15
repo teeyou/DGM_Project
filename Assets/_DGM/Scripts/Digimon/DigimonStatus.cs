@@ -23,9 +23,8 @@ public class DigimonStatus : MonoBehaviour
     //[SerializeField] private float criticalRate;
     //[SerializeField] private float dodgeRate;
 
-    private StatusData statusData;
     [SerializeField] private GrowthType growthType;
-    [SerializeField] private EvoTree evoTree;
+    [SerializeField] private int evo;
 
     private int _currentHP;
     private int _actionCount;
@@ -34,9 +33,6 @@ public class DigimonStatus : MonoBehaviour
 
     public void Init(DigimonStatus data)
     {
-        this.growthType = data.growthType;
-        this.evoTree = data.evoTree;
-
         this.digimonNameKor = data.digimonNameKor;
         this.digimonName = data.digimonName;
         this.attr = data.attr;
@@ -53,17 +49,17 @@ public class DigimonStatus : MonoBehaviour
         this.intel = data.intel;
         this.speed = data.speed;
 
+
+        this.growthType = data.growthType;
+        this.evo = data.evo;
+
         _currentHP = data.hp;
 
         _actionCount = 10;
-
+        Debug.Log($"Init 1 : _currentHP : {_currentHP}");
     }
-    public void Init(StatusData data, GrowthType growthType, EvoTree evoTree)
+    public void Init(StatusData data, GrowthType growthType)
     {
-        this.statusData = data;
-        this.growthType = growthType;
-        this.evoTree = evoTree;
-
         digimonNameKor = data.KorName;
         digimonName = data.DigimonName;
         attr = (EAttribute)Enum.Parse(typeof(EAttribute), data.Attr);
@@ -88,9 +84,14 @@ public class DigimonStatus : MonoBehaviour
         intel = data.BaseINT;
         speed = data.BaseSPD;
 
+        this.growthType = growthType;
+        this.evo = data.Evo;
+
         _currentHP = data.BaseHP;
 
         _actionCount = 10;
+
+        Debug.Log($"Init 2 : _currentHP : {_currentHP}");
     }
 
     public string DigimonNameKor => digimonNameKor;
@@ -111,31 +112,79 @@ public class DigimonStatus : MonoBehaviour
 
     public int INT { get { return intel + (level - 1) * growthType.INTInc; } set { intel = value; } }
     public int SPD { get { return speed + (level - 1) * growthType.SPDInc; } set { speed = value; } }
-    public float CriticalRate => 0.1f + (0.001f * INT);
-    public float DodgeRate => 0.1f + (0.001f * SPD);
+    public float CriticalRate => Mathf.Min(0.5f, 0.05f + (0.002f * INT));
+    public float DodgeRate => Mathf.Min(0.3f, 0.02f + (0.001f * SPD));
+
+    public GrowthType GrowthType => growthType;
+    public int EvoID => evo;
 
     public int CurrentHP { get { return _currentHP; } set { _currentHP = value; } }
     public int ActionCount => _actionCount;
 
     private void Awake()
     {
-        _currentHP = HP;
-        _actionCount = 10;
+        //_currentHP = HP;
+        //_actionCount = 10;
         _animator = GetComponent<Animator>();
     }
-    public void Attack()
-    {
 
+    public async UniTask Victory()
+    {
+        _animator.SetTrigger("Victory");
+
+        await UniTask.Delay(2000);
     }
 
-    public void Skill()
+    public async UniTask Attack(DigimonStatus target, bool isEnemy)
     {
+        if (target.CurrentHP <= 0)
+        {
+            Debug.Log($"´ë»óÀÌ ÀÌ¹Ì Á×À½");
+            await UniTask.Delay(2000);
+            return;
+        }
 
+        _animator.SetTrigger("Attack");
+
+        await UniTask.Delay(2000);
+
+        BattleManager.Instance.ShowDigimon(target, isEnemy);
+
+        (int damage, bool isCritical) = DamageCalculator.Calculate(this, target, false);
+        await target.TakeDamage(damage, isCritical, isEnemy);
     }
 
-    public void Guard()
+    public async UniTask Skill(DigimonStatus target, bool isEnemy)
     {
+        if (target.CurrentHP <= 0)
+        {
+            Debug.Log($"´ë»óÀÌ ÀÌ¹Ì Á×À½");
+            await UniTask.Delay(2000);
+            return;
+        }
 
+        _animator.SetTrigger("Skill");
+
+        await UniTask.Delay(2000);
+
+        BattleManager.Instance.ShowDigimon(target, isEnemy);
+        (int damage, bool isCritical) = DamageCalculator.Calculate(this, target, true);
+        await target.TakeDamage(damage, isCritical, isEnemy);
+    }
+
+    public async UniTask Guard()
+    {
+        _animator.SetTrigger("Guard");
+
+        DEF += 10;
+        Debug.Log($"DEF 10 »ó½Â");
+
+        await UniTask.Delay(1000);
+    }
+
+    public async UniTask Evo()
+    {
+        await UniTask.Delay(1000);
     }
 
     public void Run()
@@ -158,8 +207,38 @@ public class DigimonStatus : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public async UniTask TakeDamage(int damage, bool isCritical, bool isEnemy)
     {
+        Debug.Log($"isCritical : {isCritical} damage : {damage}");
+
+        CurrentHP -= damage;
+        CurrentHP = Mathf.Clamp(CurrentHP, 0, HP);
+
+        Debug.Log($"CurrentHP : {CurrentHP}");
+
+        if (isEnemy)
+            BattleUIManager.Instance.UpdateEnemyHP();
+        else
+            BattleUIManager.Instance.UpdatePlayer();
+
+        if (CurrentHP <= 0)
+        {
+            _animator.SetTrigger("Die");
+            await UniTask.Delay(2000);
+
+            return;
+        }
+
+        if (isCritical)
+        {
+            _animator.SetTrigger("Down");
+            await UniTask.Delay(3000);
+        }
+        else
+        {
+            _animator.SetTrigger("Hit");
+            await UniTask.Delay(2000);
+        }
 
     }
 }

@@ -29,6 +29,10 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _battleGuard;         //Guard
     [SerializeField] private InputActionReference _battleSelect;         //Select
     [SerializeField] private InputActionReference _battleRun;         //Run
+    [SerializeField] private InputActionReference _battleNum1;
+    [SerializeField] private InputActionReference _battleNum2;
+    [SerializeField] private InputActionReference _battleNum3;
+
 
     [SerializeField] private InputActionAsset _inputActions;
 
@@ -57,6 +61,10 @@ public class InputManager : Singleton<InputManager>
     public event Action<bool> OnSkill;
     public event Action<bool> OnGuard;
     public event Action<bool> OnRun;
+
+    public event Action<bool> OnPress1;
+    public event Action<bool> OnPress2;
+    public event Action<bool> OnPress3;
 
     public void ShowCurrentMap()
     {
@@ -168,7 +176,15 @@ public class InputManager : Singleton<InputManager>
 
         if (_battleRun == null || _battleRun.action == null)
             return;
-        
+
+        if (_battleNum1 == null || _battleNum1.action == null)
+            return;
+
+        if (_battleNum2 == null || _battleNum2.action == null)
+            return;
+
+        if (_battleNum3 == null || _battleNum3.action == null)
+            return;
 
         _move.action.performed += OnMovePerformed;
         _move.action.canceled += OnMoveCanceled;
@@ -216,6 +232,9 @@ public class InputManager : Singleton<InputManager>
         _battleSelect.action.started += OnSelectStarted;
         _battleRun.action.started += OnRunStarted;
 
+        _battleNum1.action.started += OnNum1Started;
+        _battleNum2.action.started += OnNum2Started;
+        _battleNum3.action.started += OnNum3Started;
         _isBind = true;
     }
 
@@ -339,6 +358,21 @@ public class InputManager : Singleton<InputManager>
         if (_battleRun != null && _battleRun.action != null)
         {
             _battleRun.action.started -= OnRunStarted;
+        }
+
+        if (_battleNum1 != null && _battleNum1.action != null)
+        {
+            _battleNum1.action.started -= OnNum1Started;
+        }
+
+        if (_battleNum2 != null && _battleNum2.action != null)
+        {
+            _battleNum2.action.started -= OnNum2Started;
+        }
+
+        if (_battleNum3 != null && _battleNum3.action != null)
+        {
+            _battleNum3.action.started -= OnNum3Started;
         }
 
         _isBind = false;
@@ -519,7 +553,22 @@ public class InputManager : Singleton<InputManager>
     {
         OnRun?.Invoke(true);
     }
-   
+
+    private void OnNum1Started(InputAction.CallbackContext context)
+    {
+        OnPress1?.Invoke(true);
+    }
+
+    private void OnNum2Started(InputAction.CallbackContext context)
+    {
+        OnPress2?.Invoke(true);
+    }
+
+    private void OnNum3Started(InputAction.CallbackContext context)
+    {
+        OnPress3?.Invoke(true);
+    }
+
     public void SwitchToPlayerMap()
     {
         _playerMap.Enable();
@@ -584,6 +633,9 @@ public class InputManager : Singleton<InputManager>
             _battleGuard.action.Enable();
             _battleSelect.action.Enable();
             _battleRun.action.Enable();
+            _battleNum1.action.Enable();
+            _battleNum2.action.Enable();
+            _battleNum3.action.Enable();
         }
 
         else
@@ -596,6 +648,9 @@ public class InputManager : Singleton<InputManager>
             _battleGuard.action.Disable();
             _battleSelect.action.Disable();
             _battleRun.action.Disable();
+            _battleNum1.action.Disable();
+            _battleNum2.action.Disable();
+            _battleNum3.action.Disable();
         }
     }
 

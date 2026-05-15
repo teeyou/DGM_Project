@@ -165,7 +165,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         }
     }
 
-    public void SpawnEnemyDigimon(int id, string key, Vector3 pos, Quaternion rot, CancellationToken token = default)
+    public async UniTask SpawnEnemyDigimon(int id, string key, Vector3 pos, Quaternion rot, CancellationToken token = default)
     {
         if (_keyToPrefab.ContainsKey(key))
         {
@@ -173,7 +173,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             return;
         }
 
-        LoadAndSpawnEnemyDigimon(id, key, pos, rot, token).Forget();
+        await LoadAndSpawnEnemyDigimon(id, key, pos, rot, token);
     }
 
     private async UniTask LoadFriendDigimon(int level, string prefabKey, Vector3 pos, Quaternion rot, CancellationToken token)
@@ -206,7 +206,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
 
             DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+            status.Init(data, db.GetGrowthType(data.GrowthType));           // string -> GrowthType 객체로 변환해서 초기화
 
             DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
             CharacterController cc = digimonGo.AddComponent<CharacterController>();
@@ -233,7 +233,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         GameObject digimonGo = _factory.CreateDigimon(_keyToPrefab[prefabKey], pos, rot);
 
         DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-        status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+        status.Init(data, db.GetGrowthType(data.GrowthType));               // string -> GrowthType 객체로 변환해서 초기화
 
         OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
     }
@@ -263,14 +263,11 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
             DigimonDB db = DigimonDB.Instance;
             EnemyStatusData data = db.GetEnemyStatusDataById(id);
-            Debug.Log($"EnemyStatusData data : {data}");
 
-            Debug.Log($"digimonPrefab : {digimonPrefab}");
             GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
-            Debug.Log($"Enemy digimonGo : {digimonGo}");
 
             DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-            status.Init(data, db.GetGrowthType(data.GrowthType), db.GetEvoTreeById(data.ID));
+            status.Init(data, db.GetGrowthType(data.GrowthType));                // string -> GrowthType 객체로 변환해서 초기화
 
             OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
         }

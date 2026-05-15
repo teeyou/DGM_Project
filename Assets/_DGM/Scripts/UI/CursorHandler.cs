@@ -238,18 +238,26 @@ public class CursorHandler : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
-                    _cursorIndex++;
+                    if (gameObject.activeInHierarchy)
+                    {
+                        AudioManager.Instance.PlaySFX("CursorMoveSFX");
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
+                        _cursorIndex++;
+                    }
+
                 }
             }
             else
             {
                 if (_cursorAnimRoutine == null)
                 {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
-                    _cursorIndex = 0;
+                    if (gameObject.activeInHierarchy)
+                    {
+                        AudioManager.Instance.PlaySFX("CursorMoveSFX");
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
+                        _cursorIndex = 0;
+                    }
+
                 }
             }
         }
@@ -260,9 +268,14 @@ public class CursorHandler : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
-                    _cursorIndex--;
+
+                    if (gameObject.activeInHierarchy)
+                    {
+                        AudioManager.Instance.PlaySFX("CursorMoveSFX");
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
+                        _cursorIndex--;
+                    }
+
                 }
 
             }
@@ -270,9 +283,13 @@ public class CursorHandler : MonoBehaviour
             {
                 if (_cursorAnimRoutine == null)
                 {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
-                    _cursorIndex = 2;
+                    if (gameObject.activeInHierarchy)
+                    {
+                        AudioManager.Instance.PlaySFX("CursorMoveSFX");
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
+                        _cursorIndex = 2;
+                    }
+
                 }
             }
         }

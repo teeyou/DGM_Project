@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
     private List<GameObject> _playerDigimonList = new List<GameObject>();
     private List<DigimonStatus> _playerDigimonStatusList = new List<DigimonStatus>();
 
-    public List<int> _battleList = new List<int>();
+    [SerializeField] private List<int> _battleList = new List<int>();
     
     private GameObject _followDigimon;
     private Transform _playerTr;
@@ -37,6 +37,8 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
 
         DontDestroyOnLoad(gameObject);
+
+        ClearBattleList();
     }
 
     private void OnEnable()

@@ -7,10 +7,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-using static UnityEngine.ParticleSystem;
 
-public class BattleUIManager : MonoBehaviour
+public class BattleUIManager : Singleton<BattleUIManager>
 {
+    [SerializeField] private float _heightOffset;
+
+    [SerializeField] private List<GameObject> _numberList;
+    
     [SerializeField] private GameObject _attackPanel;
     [SerializeField] private GameObject _statusPanel;
 
@@ -46,37 +49,14 @@ public class BattleUIManager : MonoBehaviour
         try
         {
             await UniTask.WaitUntil(() => _battleManager.PlayerStatusList.Count > 0);
-            await UniTask.WaitUntil(() => _battleManager.EnemyStatusList.Count > 0);
+            await UniTask.WaitUntil(() => _battleManager.EnemyStatusList.Count == GameManager.Instance.GetBattleList().Count);
 
-            if (DigimonDB.Instance != null && DigimonDB.Instance.HasDigimonSprites())
-            {
-                Debug.Log("DB에 스프라이트 있음");
-                _nameToSprite = DigimonDB.Instance.GetDigimonSprites();
-            }
+            await LoadSpriteImages();
 
-
-            else
-            {
-                Debug.Log("DB에 스프라이트 없음");
-                _spriteHandle = Addressables.LoadAssetsAsync<Sprite>("DigimonSprites", null);
-                await _spriteHandle.Task;
-                if (_spriteHandle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    IList<Sprite> list = _spriteHandle.Result;
-
-                    foreach (Sprite sprite in list)
-                    {
-                        _nameToSprite[sprite.name] = sprite;
-                    }
-                }
-                else
-                {
-                    Debug.Log("로드 실패");
-                }
-            }
-
+            // EnemyStatus UI 프리팹 로드
             _enemyStatusHandle = Addressables.LoadAssetAsync<GameObject>("EnemyStatus");
             await _enemyStatusHandle.Task;
+
             if (_enemyStatusHandle.Status == AsyncOperationStatus.Succeeded)
             {
                 _enemyStatusPrefab = _enemyStatusHandle.Result;
@@ -98,7 +78,10 @@ public class BattleUIManager : MonoBehaviour
                 {
                     if (tmps[j].name == "Name")
                     {
-                        tmps[j].text = _battleManager.EnemyStatusList[i].DigimonNameKor;
+                        string levelName = "Lv." + 
+                            _battleManager.EnemyStatusList[i].Level.ToString() + " " +
+                            _battleManager.EnemyStatusList[i].DigimonNameKor;
+                        tmps[j].text = levelName;
                     }
                     
                     else if (tmps[j].name == "Attr")
@@ -107,12 +90,13 @@ public class BattleUIManager : MonoBehaviour
 
                         string colorCode = attr switch
                         {
-                            "No" => "#FFFFFF",   // 하얀색
-                            "Va" => "#00FF00",   // 초록색
-                            "Da" => "#00C0FF",   // 하늘색
-                            "Vi" => "#FF0000",   // 빨간색
-                            "Fr" => "#FFFF00",   // 노란색
-                            _ => "#FFFFFF"       // 하얀색
+                            "No" => ColorTable.White,
+                            "Va" => ColorTable.Green,
+                            "Da" => ColorTable.Sky,
+                            "Vi" => ColorTable.Red,
+                            "Fr" => ColorTable.Yellow,
+                            "Un" => ColorTable.Purple,  
+                            _ => ColorTable.White,
                         };
 
                         tmps[j].text = $"<color={colorCode}>{attr}</color>";
@@ -141,8 +125,8 @@ public class BattleUIManager : MonoBehaviour
             }
 
             _profileImage.sprite = _nameToSprite[first.DigimonName];
-            _hpText.text = $"{first.CurrentHP} / {first.HP}";
-            _attrText.text = first.AttrKor;
+            _hpText.text = $"HP : {first.CurrentHP} / {first.HP}";
+            _attrText.text = first.Attr.ToString();
             _actionText.text = first.ActionCount.ToString();
 
             FadeInOut.Instance.FadeOut();
@@ -156,15 +140,102 @@ public class BattleUIManager : MonoBehaviour
 
     public void SetProfile(DigimonStatus status)
     {
-        //_profileImage = 
-        _hpText.text = $"{status.HP} / {status.CurrentHP}";
+        _profileImage.sprite = _nameToSprite[status.DigimonName];
+        _hpText.text = $"HP : {status.CurrentHP} / {status.HP}";
         _attrText.text = status.Attr.ToString();
         _actionText.text = status.ActionCount.ToString();
     }
 
     private void OnDestroy()
     {
-        Addressables.Release(_spriteHandle);
-        Addressables.Release(_enemyStatusHandle);
+        if (_spriteHandle.IsValid())
+        {
+            Addressables.Release(_spriteHandle);
+        }
+
+        if (_enemyStatusHandle.IsValid())
+        {
+            Addressables.Release(_enemyStatusHandle);
+        }
+    }
+
+    private async UniTask LoadSpriteImages()
+    {
+        if (DigimonDB.Instance != null && DigimonDB.Instance.HasDigimonSprites())
+        {
+            Debug.Log("DB에 스프라이트 있음");
+            _nameToSprite = DigimonDB.Instance.GetDigimonSprites();
+        }
+
+
+        else
+        {
+            Debug.Log("DB에 스프라이트 없음");
+            _spriteHandle = Addressables.LoadAssetsAsync<Sprite>("DigimonSprites", null);
+            await _spriteHandle.Task;
+            if (_spriteHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                IList<Sprite> list = _spriteHandle.Result;
+
+                foreach (Sprite sprite in list)
+                {
+                    _nameToSprite[sprite.name] = sprite;
+                }
+            }
+            else
+            {
+                Debug.Log("로드 실패");
+            }
+        }
+    }
+
+    public void HidePlayerPanel()
+    {
+        _attackPanel.SetActive(false);
+        //_statusPanel.SetActive(false);
+    }
+
+    public void ShowInputMode()
+    {
+        _attackPanel.SetActive(true);
+        _statusPanel.SetActive(true);
+    }
+
+    public void ShowTargetNumber()
+    {
+        for (int i = 0; i < _battleManager.EnemyStatusList.Count; i++)
+        {
+            if (_battleManager.EnemyStatusList[i].CurrentHP <= 0)
+            {
+                continue;
+            }
+
+            Vector3 pos = _battleManager.EnemyStatusList[i].transform.position + Vector3.up * _heightOffset;
+            _numberList[i].SetActive(true);
+            _numberList[i].transform.position = pos;
+        }
+    }
+
+    public void HideTargetNumber()
+    {
+        for (int i = 0; i < _numberList.Count; i++)
+        {
+            _numberList[i].SetActive(false);
+        }
+    }
+
+    public void UpdateEnemyHP()
+    {
+        for (int i = 0; i < _enemyHPList.Count; i++)
+        {
+            DigimonStatus status = BattleManager.Instance.EnemyStatusList[i];
+            _enemyHPList[i].fillAmount = (float)status.CurrentHP / (float)status.HP;
+        }
+    }
+
+    public void UpdatePlayer()
+    {
+        DigimonStatus status = BattleManager.Instance.PlayerStatusList[0];
+        _hpText.text = $"HP : {status.CurrentHP} / {status.HP}";
     }
 }

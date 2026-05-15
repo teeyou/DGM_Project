@@ -254,15 +254,18 @@ public class FieldUIController : Singleton<FieldUIController>
     public void ToggleHUDCanvas(bool enabled)
     {
         _HUDCanvas.SetActive(enabled);
+        Debug.Log($"_HUDCanvas : {enabled}");
     }
 
     public void ToggleMiniMapCanvas(bool enabled)
     {
         _MiniMapCanvas.SetActive(enabled);
+        Debug.Log($"_MiniMapCanvas : {enabled}");
     }
 
     public void ToggleFieldCanvas(bool enabled)
     {
+        Debug.Log($"ToggleFieldCanvas : {enabled}");
         ToggleHUDCanvas(enabled);
         ToggleMiniMapCanvas(enabled);
     }

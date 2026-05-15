@@ -11,6 +11,7 @@ public enum EAttribute
     Data,
     Virus,
     Free,
+    Unknown,
 }
 
 public enum EType
@@ -40,7 +41,6 @@ public class DigimonDB : Singleton<DigimonDB>
     private Dictionary<string, EnemyStatusData> _nameToEnemyStatusData = new Dictionary<string, EnemyStatusData>();
 
     private Dictionary<string, GrowthType> _growthTypeToGrowthType = new Dictionary<string, GrowthType>();
-    private Dictionary<int, EvoTree> _idToEvoTree = new Dictionary<int, EvoTree>();
 
     private ExcelReader _excelReader = new ExcelReader();
 
@@ -94,12 +94,6 @@ public class DigimonDB : Singleton<DigimonDB>
         {
             _growthTypeToGrowthType[_excelReader.GrowthTypeList[i].Type] = _excelReader.GrowthTypeList[i];
         }
-
-        // EvoTree
-        for (int i = 0; i < _excelReader.EvoTreeList.Count; i++)
-        {
-            _idToEvoTree[_excelReader.EvoTreeList[i].ID] = _excelReader.EvoTreeList[i];
-        }
     }
 
     public StatusData GetStatusDataByName(string name)
@@ -138,13 +132,6 @@ public class DigimonDB : Singleton<DigimonDB>
         if (_growthTypeToGrowthType.TryGetValue(growthType, out GrowthType growth))
             return growth;
 
-        return null;
-    }
-
-    public EvoTree GetEvoTreeById(int id)
-    {
-        if (_idToEvoTree.TryGetValue(id, out EvoTree evo))
-            return evo;
         return null;
     }
 

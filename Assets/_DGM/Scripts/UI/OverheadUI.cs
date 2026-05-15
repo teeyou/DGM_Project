@@ -43,14 +43,13 @@ public class OverheadUI : MonoBehaviour
             EnemyStatusData data = DigimonDB.Instance.GetEnemyStatusDataById(5001 + i);
 
             GrowthType growthType = DigimonDB.Instance.GetGrowthType(data.GrowthType);
-            EvoTree evoTree = DigimonDB.Instance.GetEvoTreeById(5001 + i);
 
-            enemyStatus.Init(data, growthType, evoTree);
+            enemyStatus.Init(data, growthType);
 
             GameObject overheadUI = Instantiate(_overheadUIPrefab, enemy.transform.position, _overheadUIPrefab.transform.rotation, transform);
 
             TMP_Text nameText = overheadUI.transform.GetChild(0).GetComponent<TMP_Text>(); // Name
-            //TMP_Text attrText = overheadUI.transform.GetChild(1).GetComponent<TMP_Text>(); // Attribute
+
             string name = $"Lv.{data.Level} {enemyStatus.DigimonNameKor} ";
 
             string attr = enemyStatus.Attr.ToString().Substring(0, 2);
@@ -59,11 +58,12 @@ public class OverheadUI : MonoBehaviour
             {
                 string colorCode = enemyStatus.Attr switch
                 {
-                    EAttribute.Vaccine => "#00FF00",
-                    EAttribute.Data => "#00C0FF",
-                    EAttribute.Virus => "#FF0000",
-                    EAttribute.Free => "FFFF00",
-                    _ => "#FFFFFF",
+                    EAttribute.Vaccine => ColorTable.Green,
+                    EAttribute.Data => ColorTable.Sky,
+                    EAttribute.Virus => ColorTable.Red,
+                    EAttribute.Free => ColorTable.Yellow,
+                    EAttribute.Unknown => ColorTable.Purple,
+                    _ => ColorTable.White,
                 };
 
                 name += $"<color={colorCode}>{enemyStatus.Attr.ToString().Substring(0, 2)}</color>";
