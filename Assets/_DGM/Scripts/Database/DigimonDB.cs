@@ -17,10 +17,10 @@ public enum EAttribute
 public enum EType
 {
     None,
-    Fight,      // 투지
-    Endurance,  // 인내
-    Insight,    // 통찰
-    Agility     // 민첩
+    Fight,      // 투지 - 랜덤으로 데미지 0 ~ 10% 증가
+    Endurance,  // 인내 - 방어 선택시 랜덤으로 0 ~ 10 증가
+    Insight,    // 통찰 - 크리티컬 확률 10% 증가
+    Agility     // 민첩 - 회피율 5% 증가 , 행동력 +1 증가
 }
 
 public enum EGrade
@@ -94,6 +94,13 @@ public class DigimonDB : Singleton<DigimonDB>
         {
             _growthTypeToGrowthType[_excelReader.GrowthTypeList[i].Type] = _excelReader.GrowthTypeList[i];
         }
+
+        // LevelExpData
+        for (int i = 0; i < _excelReader.LevelExpDataList.Count; i++)
+        {
+            LevelExpData data = _excelReader.LevelExpDataList[i];
+            LevelSystem.Instance.CacheLevelExpData(data.Level, data.RequiredEXP);
+        }
     }
 
     public StatusData GetStatusDataByName(string name)
@@ -137,7 +144,7 @@ public class DigimonDB : Singleton<DigimonDB>
 
     public Sprite GetDigimonSprite(string digimonName)
     {
-        if (_nameToSprite.TryGetValue(digimonName, out Sprite sprite))
+        if (_nameToSprite.TryGetValue(digimonName + "Sprite", out Sprite sprite))
             return sprite;
         else
             return null; 

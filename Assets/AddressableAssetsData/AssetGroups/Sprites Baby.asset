@@ -17,20 +17,62 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 10fcc39fcb3324a49bedba5bcf0ac95f
   m_SerializeEntries:
+  - m_GUID: 22035ee1a1cf51541b686497bc2b5010
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/TsunomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5627c2d0d6747cf439ce9547a63cbdf7
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/YokomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 585e6b5167f4b934ebf5e01cbb104b04
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/TanemonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70db3403cbf68d3448a209184fd32e24
-    m_Address: Bukamon
+    m_Address: BukamonSprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7252806777b86724d8965eb4293997ce
-    m_Address: Motimon
+    m_Address: MotimonSprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: abd493d2b6a48cd4283977059a2569dc
-    m_Address: Koromon
+    m_Address: KoromonSprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcefcef615fd2274b91ba7051ce8f892
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/PagumonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3b6ea62937d21541bf1e4c99a6298dd
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/TokomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb45d386a3e6b014eab8042ae656608d
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/NyaromonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f332c40732b256c4ba915df3c64ae7bd
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Baby/TsumemonSprite.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites

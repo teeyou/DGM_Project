@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: VFX_Skill
+  m_EditorClassIdentifier: 
+  m_GroupName: VFX_Skill
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c3f08aa1b66557646ab1bbce630f0826
+  m_SerializeEntries:
+  - m_GUID: 7eec64b8866b1a5499b81fdc37206db3
+    m_Address: GuilmonSkill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3667f5f7a5fe694094696b7c164509d
+    m_Address: AgumonSkill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0cda02d28558f5542a12a4b81e9957d9, type: 2}
+    - {fileID: 11400000, guid: a76e7931e473efb4f9871a7bd49f5e77, type: 2}

@@ -56,17 +56,9 @@ public class OverheadUI : MonoBehaviour
             
             if (attr != "No")
             {
-                string colorCode = enemyStatus.Attr switch
-                {
-                    EAttribute.Vaccine => ColorTable.Green,
-                    EAttribute.Data => ColorTable.Sky,
-                    EAttribute.Virus => ColorTable.Red,
-                    EAttribute.Free => ColorTable.Yellow,
-                    EAttribute.Unknown => ColorTable.Purple,
-                    _ => ColorTable.White,
-                };
+                string colorCode = ColorTable.GetColor(attr);
 
-                name += $"<color={colorCode}>{enemyStatus.Attr.ToString().Substring(0, 2)}</color>";
+                name += $"<color={colorCode}>{attr}</color>";
             }
             
             nameText.text = name;

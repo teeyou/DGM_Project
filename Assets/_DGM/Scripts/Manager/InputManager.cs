@@ -19,7 +19,7 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _esc;
     [SerializeField] private InputActionReference _questOpen;       // Q
     [SerializeField] private InputActionReference _interact;        // F
-
+    [SerializeField] private InputActionReference _digivice;        // D
 
     [SerializeField] private InputActionReference _battleLeft;
     [SerializeField] private InputActionReference _battleRight;
@@ -52,7 +52,7 @@ public class InputManager : Singleton<InputManager>
 
     public event Action<bool> OnQuestOpen;  //Q
     public event Action<bool> OnInteract;   //F
-
+    public event Action<bool> OnDigivice;   //D
     public event Action<bool> OnEsc;        //ESC
     public event Action<bool> OnMenuEsc;        //ESC
 
@@ -149,6 +149,9 @@ public class InputManager : Singleton<InputManager>
 
         if (_interact == null || _interact.action == null)
             return;
+        
+        if (_digivice == null || _interact.action == null)
+            return;
 
         if (_esc == null || _esc.action == null)
             return;
@@ -219,6 +222,8 @@ public class InputManager : Singleton<InputManager>
 
         _interact.action.started += OnInteractStarted;
         _interact.action.canceled += OnInteractCanceled;
+
+        _digivice.action.started += OnDigiviceStarted;
 
         _esc.action.started += OnEscStarted;
         _esc.action.canceled += OnEscCanceled;
@@ -308,6 +313,11 @@ public class InputManager : Singleton<InputManager>
             _interact.action.canceled -= OnInteractCanceled;
         }
 
+        if (_digivice != null && _digivice.action != null)
+        {
+            _digivice.action.started -= OnInteractStarted;
+        }
+
         if (_esc != null && _esc.action != null)
         {
             _esc.action.started -= OnEscStarted;
@@ -391,6 +401,7 @@ public class InputManager : Singleton<InputManager>
             _questOpen.action.Enable();
             _interact.action.Enable();
             _esc.action.Enable();
+            _digivice.action.Enable();
             EnableMenuUI(true);
             EnableBattle(true);
         }
@@ -403,6 +414,7 @@ public class InputManager : Singleton<InputManager>
             _questOpen.action.Disable();
             _interact.action.Disable();
             _esc.action.Disable();
+            _digivice.action.Disable();
             EnableMenuUI(false);
             EnableBattle(false);
         }
@@ -508,6 +520,12 @@ public class InputManager : Singleton<InputManager>
     {
         OnInteract?.Invoke(false);
     }
+
+    private void OnDigiviceStarted(InputAction.CallbackContext context)
+    {
+        OnDigivice?.Invoke(true);
+    }
+
 
     private void OnEscStarted(InputAction.CallbackContext context)
     {

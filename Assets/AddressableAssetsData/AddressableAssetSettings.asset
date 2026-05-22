@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b6c74a6dcb15fe74da7c261a14504148
   m_currentHash:
     serializedVersion: 2
-    Hash: 6d66daffc0debdeead33030e3f0cec45
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d68bdbaf4aa78c14bb24a64877d7e731, type: 2}
   - {fileID: 11400000, guid: aa678665370640f4a96395c20e2062f2, type: 2}
   - {fileID: 11400000, guid: 2e459078da1ebbf4ba90d18c70c07169, type: 2}
+  - {fileID: 11400000, guid: abe5117240fd0ec499e54b0b6ec614cf, type: 2}
   - {fileID: 11400000, guid: d9cb0bf8bdcd23d4f8d5ec06c77f6a2e, type: 2}
   - {fileID: 11400000, guid: 9966cc3a4235ac14ab5aee381cc531a6, type: 2}
   - {fileID: 11400000, guid: e82c9e2990494fd4ab41130158cb2650, type: 2}
@@ -55,9 +56,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f02e372eb7b1ddd4e8cf3dc02a24570e, type: 2}
   - {fileID: 11400000, guid: 994e5c0244cb0594da61c8ca05006acc, type: 2}
   - {fileID: 11400000, guid: 99aefa19babc34243bcc983c7d79f4db, type: 2}
+  - {fileID: 11400000, guid: 26f3f99d7dd8637429fb9d5dbef036d6, type: 2}
   - {fileID: 11400000, guid: 62d8d3535d48bfa4b9e0da2ae3309243, type: 2}
   - {fileID: 11400000, guid: 13aee96b637b6fb44a025d0c5c5b0305, type: 2}
   - {fileID: 11400000, guid: f72514199882be74488065aed4e71cf4, type: 2}
+  - {fileID: 11400000, guid: 6adb672df55fed641ad1f3ce6d8eb42b, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -102,6 +105,9 @@ MonoBehaviour:
     - BGM
     - SFX
     - DigimonSprites
+    - VFX_Hit
+    - VFX_Attack
+    - VFX_Skill
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3d2611dbb8c2f984484d78109e013d0c, type: 2}

@@ -30,6 +30,9 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     void Update()
     {
+        if (SceneLoader.Instance.IsLoading)
+            return;
+
         if (!_isMoving)
         {
             _timer -= Time.deltaTime;
@@ -81,14 +84,22 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     public void Interact(GameObject target)
     {
-        Debug.Log("적 디지몬 상호작용");
-        Debug.Log($"_partyList.Count : {_partyList.Count}");
-        for (int i = 0; i < _partyList.Count; i++)
+        //Debug.Log($"_partyList.Count : {_partyList.Count}");
+
+        int rand = Random.Range(1, 4);
+        Debug.Log($"적 디지몬 추가 : {rand}");
+        for (int i = 0; i < rand; i++)
         {
-            int id = _partyList[i];
+            int id = _partyList[0];
             GameManager.Instance.AddBattleList(id);
-            Debug.Log($"GameManage.GetBattleList : {GameManager.Instance.GetBattleList().Count}");
         }
+
+        //for (int i = 0; i < _partyList.Count; i++)
+        //{
+        //    int id = _partyList[i];
+        //    GameManager.Instance.AddBattleList(id);
+        //    Debug.Log($"GameManage.GetBattleList : {GameManager.Instance.GetBattleList().Count}");
+        //}
 
         FieldUIController.Instance.ToggleFieldCanvas(false);
         InputManager.Instance.SwitchToBattleMap();

@@ -18,11 +18,23 @@ public static class DamageCalculator
         float skillPower = isSkill ? 2f : 1f;
         float criticalRate = isSkill? actor.CriticalRate + 0.1f : actor.CriticalRate;   // 스킬 사용시 치명타 확률 10% 증가
 
-        float damage = ((actor.ATK * 25) / (target.DEF + 25)) 
+        float damage = ((actor.ATK * 25) / (Mathf.Sqrt(target.DEF) + 25))
             * GetGradeMultiplier(actor.Grade, target.Grade) 
             * GetLevelMultiplier(actor.Level, target.Level) 
             * skillPower
             * GetAttrMultiplier(actor.Attr,target.Attr);
+
+        // 타입이 통찰이면 크리티컬확률 10% 증가
+        if (actor.Type == EType.Insight)
+        {
+            criticalRate += 0.1f;
+        }
+
+        // 타입이 투지이면 데미지 10% 증가
+        else if (actor.Type == EType.Fight)
+        {
+            damage *= 1.1f;
+        }
 
         float rand = Random.Range(0f, 1f);
 
@@ -42,14 +54,14 @@ public static class DamageCalculator
         if (actor == target)
             return 1f;
         else if (actor < target)
-            return 0.75f;
+            return 0.9f;
         else
-            return 1.25f;
+            return 1.1f;
     }
 
     private static float GetLevelMultiplier(int actor, int target)
     {
-        float value = 1 + (actor - target) * 0.05f;         //레벨 1당 5프로
+        float value = 1 + (actor - target) * 0.03f;         //레벨 1당 3프로
         value = Mathf.Clamp(value, 0.5f, 2f);
         return value;
     }

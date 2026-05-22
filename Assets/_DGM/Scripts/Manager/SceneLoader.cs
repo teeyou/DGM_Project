@@ -177,6 +177,8 @@ public class SceneLoader : Singleton<SceneLoader>
                 GameManager.Instance.SetPlayerActive(true);
                 GameManager.Instance.TogglePlayerMoveController(true);
 
+                FieldUIController.Instance.UpdateStatus();
+
                 await UniTask.Delay(_delay);
 
                 await FadeInOut.Instance.FadeOutAsync();

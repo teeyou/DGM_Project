@@ -17,20 +17,116 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d1d5d8d52c578594695588ade9a2303e
   m_SerializeEntries:
+  - m_GUID: 0019f06908f405b48b7edb97b69292aa
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/TerriermonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 060dff35fb20b474483ebd6fdd974200
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/KeramonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06d50a6f5aa6c1a4db46b100fee038e8
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/DemiDevimonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08666a29e4e2b694eb6c0ec26c27f66e
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/LucemonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1134c9dd05b840e4380004647f7681ba
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/GazimonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e93111825599a242bf64d9b7291635b
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/GabumonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3979013ceb61b464eb5b0cabf84d9a1e
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/ImpmonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d8b263086ceaee4fa3ffba2944a8fe8
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/DorumonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 42f27b5c24ae5904f860d852b3b7770d
-    m_Address: Guilmon
+    m_Address: GuilmonSprite
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4612723c187695645a8b62f43ea59c64
-    m_Address: Veemon
+    m_Address: VeemonSprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56815e52241ba3640b6c5beec5c7cc9d
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/PalmonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6742062f65b692945aeea11712faf011
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/RenamonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95b1a3394e1418f49a809daed547c9a0
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/PatamonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b772839c27dab84680ec2e493693bf4
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/LopmonSprite.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9739a6d82a07ff48af47b7b255a8400
-    m_Address: Agumon
+    m_Address: AgumonSprite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d553b02da8447c040969b9ac14fb01e7
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/GomamonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d89d6f8b85a7a694080bc326d67e6b2e
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/BiyomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ded7527966f0ac74c8a568cc003c0c01
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/TentomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f105391bc4c622a42a55d61ca62d391a
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Rookie/SalamonSprite.png
     m_ReadOnly: 0
     m_SerializedLabels:
     - DigimonSprites

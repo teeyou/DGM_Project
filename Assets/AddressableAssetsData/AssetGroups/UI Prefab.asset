@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 2d648d0131206f6468eafeeb18252743
   m_SerializeEntries:
+  - m_GUID: 80802f5ad1a7b5d45b46fcd75ef61bf2
+    m_Address: TurnPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ee94aec213fa26e4d8be7e2df6cea60b
     m_Address: EnemyStatus
     m_ReadOnly: 0

@@ -12,6 +12,7 @@
     <type fullname="DigimonStatusSO" preserve="all" />
     <type fullname="DollyCameraMove" preserve="all" />
     <type fullname="DontDestory" preserve="all" />
+    <type fullname="EffectManager" preserve="all" />
     <type fullname="EnemyFieldMove" preserve="all" />
     <type fullname="EventChannel" preserve="all" />
     <type fullname="EvolutionValueSO" preserve="all" />
@@ -20,11 +21,13 @@
     <type fullname="GameManager" preserve="all" />
     <type fullname="GrowthValueSO" preserve="all" />
     <type fullname="InputManager" preserve="all" />
+    <type fullname="LevelSystem" preserve="all" />
     <type fullname="MiniMapCamera" preserve="all" />
     <type fullname="MoveController" preserve="all" />
     <type fullname="NPC" preserve="all" />
     <type fullname="OverheadUI" preserve="all" />
     <type fullname="PlayerSpawner" preserve="all" />
+    <type fullname="Projectile" preserve="all" />
     <type fullname="QuestManager" preserve="all" />
     <type fullname="SceneLoader" preserve="all" />
     <type fullname="SceneTransition" preserve="all" />
@@ -32,6 +35,7 @@
     <type fullname="GrowthType" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Cinemachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Cinemachine.CinemachineBasicMultiChannelPerlin" preserve="all" />
     <type fullname="Cinemachine.CinemachineBrain" preserve="all" />
     <type fullname="Cinemachine.CinemachineComposer" preserve="all" />
     <type fullname="Cinemachine.CinemachinePipeline" preserve="all" />
@@ -39,6 +43,7 @@
     <type fullname="Cinemachine.CinemachineTrackedDolly" preserve="all" />
     <type fullname="Cinemachine.CinemachineTransposer" preserve="all" />
     <type fullname="Cinemachine.CinemachineVirtualCamera" preserve="all" />
+    <type fullname="Cinemachine.NoiseSettings" preserve="all" />
     <type fullname="Cinemachine.CinemachineBlendDefinition" preserve="nothing" serialized="true" />
     <type fullname="Cinemachine.CinemachineBrain/BrainEvent" preserve="nothing" serialized="true" />
     <type fullname="Cinemachine.CinemachineBrain/VcamActivatedEvent" preserve="nothing" serialized="true" />
@@ -47,6 +52,8 @@
     <type fullname="Cinemachine.CinemachinePathBase/Appearance" preserve="nothing" serialized="true" />
     <type fullname="Cinemachine.CinemachineSmoothPath/Waypoint" preserve="nothing" serialized="true" />
     <type fullname="Cinemachine.CinemachineTrackedDolly/AutoDolly" preserve="nothing" serialized="true" />
+    <type fullname="Cinemachine.NoiseSettings/NoiseParams" preserve="nothing" serialized="true" />
+    <type fullname="Cinemachine.NoiseSettings/TransformNoiseParams" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
     <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />

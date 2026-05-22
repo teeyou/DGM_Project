@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private string _returnSceneName;
 
     private List<GameObject> _playerDigimonList = new List<GameObject>();
-    private List<DigimonStatus> _playerDigimonStatusList = new List<DigimonStatus>();
+    [SerializeField] private List<DigimonStatus> _playerDigimonStatusList = new List<DigimonStatus>();
 
     [SerializeField] private List<int> _battleList = new List<int>();
     
@@ -65,6 +65,7 @@ public class GameManager : Singleton<GameManager>
     {
         _playerDigimonList.Add(digimon);
         _playerDigimonStatusList.Add(status);
+
     }
 
     public IReadOnlyList<GameObject> GetDigimonList()

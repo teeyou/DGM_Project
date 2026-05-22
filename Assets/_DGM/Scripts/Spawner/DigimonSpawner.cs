@@ -120,7 +120,20 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
         status.Init(GameManager.Instance.GetDigimonStatus(idx));
 
+        string typeName = key + "Attack";
+        System.Type type = System.Type.GetType(typeName);
+
+        if (type != null)
+        {
+            go.AddComponent(type);
+        }
+        else
+        {
+            Debug.LogError($"AddComponent {typeName} ½ÇÆÐ ");
+        }
+
         OnPlayerDigimonSpawned?.Invoke(go, status);
+
     }
 
     private async UniTaskVoid LoadAndSpawnPlayerDigimon(int idx, string prefabKey, Vector3 pos, Quaternion rot)
@@ -146,13 +159,15 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             _keyToPrefab[prefabKey] = digimonPrefab;
             _handleList.Add(prefabHandle);
 
-            GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
+            SpawnDigimon(idx, prefabKey, pos, rot);
 
-            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
+            //GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
 
-            status.Init(GameManager.Instance.GetDigimonStatus(idx));
+            //DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
 
-            OnPlayerDigimonSpawned?.Invoke(digimonGo, status);
+            //status.Init(GameManager.Instance.GetDigimonStatus(idx));
+
+            //OnPlayerDigimonSpawned?.Invoke(digimonGo, status);
         }
 
         catch (OperationCanceledException)

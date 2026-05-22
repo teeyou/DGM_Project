@@ -6,6 +6,12 @@ using System.Data;
 using System.IO;
 using UnityEngine;
 
+public class LevelExpData
+{
+    public int Level;
+    public int RequiredEXP;
+}
+
 [Serializable]
 public class GrowthType
 {
@@ -34,6 +40,7 @@ public class StatusData
     public int BaseINT;
     public int BaseSPD;
     public string GrowthType;
+    public string KorGrowthType;
     public int Evo;
 }
 
@@ -50,6 +57,7 @@ public class ExcelReader
     public List<StatusData> StatusList { get; private set; } = new List<StatusData>();
     public List<EnemyStatusData> EnemyStatusList { get; private set; } = new List<EnemyStatusData>();
     public List<GrowthType> GrowthTypeList { get; private set; } = new List<GrowthType>();
+    public List<LevelExpData> LevelExpDataList { get; private set; } = new List<LevelExpData>();
 
     private string FilePath => Path.Combine(Application.streamingAssetsPath, "digimon.xlsx");
 
@@ -72,6 +80,8 @@ public class ExcelReader
         LoadSheet("EnemyStatus");
 
         LoadSheet("GrowthType");
+
+        LoadSheet("LevelExp");
     }
 
     private void LoadSheet(string sheetName)
@@ -93,6 +103,8 @@ public class ExcelReader
         else if (sheetName == "GrowthType")
             ParseGrowthTypeSheet(table);
 
+        else if (sheetName == "LevelExp")
+            ParseLevelExpSheet(table);
     }
 
     private void ParseEnemyStatusSheet(DataTable table)
@@ -116,6 +128,7 @@ public class ExcelReader
                 BaseINT = int.Parse(row["BaseINT"].ToString()),
                 BaseSPD = int.Parse(row["BaseSPD"].ToString()),
                 GrowthType = row["GrowthType"].ToString(),
+                KorGrowthType = row["KorGrowthType"].ToString(),
                 Evo = int.Parse(row["Evo"].ToString()),
                 Level = int.Parse(row["Level"].ToString()),
                 EXP = int.Parse(row["EXP"].ToString())
@@ -145,6 +158,7 @@ public class ExcelReader
                 BaseINT = int.Parse(row["BaseINT"].ToString()),
                 BaseSPD = int.Parse(row["BaseSPD"].ToString()),
                 GrowthType = row["GrowthType"].ToString(),
+                KorGrowthType = row["KorGrowthType"].ToString(),
                 Evo = int.Parse(row["Evo"].ToString()),
             };
             StatusList.Add(data);
@@ -165,6 +179,20 @@ public class ExcelReader
                 SPDInc = int.Parse(row["SPDInc"].ToString())
             };
             GrowthTypeList.Add(growthType);
+        }
+    }
+
+    private void ParseLevelExpSheet(DataTable table)
+    {
+        foreach (DataRow row in table.Rows)
+        {
+            LevelExpData data = new LevelExpData()
+            {
+                Level = int.Parse(row["Level"].ToString()),
+                RequiredEXP = int.Parse(row["EXP"].ToString())
+            };
+
+            LevelExpDataList.Add(data);
         }
     }
 }

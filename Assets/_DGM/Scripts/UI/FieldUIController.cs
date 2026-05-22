@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ENPC
 {
@@ -36,6 +37,14 @@ public class FieldUIController : Singleton<FieldUIController>
     [SerializeField] private GameObject _gameMenuGo;
     [SerializeField] private GameObject _gameMenuButtonGo;
     [SerializeField] private GameObject _questButtonGo;
+
+    [SerializeField] private GameObject _digimonStatusPanel;
+    [SerializeField] private List<GameObject> _digimonStatusList;
+    [SerializeField] private SlideAnim _digimonStatusSlideAnim;
+    private bool _isShowDigimonStatus = false;
+    
+    private bool _isShowMessage = false;
+
     public int _dialogueIndex = 0;
 
     private InputManager _input;
@@ -43,6 +52,8 @@ public class FieldUIController : Singleton<FieldUIController>
     private bool _isQPressed = false;
 
     private bool _isShowQuestDetail = false;
+
+    public bool IsShowDigimonStatus => _isShowDigimonStatus;
 
     protected override void Awake()
     {
@@ -183,11 +194,16 @@ public class FieldUIController : Singleton<FieldUIController>
 
     public void ShowMessage(string msg)
     {
+        if (_isShowMessage)
+            return;
+
         ShowMessageAsync(msg).Forget();
     }
 
     private async UniTaskVoid ShowMessageAsync(string msg)
     {
+        _isShowMessage = true;
+
         _dialogueFKeyOuter.SetActive(false);
         _dialoguePanelGo.SetActive(true);
         _dialogueText.text = msg;
@@ -196,6 +212,8 @@ public class FieldUIController : Singleton<FieldUIController>
 
         _dialoguePanelGo.SetActive(false);
         _dialogueFKeyOuter.SetActive(true);
+
+        _isShowMessage = false;
     }
 
     public void ShowCurrentQuest()
@@ -212,18 +230,6 @@ public class FieldUIController : Singleton<FieldUIController>
             _questDescription.text = currentQuest.Description;
         }
     }
-
-    //public void ShowGameMenu()
-    //{
-    //    _gameMenuGo.SetActive(true);
-    //    _input.SwitchToMenuUIMap();
-    //}
-
-    //public void HideGameMenu()
-    //{
-    //    _gameMenuGo.SetActive(false);
-    //    _input.SwitchToPlayerMap();
-    //}
 
     public void ToggleGameMenu(bool enabled)
     {
@@ -268,5 +274,151 @@ public class FieldUIController : Singleton<FieldUIController>
         Debug.Log($"ToggleFieldCanvas : {enabled}");
         ToggleHUDCanvas(enabled);
         ToggleMiniMapCanvas(enabled);
+    }
+
+    public void ToggleDigimonStatus()
+    {
+        IReadOnlyList<DigimonStatus> list = GameManager.Instance.GetDigimonStatusList();
+
+        if (list == null || list.Count <= 0)
+        {
+            ShowMessage("보유한 디지몬이 없습니다.\n퀘스트를 완료하세요.");
+            return;
+        }
+
+        if (_isShowDigimonStatus)
+        {
+            _digimonStatusSlideAnim.SlideOut();
+            _isShowDigimonStatus = false;
+            //_digimonStatusPanel.SetActive(false);
+        }
+        else
+        {
+            _isShowDigimonStatus = true;
+            for (int i = 0; i < _digimonStatusList.Count; i++)
+            {
+                if (i < list.Count)
+                {
+                    SetContents(_digimonStatusList[i], i);
+                    _digimonStatusList[i].SetActive(true);
+
+                    Debug.Log($"{i}번째 리스트 패널 활성화");
+                }
+                else
+                {
+                    _digimonStatusList[i].SetActive(false);
+
+                    Debug.Log($"{i}번째 리스트 패널 비활성화");
+                }
+            }
+
+            //_digimonStatusPanel.SetActive(true);
+            _digimonStatusSlideAnim.SlideIn();
+        }
+    }
+
+    public void UpdateStatus()
+    {
+        // 씬로더에서 isReturn일 때 호출
+        // 화면에 보여지는 상태일때만 업데이트
+        if (!_isShowDigimonStatus)
+            return;
+
+        IReadOnlyList<DigimonStatus> list = GameManager.Instance.GetDigimonStatusList();
+
+        for (int i = 0; i < _digimonStatusList.Count; i++)
+        {
+            if (i < list.Count)
+            {
+                SetContents(_digimonStatusList[i], i);
+            }
+        }
+    }
+
+    private void SetContents(GameObject statusPanel, int idx)
+    {
+        TMP_Text[] texts = statusPanel.GetComponentsInChildren<TMP_Text>();
+        Image[] imgs = statusPanel.GetComponentsInChildren<Image>();
+        DigimonStatus status = GameManager.Instance.GetDigimonStatus(idx);
+
+        // 텍스트 세팅
+        for (int i = 0; i < texts.Length; i++)
+        {
+            if (texts[i].name == "Name")
+            {
+                texts[i].text = $"{status.DigimonNameKor}";
+            }
+
+            else if (texts[i].name == "Level")
+            {
+                texts[i].text = $"레벨 : {status.Level.ToString()}";
+            }
+
+            else if (texts[i].name == "Grade")
+            {
+                texts[i].text = $"등급 : {status.GradeKor}";
+            }
+
+            else if (texts[i].name == "Attr")
+            {
+                string attr = status.Attr.ToString().Substring(0, 2);
+                string colorCode = ColorTable.GetColor(attr);
+                texts[i].text = $"속성 : <color={colorCode}>{attr}</color>";
+            }
+
+            else if (texts[i].name == "Type")
+            {
+                texts[i].text = $"타입 : {status.TypeKor}";
+            }
+
+            else if (texts[i].name == "Growth")
+            {
+                texts[i].text = $"성장 : {status.GrowthTypeKor}";
+            }
+
+            else if (texts[i].name == "HP")
+            {
+                texts[i].text = $"HP : {status.HP}";
+            }
+
+            else if (texts[i].name == "ATK")
+            {
+                texts[i].text = $"ATK : {status.ATK}";
+            }
+
+            else if (texts[i].name == "DEF")
+            {
+                texts[i].text = $"DEF : {status.DEF}";
+            }
+
+            else if (texts[i].name == "INT")
+            {
+                texts[i].text = $"INT : {status.INT}";
+            }
+
+            else if (texts[i].name == "SPD")
+            {
+                texts[i].text = $"SPD : {status.SPD}";
+            }
+
+            else if (texts[i].name == "EXP")
+            {
+                texts[i].text = $"{status.EXP} / {status.RequiredEXP}";
+            }
+        }
+
+        // 이미지 세팅
+        for (int i = 0; i < imgs.Length; i++)
+        {
+            if (imgs[i].name == "Sprite")
+            {
+                imgs[i].sprite = DigimonDB.Instance.GetDigimonSprite(status.DigimonName);
+            }
+
+            else if (imgs[i].name == "ExpFront")
+            {
+                imgs[i].fillAmount = (float)status.EXP / (float)status.RequiredEXP;
+            }
+        }
     }
 }

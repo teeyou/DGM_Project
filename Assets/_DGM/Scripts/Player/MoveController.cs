@@ -61,6 +61,7 @@ public class MoveController : MonoBehaviour
             _input.OnMove += HandleMove;
             _input.OnInteract += HandleInteract;
             _input.OnEsc += HandleEsc;
+            _input.OnDigivice += HandleDigivice;
         }
 
         if (_input != null)
@@ -79,6 +80,7 @@ public class MoveController : MonoBehaviour
         _input.OnMove -= HandleMove;
         _input.OnInteract -= HandleInteract;
         _input.OnEsc -= HandleEsc;
+        _input.OnDigivice -= HandleDigivice;
     }
 
     private async UniTask BindInputManagerAsync(CancellationToken token)
@@ -91,6 +93,7 @@ public class MoveController : MonoBehaviour
             _input.OnMove += HandleMove;
             _input.OnInteract += HandleInteract;
             _input.OnEsc += HandleEsc;
+            _input.OnDigivice += HandleDigivice;
             _input.SwitchToPlayerMap();
 
             Debug.Log("BindInputManagerAsync ¿Ï·á");
@@ -141,18 +144,6 @@ public class MoveController : MonoBehaviour
         {
             _interactable = other.transform.GetComponent<IInteractable>();
         }
-
-        //if (_interactable != null)
-        //{
-        //    if (other.tag == "NPC")
-        //    {
-        //        FieldUIController.Instance.ToggleInteractButton(true);
-        //    }
-        //    else if (other.tag == "Enemy")
-        //    {
-        //        FieldUIController.Instance.ToggleInteractCombatButton(true);
-        //    }
-        //}
     }
 
     private void OnTriggerStay(Collider other)
@@ -306,5 +297,10 @@ public class MoveController : MonoBehaviour
             return;
 
         FieldUIController.Instance.ToggleGameMenu(true);
+    }
+
+    private void HandleDigivice(bool isPressed)
+    {
+        FieldUIController.Instance.ToggleDigimonStatus();
     }
 }
