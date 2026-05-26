@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DigimonStatus : MonoBehaviour
 {
+    private const int DELAY_MESSAGE_TIME = 1500;
+
     [SerializeField] private int id;
     [SerializeField] private string digimonNameKor;
     [SerializeField] private string digimonName;
@@ -202,11 +204,11 @@ public class DigimonStatus : MonoBehaviour
             string s = "이미 기절했다.";
             BattleUIManager.Instance.ShowBattleMsg(true, s);
 
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
 
             BattleUIManager.Instance.ShowBattleMsg(false);
 
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
             return;
         }
 
@@ -223,11 +225,11 @@ public class DigimonStatus : MonoBehaviour
     
         BattleUIManager.Instance.ShowBattleMsg(true, msg);
 
-        await UniTask.Delay(2000);
+        await UniTask.Delay(DELAY_MESSAGE_TIME);
 
         BattleUIManager.Instance.ShowBattleMsg(false);
 
-        await UniTask.Delay(500);
+        //await UniTask.Delay(500);
 
         BattleManager.Instance.ShowDigimon(target, isEnemy);
 
@@ -242,11 +244,11 @@ public class DigimonStatus : MonoBehaviour
             string s = "이미 기절했다.";
             BattleUIManager.Instance.ShowBattleMsg(true, s);
 
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
 
             BattleUIManager.Instance.ShowBattleMsg(false);
 
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
 
             return;
         }
@@ -264,11 +266,11 @@ public class DigimonStatus : MonoBehaviour
 
         BattleUIManager.Instance.ShowBattleMsg(true, msg);
 
-        await UniTask.Delay(2000);
+        await UniTask.Delay(DELAY_MESSAGE_TIME);
 
         BattleUIManager.Instance.ShowBattleMsg(false);
 
-        await UniTask.Delay(500);
+        //await UniTask.Delay(500);
 
         BattleManager.Instance.ShowDigimon(target, isEnemy);
         (int damage, bool isCritical) = DamageCalculator.Calculate(this, target, true);
@@ -291,11 +293,11 @@ public class DigimonStatus : MonoBehaviour
       
         BattleUIManager.Instance.ShowBattleMsg(true, msg);
 
-        await UniTask.Delay(2000);
+        await UniTask.Delay(DELAY_MESSAGE_TIME);
 
         BattleUIManager.Instance.ShowBattleMsg(false);
 
-        await UniTask.Delay(500);
+        //await UniTask.Delay(500);
     }
 
     public async UniTask Evo()
@@ -352,9 +354,9 @@ public class DigimonStatus : MonoBehaviour
             }
 
             BattleUIManager.Instance.ShowBattleMsg(true, msg);
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
             BattleUIManager.Instance.ShowBattleMsg(false);
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
             return;
         }
 
@@ -386,9 +388,9 @@ public class DigimonStatus : MonoBehaviour
                 : $"<color={ColorTable.Green}>{digimonNameKor}</color> 기절";
 
             BattleUIManager.Instance.ShowBattleMsg(true, msg);
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
             BattleUIManager.Instance.ShowBattleMsg(false);
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
 
             // 경험치 획득 처리
             if (isEnemy)
@@ -425,9 +427,9 @@ public class DigimonStatus : MonoBehaviour
             _animator.SetTrigger("Down");
 
             BattleUIManager.Instance.ShowBattleMsg(true, msg);
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
             BattleUIManager.Instance.ShowBattleMsg(false);
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
         }
         else
         {
@@ -437,9 +439,9 @@ public class DigimonStatus : MonoBehaviour
             _animator.SetTrigger("Hit");
 
             BattleUIManager.Instance.ShowBattleMsg(true, msg);
-            await UniTask.Delay(2000);
+            await UniTask.Delay(DELAY_MESSAGE_TIME);
             BattleUIManager.Instance.ShowBattleMsg(false);
-            await UniTask.Delay(500);
+            //await UniTask.Delay(500);
         }
 
     }

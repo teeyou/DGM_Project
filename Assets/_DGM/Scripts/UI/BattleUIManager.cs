@@ -55,7 +55,7 @@ public class BattleUIManager : Singleton<BattleUIManager>
         SetProfileAsync().Forget();
     }
 
-    public async UniTask RemoveDead(float duration = 0.5f)
+    public async UniTask RemoveDead(float duration = 0.3f)
     {
         if (_statusQueue.Count == 0)
             return;
@@ -84,7 +84,7 @@ public class BattleUIManager : Singleton<BattleUIManager>
     }
 
     // 현재 턴 이동: 큐에서 맨 위 하나만 꺼내서 처리
-    public async UniTask UpdateTurn(float duration = 0.5f)
+    public async UniTask UpdateTurn(float duration = 0.3f)
     {
         if (_statusQueue.Count == 0) 
             return;

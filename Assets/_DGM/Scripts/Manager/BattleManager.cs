@@ -310,6 +310,9 @@ public class BattleManager : Singleton<BattleManager>
     }
     void Update()
     {
+        if (_isFinish)
+            return;
+
         if (_playerStatusList.Count == 0 || _enemyStatusList.Count == 0)
             return;
 
@@ -318,6 +321,7 @@ public class BattleManager : Singleton<BattleManager>
         
         if (!_isBattleReady)
         {
+            Debug.Log("Update 에서 PlayBattle().Forget(); 실행 전");
             _isBattleReady = true;
             PlayBattle().Forget();
         }
@@ -363,15 +367,18 @@ public class BattleManager : Singleton<BattleManager>
             if (_battleCommandList[i].Actor.CurrentHP <= 0)
                 continue;
 
-            await ExecuteCommand(_battleCommandList[i]);
+            await ExecuteCommand(_battleCommandList[i]);    // 액션 끝나고 매번 전투가 끝났는지 체크
+
+            if (_isFinish) // 전투 끝났으면 빠져나옴
+                break;
+
             await BattleUIManager.Instance.RemoveDead();
-            await UniTask.Delay(100);
             await BattleUIManager.Instance.UpdateTurn();
         }
 
         ReadyNextTurn();
 
-        _isFinish = await CheckBattleFinish();
+        //_isFinish = await CheckBattleFinish();
         if (_isFinish)
         {
             // 전투 승리 OR 패배
@@ -504,7 +511,7 @@ public class BattleManager : Singleton<BattleManager>
                 break;
         }
         
-        await CheckBattleFinish();
+        _isFinish = await CheckBattleFinish();
 
     }
 
