@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,5 +26,11 @@ public class NPC : MonoBehaviour, IInteractable
             else
                 FieldUIController.Instance.ShowDialogue(_dialogueList, _npcName.ToString());
         }
+    }
+
+    public async UniTask<bool> TryCapture()
+    {
+        //
+        return false;
     }
 }

@@ -17,8 +17,56 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: cdaed41b76ab399429933b1fb416fa39
   m_SerializeEntries:
+  - m_GUID: 26e0d7acfffc3b9469540f061506b86d
+    m_Address: Assets/_DGM/Audio/SFX/ScreamSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fea607593e35534e870b585f5083537
+    m_Address: Assets/_DGM/Audio/SFX/AngemonSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4221c69d75d80ce42864657ace45da65
+    m_Address: Assets/_DGM/Audio/SFX/MagnamonSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 435e4dcf793d7b547988ccc21b7ed87d
+    m_Address: Assets/_DGM/Audio/SFX/BeamSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d3e5d50ce2c7294998df069917a6d85
+    m_Address: Assets/_DGM/Audio/SFX/FireSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76086c70b6d3bdd49b5b7ba395ad609f
+    m_Address: Assets/_DGM/Audio/SFX/LevelUpSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e7981150ea15cc44af4b3abc50240d0
     m_Address: CursorMoveSFX
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 960270d0cfe33794e89abc15279dceae
+    m_Address: Assets/_DGM/Audio/SFX/HitSFX.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db610d89ee0905e46af644f788876504
+    m_Address: Assets/_DGM/Audio/SFX/FireballSFX.mp3
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

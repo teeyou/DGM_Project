@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: VFX_ChampionSkill
+  m_EditorClassIdentifier: 
+  m_GroupName: VFX_ChampionSkill
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6b1e2aa39613fa242aa18e32cd3fcdcb
+  m_SerializeEntries:
+  - m_GUID: 38e2c3366a3492849acb2ee0039a72e9
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/GrowlmonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 41ef03ae72dc9934399e2037587b2c71
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/GarurumonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49f40c3fb31600e44a3c99c4a4779b26
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/MagnamonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a1ad5defbba9134696b89752deac001
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/AngemonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6663356051626c04591ffaedebeba63c
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/TyrannomonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a76d07f40eefa148979a30e30be8889
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/GreymonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 700b6cc288ea08040893619513189858
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/RaremonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 941e28b6a30cf164aa31817ce85295e9
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/ExVeemonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d80c15c6a2a7d1e4abeb20963a2317ed
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/ChampionSkill/OgremonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b976376ef840eca459a178bb40224339, type: 2}
+    - {fileID: 11400000, guid: 203e381fa39f4984fba98ba45861ddc5, type: 2}

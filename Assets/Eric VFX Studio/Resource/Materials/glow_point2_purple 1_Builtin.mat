@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f0e51d78cba9a154f9d97efb4b55654c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 85e4677c5b37d524f9aa1eaf5dd4a1b7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
@@ -95,5 +95,5 @@ Material:
     - _OverlayColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverlayFlowSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5019608}
+    - _TintColor: {r: 1, g: 0.8939182, b: 0, a: 0.5019608}
   m_BuildTextureStacks: []

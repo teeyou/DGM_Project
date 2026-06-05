@@ -41,11 +41,21 @@ public class FieldUIController : Singleton<FieldUIController>
     [SerializeField] private GameObject _digimonStatusPanel;
     [SerializeField] private List<GameObject> _digimonStatusList;
     [SerializeField] private SlideAnim _digimonStatusSlideAnim;
+
+    [SerializeField] private GameObject _captureOuter;
+
+    [SerializeField] private GameObject _settingsPanel;
+
+    [SerializeField] private Button _fullScreenButton;
+    [SerializeField] private Button _windowedScreenButton;
+
+    //private bool _isFullScreen = true;
+
     private bool _isShowDigimonStatus = false;
     
     private bool _isShowMessage = false;
 
-    public int _dialogueIndex = 0;
+    private int _dialogueIndex = 0;
 
     private InputManager _input;
 
@@ -54,7 +64,9 @@ public class FieldUIController : Singleton<FieldUIController>
     private bool _isShowQuestDetail = false;
 
     public bool IsShowDigimonStatus => _isShowDigimonStatus;
-
+    public GameObject SettingsPanel { get => _settingsPanel; set => _settingsPanel = value; }
+    public Button FullScreenButton { get => _fullScreenButton; set => _fullScreenButton = value; }
+    public Button WindowedScreenButton { get => _windowedScreenButton; set => _windowedScreenButton = value; }
     protected override void Awake()
     {
         base.Awake();
@@ -62,6 +74,31 @@ public class FieldUIController : Singleton<FieldUIController>
 
         _questGo.SetActive(true);
         _questCloseGo.SetActive(false);
+
+        AudioManager.Instance.RegisterScreenModeButton();
+
+        _fullScreenButton.onClick.AddListener(() =>
+        {
+            if (!InputManager.Instance.IsFullscreen)
+            {
+                Debug.Log("전체화면으로 전환");
+                int width = Display.main.systemWidth;
+                int height = Display.main.systemHeight;
+
+                Screen.SetResolution(width, height, true); // 현재 모니터 해상도 기준 전체화면
+                InputManager.Instance.IsFullscreen = true;
+            }
+        });
+
+        _windowedScreenButton.onClick.AddListener(() =>
+        {
+            if (InputManager.Instance.IsFullscreen)
+            {
+                Debug.Log("창모드로 전환");
+                Screen.SetResolution(1280, 720, false);
+                InputManager.Instance.IsFullscreen = false;
+            }
+        });
     }
 
     void Start()
@@ -131,6 +168,11 @@ public class FieldUIController : Singleton<FieldUIController>
         _interactOuter.SetActive(enabled);
     }
 
+    public void ToggleCaptureButton(bool enabled)
+    {
+        _captureOuter.SetActive(enabled);
+    }
+
     public void ShowDialogue(List<string> dialogueList, string _npcName)
     {
         _interactOuter.SetActive(false);
@@ -165,7 +207,7 @@ public class FieldUIController : Singleton<FieldUIController>
 
             else
             {
-
+                // 나중에 NPC 생기면 추가
             }
 
         }
@@ -233,8 +275,6 @@ public class FieldUIController : Singleton<FieldUIController>
 
     public void ToggleGameMenu(bool enabled)
     {
-        Debug.Log($"ToggleGameMenu enabled : {enabled}");
-        Debug.Log($"_gameMenuGo.activeSelf : {_gameMenuGo.activeSelf}");
         if (!_gameMenuGo.activeSelf)
         {
             _gameMenuGo.SetActive(true);
@@ -420,5 +460,13 @@ public class FieldUIController : Singleton<FieldUIController>
                 imgs[i].fillAmount = (float)status.EXP / (float)status.RequiredEXP;
             }
         }
+    }
+
+    public void ToggleSettingsPanel(bool enabled)
+    {
+        if (_settingsPanel == null)
+            AudioManager.Instance.RegisterSettingsPanel();
+
+        _settingsPanel.SetActive(enabled);
     }
 }

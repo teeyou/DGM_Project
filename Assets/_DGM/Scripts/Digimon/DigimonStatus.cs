@@ -30,6 +30,7 @@ public class DigimonStatus : MonoBehaviour
     [SerializeField] private GrowthType growthType;
     [SerializeField] private string growthTypeKor;
     [SerializeField] private int evo;
+    [SerializeField] private int prev;
 
     [SerializeField] private int _exp;
     private int _requiredExp;
@@ -40,6 +41,10 @@ public class DigimonStatus : MonoBehaviour
 
     private Animator _animator;
 
+    private Effect _effect;
+
+    private bool _isSkillFinished = false;
+    private bool _isRookieEvolved = false;
     public void Init(DigimonStatus data)
     {
         this.id = data.id;
@@ -63,6 +68,7 @@ public class DigimonStatus : MonoBehaviour
         this.growthType = data.growthType;
         this.growthTypeKor = data.growthTypeKor;
         this.evo = data.evo;
+        this.prev = data.prev;
 
         _currentHP = data.hp;
 
@@ -84,19 +90,6 @@ public class DigimonStatus : MonoBehaviour
         gradeKor = data.KorGrade;
         type = (EType)Enum.Parse(typeof(EType), data.Type);
         typeKor = data.KorType;
-        if (data is EnemyStatusData enemyData)
-        {
-            level = enemyData.Level;
-            _exp = enemyData.EXP;
-        }
-
-        else
-        {
-            level = 1;
-            _exp = 0;
-            _requiredExp = LevelSystem.Instance.GetRequiredEXP(1);  // 레벨 1 필요 경험치
-
-        }
 
         hp = data.BaseHP;
         atk = data.BaseATK;
@@ -112,6 +105,43 @@ public class DigimonStatus : MonoBehaviour
         _actionCount = 5;
 
         _uid = gameObject.GetInstanceID();
+
+        if (data is EnemyStatusData enemyData)
+        {
+            level = enemyData.Level;
+            _exp = enemyData.EXP;
+        }
+
+        else
+        {
+            prev = data.Prev;
+
+            _exp = 0;
+
+            if (grade == EGrade.Baby)
+                level = 1;
+
+            else if (grade == EGrade.Rookie)
+            {
+                level = 5; // 성장기
+            }
+            else if (grade == EGrade.Champion)
+            {
+                //level = 10;
+                var list = GameManager.Instance.GetDigimonStatusList();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].ID == PrevID)
+                    {
+                        level = list[i].Level;
+                        _exp = list[i].EXP;
+                        break;
+                    }
+                }
+            }
+
+            _requiredExp = LevelSystem.Instance.GetRequiredEXP(level);  // 레벨업 필요 경험치
+        }
     }
 
     public int ID => id;
@@ -141,6 +171,7 @@ public class DigimonStatus : MonoBehaviour
     public string GrowthTypeKor => growthTypeKor;
     
     public int EvoID => evo;
+    public int PrevID => prev;
 
     public int CurrentHP { get { return _currentHP; } set { _currentHP = value; } }
     public int ActionCount { get { return _actionCount; } set { _actionCount = value; } }
@@ -154,25 +185,72 @@ public class DigimonStatus : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public async UniTask Victory()
+    public void Victory()
     {
         _animator.SetTrigger("Victory");
-
-        await UniTask.Delay(2000);
     }
+
+    //public async UniTask Victory()
+    //{
+    //    _animator.SetTrigger("Victory");
+
+    //    await UniTask.Delay(2000);
+    //}
 
     public void IncreaseEXP(int exp)
     {
-        Debug.Log($"경험치 획득 : {exp}");
+        if (Level >= 50)
+        {
+            Debug.Log("최대 레벨 경험치 X");
+            EXP = 0;
+            return;
+        }
+
         EXP += exp;
-        Debug.Log($"현재 경험치 : {EXP}");
+
+        var battleList = BattleManager.Instance.PlayerStatusList;
+        int idx = -1;
+
+        for (int i = 0; i < battleList.Count; i++)
+        {
+            DigimonStatus s = battleList[i];
+            if (ID == s.PrevID)
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        string msg = $"{digimonNameKor} EXP +{exp}";
+        if (idx != -1)
+        {
+            msg = $"{battleList[idx].DigimonNameKor} EXP +{exp}";
+        }
+
+        BattleUIManager.Instance.EnqueueLog(msg);
+        //BattleUIManager.Instance.ShowLogAsync($"{digimonNameKor} EXP +{exp}", 2000).Forget();
+
         CheckLevelUp();
     }
 
     public void CheckLevelUp()
     {
+        if (Level >= 50)
+        {
+            Debug.Log("최대 레벨 달성");
+            EXP = 0;
+            return;
+        }
+
         while (EXP >= RequiredEXP)
         {
+            if (Level >= 50)
+            {
+                Debug.Log("최대 레벨 달성");
+                EXP = 0;
+                return;
+            }
+
             LevelUp();
 
             EXP -= RequiredEXP;
@@ -183,25 +261,121 @@ public class DigimonStatus : MonoBehaviour
         }
     }
 
+    public void IncreaseStatus(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            HP += growthType.HPInc;
+            ATK += growthType.ATKInc;
+            DEF += growthType.DEFInc;
+            INT += growthType.INTInc;
+            SPD += growthType.SPDInc;
+        }
+
+        CurrentHP = HP;
+    }
+
     private void LevelUp()
     {
         Debug.Log("LevelUp");
         Level++;
-        HP += growthType.HPInc;
-        CurrentHP = HP;
-        ATK += growthType.ATKInc;
-        DEF += growthType.DEFInc;
-        INT += growthType.INTInc;
-        SPD += growthType.SPDInc;
+        IncreaseStatus(1);
+        AudioManager.Instance.PlaySFX("LevelUpSFX");
+        var battleList = BattleManager.Instance.PlayerStatusList;
+        int idx = -1;
+
+        for (int i = 0; i < battleList.Count; i++)
+        {
+            DigimonStatus s = battleList[i];
+            if (ID == s.PrevID)
+            {
+                Debug.Log("진화체도 레벨업");
+                s.Level++;
+                s.IncreaseStatus(1);
+                idx = i;
+                break;
+            }
+        }
+
+        string msg = $"{digimonNameKor} LEVEL UP";
+        if (idx != -1)
+        {
+            msg = $"{battleList[idx].DigimonNameKor} LEVEL UP";
+        }
+        BattleUIManager.Instance.EnqueueLog(msg);
+        //BattleUIManager.Instance.ShowLogAsync($"{digimonNameKor} LEVEL UP", 2000).Forget();
 
         BattleManager.Instance.UpdatePlayerStatusList();
+        
+        // 진화 가능한 상황
+        CheckRookieEvolution();
+    }
+
+    private void CheckRookieEvolution()
+    {
+        // 성장기로 진화
+        if (_isRookieEvolved)
+            return;
+
+        if (grade == EGrade.Baby && Level >= 5)
+        {
+            Debug.Log("성장기로 진화");
+            _isRookieEvolved = true;
+            //IReadOnlyList<DigimonStatus> list = GameManager.Instance.GetDigimonStatusList();
+            List<DigimonStatus> list = BattleManager.Instance.PlayerStatusList;
+            int idx = -1;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].ID == ID)
+                {
+                    idx = i;
+                    break;
+                }
+            }
+
+            //Transform t = BattleManager.Instance.PlayerDigimonGoList[idx].transform;
+            StatusData data = DigimonDB.Instance.GetStatusDataById(evo);
+
+            Vector3 pos = BattleManager.Instance.GetPos(idx, false);
+            Quaternion rot = Quaternion.Euler(0f, 90f, 0f);
+            DigimonSpawner.Instance.SpawnPlayerDigimon(-1, data.DigimonName, pos, rot, ESpawnType.LevelUp);
+
+            string msg = $"{digimonNameKor} 진화";
+            BattleUIManager.Instance.EnqueueLog(msg);
+            //BattleUIManager.Instance.ShowLogAsync(msg).Forget();
+        }
     }
 
     public async UniTask Attack(DigimonStatus target, bool isEnemy)
     {
+        //target이 Enemy ?
+
+        // 타겟이 플레이어일 때
+        if (!isEnemy)
+        {
+            if (!target.gameObject.activeSelf)
+            {
+                Debug.Log("진화해서 공격 대상이 비활성화 된 상태");
+
+                var list = BattleManager.Instance.PlayerStatusList;
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (target.EvoID == list[i].ID)
+                    {
+                        Debug.Log($"공격 대상의 진화체 : {list[i].DigimonNameKor}");
+                        target = list[i];
+                        break;
+                    }
+                }
+            }
+            
+        }
+
         if (target.CurrentHP <= 0)
         {
-            string s = "이미 기절했다.";
+            string s = "대상이 이미 기절했다.";
             BattleUIManager.Instance.ShowBattleMsg(true, s);
 
             await UniTask.Delay(DELAY_MESSAGE_TIME);
@@ -234,14 +408,38 @@ public class DigimonStatus : MonoBehaviour
         BattleManager.Instance.ShowDigimon(target, isEnemy);
 
         (int damage, bool isCritical) = DamageCalculator.Calculate(this, target, false);
-        await target.TakeDamage(damage, isCritical, isEnemy);
+        await target.TakeDamage(damage, isCritical, isEnemy, this);
     }
 
     public async UniTask Skill(DigimonStatus target, bool isEnemy)
     {
+        //target이 Enemy ?
+
+        // 타겟이 플레이어일 때
+        if (!isEnemy)
+        {
+            if (!target.gameObject.activeSelf)
+            {
+                Debug.Log("진화해서 공격 대상이 비활성화 된 상태");
+
+                var list = BattleManager.Instance.PlayerStatusList;
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (target.EvoID == list[i].ID)
+                    {
+                        Debug.Log($"공격 대상의 진화체 : {list[i].DigimonNameKor}");
+                        target = list[i];
+                        break;
+                    }
+                }
+            }
+
+        }
+
         if (target.CurrentHP <= 0)
         {
-            string s = "이미 기절했다.";
+            string s = "대상이 이미 기절했다.";
             BattleUIManager.Instance.ShowBattleMsg(true, s);
 
             await UniTask.Delay(DELAY_MESSAGE_TIME);
@@ -262,7 +460,12 @@ public class DigimonStatus : MonoBehaviour
                 : $"[투지] <color={ColorTable.Red}>{digimonNameKor}</color>이 <color={ColorTable.Green}>{target.digimonNameKor}</color>에게 스킬";
         }
 
+        //_isSkillFinished = false;
         _animator.SetTrigger("Skill");
+
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        float animLength = stateInfo.length;
+        Debug.Log($"Skill 애니메이션 길이: {animLength}");
 
         BattleUIManager.Instance.ShowBattleMsg(true, msg);
 
@@ -270,11 +473,28 @@ public class DigimonStatus : MonoBehaviour
 
         BattleUIManager.Instance.ShowBattleMsg(false);
 
-        //await UniTask.Delay(500);
+        BattleManager.Instance.ShowSkillCam(isEnemy).Forget();
+
+        Debug.Log("스킬 끝날때까지 대기");
+
+        // 애니메이션 길이만큼 대기
+        await UniTask.Delay((int)(animLength * 1000));
+
+        //if (digimonName == "Veemon")
+        //{
+        //    await UniTask.Delay(1000);
+        //}
+
+        //else
+        //    await UniTask.WaitUntil(() => _isSkillFinished);
+
+        //await UniTask.Delay(2000);
 
         BattleManager.Instance.ShowDigimon(target, isEnemy);
+
         (int damage, bool isCritical) = DamageCalculator.Calculate(this, target, true);
-        await target.TakeDamage(damage, isCritical, isEnemy);
+
+        await target.TakeDamage(damage, isCritical, isEnemy, this);
     }
 
     public async UniTask Guard()
@@ -302,7 +522,18 @@ public class DigimonStatus : MonoBehaviour
 
     public async UniTask Evo()
     {
-        await UniTask.Delay(1000);
+        StatusData data = DigimonDB.Instance.GetStatusDataById(EvoID);  //진화 할 디지몬 데이터
+        
+        Debug.Log($"name : {data.DigimonName} position : {transform.position}");
+
+        DigimonSpawner.Instance.SpawnPlayerDigimon(-1, data.DigimonName, transform.position, transform.rotation, ESpawnType.Evo);
+
+        Debug.Log("Evo - 진화 완료까지 대기");
+        
+        await UniTask.WaitUntil(() => BattleManager.Instance.IsEvoCompleted);
+
+        Debug.Log("Evo - 진화 완료");
+        BattleManager.Instance.IsEvoCompleted = false;
     }
 
     public void Run()
@@ -330,8 +561,13 @@ public class DigimonStatus : MonoBehaviour
         BattleUIManager.Instance.ShowBattleMsg(false);
     }
 
-    public async UniTask TakeDamage(int damage, bool isCritical, bool isEnemy)
+    public async UniTask TakeDamage(int damage, bool isCritical, bool isEnemy, DigimonStatus attacker)
     {
+        if (_effect == null)
+        {
+            _effect = GetComponent<Effect>();
+        }
+
         float rand = UnityEngine.Random.Range(0f, 1f);
         
         float dodgeRate = DodgeRate;
@@ -370,7 +606,11 @@ public class DigimonStatus : MonoBehaviour
             pos.y = 0.2f;
 
             EffectManager.Instance.PlayHit("CommonHit", pos, Quaternion.identity);
+            AudioManager.Instance.PlaySFX("HitSFX");
         }
+
+        if (_effect != null)
+            _effect.PlayHit();
 
         CurrentHP -= damage;
         CurrentHP = Mathf.Clamp(CurrentHP, 0, HP);
@@ -396,17 +636,37 @@ public class DigimonStatus : MonoBehaviour
             if (isEnemy)
             {
                 Debug.Log($"죽은 적 디지몬 : {digimonNameKor} EXP : {_exp}");
+
+                CaptureSystem.Instance.IncreaseCatchCount(digimonName);     //포획에 필요한 퇴치카운트 증가
+                
                 // 죽은게 적 디지몬이면 플레이어의 모든 디지몬 경험치 획득
                 IReadOnlyList<DigimonStatus> list = GameManager.Instance.GetDigimonStatusList();
-                
-                for (int i = 0; i < list.Count; i++)
+                var battleList = BattleManager.Instance.PlayerStatusList;
+
+                for (int i = 0; i < battleList.Count; i++)
                 {
                     // 기절한 디지몬은 경험치 못 먹음
-                    if (list[i].CurrentHP <= 0)
+                    if (battleList[i].CurrentHP <= 0)
                         continue;
 
-                    list[i].IncreaseEXP(_exp);
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if (battleList[i].ID == list[j].ID || battleList[i].PrevID == list[j].ID)
+                        {
+                            list[j].IncreaseEXP(_exp);
+                            break;
+                        }
+                    }
                 }
+
+                //for (int i = 0; i < list.Count; i++)
+                //{
+                //    // 기절한 디지몬은 경험치 못 먹음
+                //    if (list[i].CurrentHP <= 0)
+                //        continue;
+
+                //    list[i].IncreaseEXP(_exp);
+                //}
             }
 
 
@@ -418,7 +678,7 @@ public class DigimonStatus : MonoBehaviour
             string msg = isEnemy ? $"<color={ColorTable.Red}>{digimonNameKor}</color>이 치명타 {damage} 피해를 받았다."
                 : $"<color={ColorTable.Green}>{digimonNameKor}</color>이 치명타 {damage} 피해를 받았다.";
 
-            if (type == EType.Insight)
+            if (attacker.type == EType.Insight)
             {
                 msg = isEnemy ? $"[통찰] <color={ColorTable.Red}>{digimonNameKor}</color>이 치명타 {damage} 피해를 받았다."
                 : $"[통찰] <color={ColorTable.Green}>{digimonNameKor}</color>이 치명타 {damage} 피해를 받았다.";
@@ -444,5 +704,11 @@ public class DigimonStatus : MonoBehaviour
             //await UniTask.Delay(500);
         }
 
+    }
+
+    public void EndSkill()
+    {
+        //_isSkillFinished = true;
+        Debug.Log("스킬 끝");
     }
 }

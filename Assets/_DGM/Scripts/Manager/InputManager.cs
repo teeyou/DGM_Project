@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
@@ -20,6 +23,7 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private InputActionReference _questOpen;       // Q
     [SerializeField] private InputActionReference _interact;        // F
     [SerializeField] private InputActionReference _digivice;        // D
+    [SerializeField] private InputActionReference _capture;        // R
 
     [SerializeField] private InputActionReference _battleLeft;
     [SerializeField] private InputActionReference _battleRight;
@@ -39,7 +43,7 @@ public class InputManager : Singleton<InputManager>
     private InputActionMap _playerMap;
     private InputActionMap _menuMap;
     private InputActionMap _battleMap;
-
+    private InputActionMap _defaultUIMap;
     private bool _isBind = false;
 
     public event Action<Vector2> OnMove;
@@ -53,6 +57,7 @@ public class InputManager : Singleton<InputManager>
     public event Action<bool> OnQuestOpen;  //Q
     public event Action<bool> OnInteract;   //F
     public event Action<bool> OnDigivice;   //D
+    public event Action<bool> OnCapture;    //R
     public event Action<bool> OnEsc;        //ESC
     public event Action<bool> OnMenuEsc;        //ESC
 
@@ -66,6 +71,7 @@ public class InputManager : Singleton<InputManager>
     public event Action<bool> OnPress2;
     public event Action<bool> OnPress3;
 
+    public bool IsFullscreen { get; set; } = true;
     public void ShowCurrentMap()
     {
         foreach (var map in _inputActions.actionMaps)
@@ -87,6 +93,8 @@ public class InputManager : Singleton<InputManager>
         _playerMap = _inputActions.FindActionMap("Player");
         _menuMap = _inputActions.FindActionMap("Menu UI");
         _battleMap = _inputActions.FindActionMap("Battle");
+        _defaultUIMap = _inputActions.FindActionMap("UI");
+        _defaultUIMap.Enable();
     }
 
     private void OnDestroy()
@@ -151,6 +159,9 @@ public class InputManager : Singleton<InputManager>
             return;
         
         if (_digivice == null || _interact.action == null)
+            return;
+
+        if (_capture == null || _capture.action == null)
             return;
 
         if (_esc == null || _esc.action == null)
@@ -224,6 +235,8 @@ public class InputManager : Singleton<InputManager>
         _interact.action.canceled += OnInteractCanceled;
 
         _digivice.action.started += OnDigiviceStarted;
+
+        _capture.action.started += OnCaptureStarted;
 
         _esc.action.started += OnEscStarted;
         _esc.action.canceled += OnEscCanceled;
@@ -318,6 +331,11 @@ public class InputManager : Singleton<InputManager>
             _digivice.action.started -= OnInteractStarted;
         }
 
+        if (_capture != null && _capture.action != null)
+        {
+            _capture.action.started -= OnCaptureStarted;
+        }
+
         if (_esc != null && _esc.action != null)
         {
             _esc.action.started -= OnEscStarted;
@@ -395,26 +413,14 @@ public class InputManager : Singleton<InputManager>
 
         if (enabled)
         {
-            _move.action.Enable();
-            _mouseRightClick.action.Enable();
-            _zoom.action.Enable();
-            _questOpen.action.Enable();
-            _interact.action.Enable();
-            _esc.action.Enable();
-            _digivice.action.Enable();
+            EnableFieldUI(true);
             EnableMenuUI(true);
             EnableBattle(true);
         }
 
         else
         {
-            _move.action.Disable();
-            _mouseRightClick.action.Disable();
-            _zoom.action.Disable();
-            _questOpen.action.Disable();
-            _interact.action.Disable();
-            _esc.action.Disable();
-            _digivice.action.Disable();
+            EnableFieldUI(false);
             EnableMenuUI(false);
             EnableBattle(false);
         }
@@ -526,6 +532,10 @@ public class InputManager : Singleton<InputManager>
         OnDigivice?.Invoke(true);
     }
 
+    private void OnCaptureStarted(InputAction.CallbackContext context)
+    {
+        OnCapture?.Invoke(true);
+    }
 
     private void OnEscStarted(InputAction.CallbackContext context)
     {
@@ -606,6 +616,36 @@ public class InputManager : Singleton<InputManager>
         _playerMap.Disable();
         _menuMap.Disable();
         _battleMap.Enable();
+    }
+
+    public void EnableFieldUI(bool enabled)
+    {
+        if (!_isBind)
+            return;
+
+        if (enabled)
+        {
+            _move.action.Enable();
+            _mouseRightClick.action.Enable();
+            _zoom.action.Enable();
+            _questOpen.action.Enable();
+            _interact.action.Enable();
+            _esc.action.Enable();
+            _digivice.action.Enable();
+            _capture.action.Enable();
+        }
+
+        else
+        {
+            _move.action.Disable();
+            _mouseRightClick.action.Disable();
+            _zoom.action.Disable();
+            _questOpen.action.Disable();
+            _interact.action.Disable();
+            _esc.action.Disable();
+            _digivice.action.Disable();
+            _capture.action.Disable();
+        }
     }
 
     public void EnableMenuUI(bool enabled)

@@ -15,7 +15,9 @@ public enum EMenuType
 
 public class CursorHandler : MonoBehaviour
 {
-    [SerializeField] private Transform _cursorTr;
+    [SerializeField] private List<RectTransform> _menuButtons; // 버튼 RectTransform 리스트
+
+    [SerializeField] private RectTransform _cursorTr;
 
     [SerializeField] private float _cursorPosAnimDuration;
     [SerializeField] private float _intervalH;
@@ -56,7 +58,14 @@ public class CursorHandler : MonoBehaviour
 
         _cts = new CancellationTokenSource();
 
-        _startCursorPos = _cursorTr.position;
+        // 시작 시 커서를 첫 번째 버튼 위치에 붙이기
+        if (_menuButtons.Count > 0)
+        {
+            _cursorIndex = 0;
+            _cursorTr.anchoredPosition = _menuButtons[_cursorIndex].anchoredPosition;
+        }
+
+        _startCursorPos = _cursorTr.anchoredPosition;
 
         _cursorIndex = 0;
         _inputValue = Vector2.zero;
@@ -134,7 +143,15 @@ public class CursorHandler : MonoBehaviour
     private void SetMove(Vector2 v)
     {
         _inputValue = v;
-        Debug.Log($"Cursor Move: {_inputValue}");
+
+        if (_inputValue != Vector2.zero)
+        {
+            HandleMoveHorizontally();
+            HandleMoveVertically();
+
+            // 입력을 한 번 처리했으면 초기화
+            _inputValue = Vector2.zero;
+        }
     }
 
     private void HandleMenuEsc(bool isPressed)
@@ -144,7 +161,11 @@ public class CursorHandler : MonoBehaviour
 
         if (_menuType == EMenuType.GameMenu)
         {
+            Debug.Log("CursorHandler - HandleMenuEsc");
+            FieldUIController.Instance.ToggleSettingsPanel(false);
             FieldUIController.Instance.ToggleGameMenu(false);
+
+            FadeInOut.Instance.TogglePanel(true);
         }
     }
 
@@ -186,8 +207,9 @@ public class CursorHandler : MonoBehaviour
                 break;
         }
 
+        QuestManager.Instance.QuestCheckList[0] = true; // 첫번째 퀘스트 완료
         GameManager.Instance.HasDigimon = true;
-
+        
         FieldUIController.Instance.ToggleDigimonSelectMenu(false);
         GameManager.Instance.IsBlockInteractionKey = false;
 
@@ -203,7 +225,8 @@ public class CursorHandler : MonoBehaviour
         switch (_cursorIndex)
         {
             case 0:
-                ExitGame();
+                FadeInOut.Instance.TogglePanel(false);
+                FieldUIController.Instance.ToggleSettingsPanel(true);
                 break;
             case 1:
                 ExitGame();
@@ -241,7 +264,7 @@ public class CursorHandler : MonoBehaviour
                     if (gameObject.activeInHierarchy)
                     {
                         AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * 600));
                         _cursorIndex++;
                     }
 
@@ -254,7 +277,7 @@ public class CursorHandler : MonoBehaviour
                     if (gameObject.activeInHierarchy)
                     {
                         AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * 1200));
                         _cursorIndex = 0;
                     }
 
@@ -272,7 +295,7 @@ public class CursorHandler : MonoBehaviour
                     if (gameObject.activeInHierarchy)
                     {
                         AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * _intervalH));
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX + _inputValue.x * 600));
                         _cursorIndex--;
                     }
 
@@ -286,7 +309,7 @@ public class CursorHandler : MonoBehaviour
                     if (gameObject.activeInHierarchy)
                     {
                         AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * _intervalH * 2));
+                        _cursorAnimRoutine = StartCoroutine(CoAnimatePositionHorizontally(_cursorPosAnimDuration, currentX, currentX - _inputValue.x * 1200));
                         _cursorIndex = 2;
                     }
 
@@ -295,68 +318,126 @@ public class CursorHandler : MonoBehaviour
         }
     }
 
+    //public void HandleMoveVertically()
+    //{
+    //    if (_isHorizontal)
+    //        return;
+
+    //    if (_cursorIndex == -1)
+    //        return;
+
+    //    float currentY = _cursorTr.localPosition.y;
+    //    if (_inputValue.y > 0)
+    //    {
+    //        if (_cursorIndex != 0)
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
+    //                _cursorIndex--;
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("Cursor animation in progress. Ignoring input.");
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
+    //                _cursorIndex = 2;
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("Cursor animation in progress. Ignoring input.");
+    //            }
+    //        }
+    //    }
+
+    //    else if (_inputValue.y < 0)
+    //    {
+    //        if (_cursorIndex != 2)
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * 100));
+    //                _cursorIndex++;
+    //            }
+
+    //        }
+    //        else
+    //        {
+    //            if (_cursorAnimRoutine == null)
+    //            {
+    //                AudioManager.Instance.PlaySFX("CursorMoveSFX");
+    //                _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * 200));
+    //                _cursorIndex = 0;
+    //            }
+    //        }
+    //    }
+    //}
+
     public void HandleMoveVertically()
     {
-        if (_isHorizontal)
-            return;
-
-        if (_cursorIndex == -1)
-            return;
-
-        float currentY = _cursorTr.localPosition.y;
-        if (_inputValue.y > 0)
+        if (FieldUIController.Instance.SettingsPanel == null)
         {
-            if (_cursorIndex != 0)
-            {
-                if (_cursorAnimRoutine == null)
-                {
-
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * _intervalV));
-                    _cursorIndex--;
-                }
-                else
-                {
-                    Debug.Log("Cursor animation in progress. Ignoring input.");
-                }
-            }
-            else
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * _intervalV * 2));
-                    _cursorIndex = 2;
-                }
-                else
-                {
-                    Debug.Log("Cursor animation in progress. Ignoring input.");
-                }
-            }
+            AudioManager.Instance.RegisterSettingsPanel();
         }
 
-        else if (_inputValue.y < 0)
-        {
-            if (_cursorIndex != 2)
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY + _inputValue.y * _intervalV));
-                    _cursorIndex++;
-                }
+        if (FieldUIController.Instance.SettingsPanel.activeSelf)
+            return;
 
-            }
-            else
-            {
-                if (_cursorAnimRoutine == null)
-                {
-                    AudioManager.Instance.PlaySFX("CursorMoveSFX");
-                    _cursorAnimRoutine = StartCoroutine(CoAnimatePositionVertically(_cursorPosAnimDuration, currentY, currentY - _inputValue.y * _intervalV * 2));
-                    _cursorIndex = 0;
-                }
-            }
+        if (_isHorizontal || _cursorIndex == -1) return;
+
+        if (_inputValue.y > 0) // 위로 이동
+        {
+            int newIndex = (_cursorIndex == 0) ? _menuButtons.Count - 1 : _cursorIndex - 1;
+            MoveCursor(newIndex);
         }
+        else if (_inputValue.y < 0) // 아래로 이동
+        {
+            int newIndex = (_cursorIndex == _menuButtons.Count - 1) ? 0 : _cursorIndex + 1;
+            MoveCursor(newIndex);
+        }
+    }
+
+    private void MoveCursor(int newIndex)
+    {
+        if (newIndex < 0 || newIndex >= _menuButtons.Count) return;
+
+        AudioManager.Instance.PlaySFX("CursorMoveSFX");
+
+        if (_cursorAnimRoutine != null)
+            StopCoroutine(_cursorAnimRoutine);
+
+        _cursorAnimRoutine = StartCoroutine(CoAnimatePosition(
+            _cursorPosAnimDuration,
+            _cursorTr.anchoredPosition,
+            _menuButtons[newIndex].anchoredPosition
+        ));
+
+        _cursorIndex = newIndex;
+    }
+
+    private IEnumerator CoAnimatePosition(float duration, Vector2 start, Vector2 end)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            Vector2 pos = Vector2.Lerp(start, end, t);
+            _cursorTr.anchoredPosition = pos;
+            yield return null;
+        }
+
+        _cursorTr.anchoredPosition = end;
+        _cursorAnimRoutine = null;
     }
 
     private IEnumerator CoAnimatePositionVertically(float duration, float start, float end)

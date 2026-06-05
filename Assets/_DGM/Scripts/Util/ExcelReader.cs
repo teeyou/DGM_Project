@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class LevelExpData
@@ -42,6 +43,7 @@ public class StatusData
     public string GrowthType;
     public string KorGrowthType;
     public int Evo;
+    public int Prev;
 }
 
 public class EnemyStatusData : StatusData
@@ -63,17 +65,33 @@ public class ExcelReader
 
     public void LoadExcelData()
     {
-        using (var stream = File.Open(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        using (var reader = ExcelReaderFactory.CreateReader(stream))
+        string encryptedPath = Path.Combine(Application.streamingAssetsPath, "digimon.enc");
+
+        using (MemoryStream decryptedStream = CryptoUtils.DecryptFileToMemory(encryptedPath, AESConfig.Key, AESConfig.IV))
         {
-            result = reader.AsDataSet(new ExcelDataSetConfiguration()
+            using (var reader = ExcelReaderFactory.CreateReader(decryptedStream))
             {
-                ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                result = reader.AsDataSet(new ExcelDataSetConfiguration()
                 {
-                    UseHeaderRow = true
-                }
-            });
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true
+                    }
+                });
+            }
         }
+
+        //using (var stream = File.Open(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        //using (var reader = ExcelReaderFactory.CreateReader(stream))
+        //{
+        //    result = reader.AsDataSet(new ExcelDataSetConfiguration()
+        //    {
+        //        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+        //        {
+        //            UseHeaderRow = true
+        //        }
+        //    });
+        //}
 
         LoadSheet("PlayerStatus");
 
@@ -160,6 +178,7 @@ public class ExcelReader
                 GrowthType = row["GrowthType"].ToString(),
                 KorGrowthType = row["KorGrowthType"].ToString(),
                 Evo = int.Parse(row["Evo"].ToString()),
+                Prev = int.Parse(row["Prev"].ToString()),
             };
             StatusList.Add(data);
         }

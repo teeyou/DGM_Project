@@ -1,8 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+
+public enum EGrowthType
+{
+    Balance,
+    Atype,
+    Dtype,
+    Itype,
+    Stype,
+}
 
 public enum EAttribute
 {
@@ -67,12 +77,15 @@ public class DigimonDB : Singleton<DigimonDB>
         Addressables.LoadAssetsAsync<Sprite>("DigimonSprites", sprite =>
         {
             _nameToSprite[sprite.name] = sprite;
-            Debug.Log($"{sprite.name} 스프라이트 캐싱");
+            //Debug.Log($"{sprite.name} 스프라이트 캐싱");
         });
     }
 
     private void CacheExcelData()
     {
+        //CryptoUtils.EncryptFile(Path.Combine(Application.streamingAssetsPath, "digimon.xlsx"),
+        //    Path.Combine(Application.streamingAssetsPath, "digimon.enc"));
+
         _excelReader.LoadExcelData();
 
         // StatusData
@@ -150,13 +163,15 @@ public class DigimonDB : Singleton<DigimonDB>
             return null; 
     }
 
+    public Dictionary<string, Sprite> GetDigimonSprites()
+    {
+        return _nameToSprite;
+    }
+
     public bool HasDigimonSprites()
     {
         return _nameToSprite.Count > 0;
     }
 
-    public Dictionary<string, Sprite> GetDigimonSprites()
-    {
-        return _nameToSprite;
-    }
+
 }

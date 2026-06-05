@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprites Champion
+  m_EditorClassIdentifier: 
+  m_GroupName: Sprites Champion
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 9107322d2126ac74d9db76251dd8f4aa
+  m_SerializeEntries:
+  - m_GUID: 2695d6cf373f5d94fba536638914cd2b
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/GrowlmonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f171ca2f79f55c4b9e498c0dea971d6
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/ChrysalimonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b1bd9704232c28409474c91cdb1747d
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/GreymonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68c8df9a2240f7340ad9f2895418df3c
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/DevimonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 756c97f6534913e4ea7b3d392dc592ad
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/MagnamonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7acd6ce44ddb4fb438a4982c916ba5dc
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/GotomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e8225d03340b76429dbf61edc459ad1
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/KyubimonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94926294d94c6e548996bfb608c23026
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/ExVeemonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9893bb2dfd3f1c2419fbbb117d5e8300
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/TogemonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9e1e83e84ced874980c12b625458cdf
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/RaremonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6e562ad35a8d0746bb2b5c2d208a617
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/IkkakumonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be63190602435b94aa4bb06e7ec881fc
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/GarurumonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e084dea751a041d41b9e1c8f387b7e70
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/TyrannomonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1613d5a92fd9ad4db8d63ebab34ec7b
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/OgremonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4730ef7b1f2f844f875caf5add92d47
+    m_Address: Assets/_DGM/Sprites/Digimon Profile/Champion/AngemonSprite.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DigimonSprites
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: fc87cb4ef76b37548ab603964976ca75, type: 2}
+    - {fileID: 11400000, guid: 2a0c118fa7106ca46b77190a857219c0, type: 2}

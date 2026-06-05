@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class TitleManager : MonoBehaviour
 
     [SerializeField] private GameObject _keyHelp;
 
+    [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private Button _fullScreenButton;
+    [SerializeField] private Button _windowedScreenButton;
+
     private bool _pressed = false;
     private bool _isShowAnyKey = false;
 
@@ -25,6 +30,8 @@ public class TitleManager : MonoBehaviour
     private int _cursorIndex = -1;
     private Coroutine _cursorAnimRoutine = null;
 
+    private bool _isFullScreen = true;
+
     private void Awake()
     {
         _keyHelp.SetActive(false);
@@ -32,6 +39,27 @@ public class TitleManager : MonoBehaviour
         _menuGo.SetActive(false);
 
         AddressablesHelper.UpdateCatalogsAsync().Forget();
+
+        _fullScreenButton.onClick.AddListener(() =>
+        {
+            if (!_isFullScreen)
+            {
+                int width = Display.main.systemWidth;
+                int height = Display.main.systemHeight;
+
+                Screen.SetResolution(width, height, true); // 현재 모니터 해상도 기준 전체화면
+                _isFullScreen = true;
+            }
+        });
+
+        _windowedScreenButton.onClick.AddListener(() =>
+        {
+            if (_isFullScreen)
+            {
+                Screen.SetResolution(1280, 720, false);
+                _isFullScreen = false;
+            }
+        });
     }
 
     private void OnEnable()
@@ -45,6 +73,7 @@ public class TitleManager : MonoBehaviour
 
         _input.OnMenuMove -= SetMove;
         _input.OnSelect -= SetSelect;
+        _input.OnMenuEsc -= HandleESC;
     }
 
     private void Start()
@@ -54,10 +83,17 @@ public class TitleManager : MonoBehaviour
         
         _input.OnMenuMove += SetMove;
         _input.OnSelect += SetSelect;
-
+        _input.OnMenuEsc += HandleESC;
         _input.EnableMenuUI(false); // 꺼두고, 메뉴 창 뜨면 켜기
     }
 
+    private void HandleESC(bool enabled)
+    {
+        if (_settingsPanel.activeSelf)
+        {
+            _settingsPanel.SetActive(false);
+        }
+    }
     private void SetSelect(bool isSelect)
     {
         _isSelect = isSelect;
@@ -104,6 +140,9 @@ public class TitleManager : MonoBehaviour
 
     private void HandleMenuSelect()
     {
+        if (_settingsPanel.activeSelf)
+            return;
+
         if (_cursorIndex == -1)
             return;
 
@@ -128,12 +167,13 @@ public class TitleManager : MonoBehaviour
 
     public void StartGame()
     {
+        InputManager.Instance.IsFullscreen = _isFullScreen;
         SceneLoader.Instance.LoadScene(ESceneId.Title, ESceneId.Village).Forget();
     }
 
     public void ShowOptions()
     {
-
+        _settingsPanel.SetActive(true);
     }
 
     public void Exit()
@@ -148,6 +188,9 @@ public class TitleManager : MonoBehaviour
 
     private void HandleMenuMove()
     {
+        if (_settingsPanel.activeSelf)
+            return;
+
         if (_cursorIndex == -1)
             return;
 

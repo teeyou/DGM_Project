@@ -3,14 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Audio;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AudioManager : Singleton<AudioManager>
 {
+    private const string MASTER_VOLUME_PARAM = "Master";
+    private const string BGM_VOLUME_PARAM = "BGM";
+    private const string SFX_VOLUME_PARAM = "SFX";
+
     private AudioSource _masterSource;
     [SerializeField] private AudioSource _bgmSource;
     [SerializeField] private AudioSource _sfxSource;
+
+    [SerializeField] private AudioMixer _audioMixer;
+
+    [SerializeField] private Slider _sliderMaster;
+    [SerializeField] private Slider _sliderBGM;
+    [SerializeField] private Slider _sliderSFX;
+
+    [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private Button _fullScreenButton;
+    [SerializeField] private Button _windowedScreenButton;
 
     private Coroutine _fadeOutRoutine = null;
 
@@ -34,8 +50,14 @@ public class AudioManager : Singleton<AudioManager>
 
     private void Start()
     {
+        BindSlider();
         LoadSFXAssets();
         LoadBGMAssets();
+    }
+
+    private void OnDestroy()
+    {
+        UnBindSlider();
     }
 
     private void Update()
@@ -53,6 +75,49 @@ public class AudioManager : Singleton<AudioManager>
             Debug.Log(sceneName);
             PlayBGM(sceneName + "BGM");
         }
+    }
+
+    private void BindSlider()
+    {
+        Debug.Log("BindSlider");
+        if (_sliderMaster != null)
+            _sliderMaster.onValueChanged.AddListener(SetMasterVolume);
+        if (_sliderBGM != null)
+            _sliderBGM.onValueChanged.AddListener(SetBGMVolume);
+        if (_sliderSFX != null)
+            _sliderSFX.onValueChanged.AddListener(SetSFXVolume);
+    }
+
+    private void UnBindSlider()
+    {
+        Debug.Log("UnBindSlider");
+        if (_sliderMaster != null)
+            _sliderMaster.onValueChanged.RemoveListener(SetMasterVolume);
+        if (_sliderBGM != null)
+            _sliderBGM.onValueChanged.RemoveListener(SetBGMVolume);
+        if (_sliderSFX != null)
+            _sliderSFX.onValueChanged.RemoveListener(SetSFXVolume);
+    }
+
+    private void SetMasterVolume(float value)
+    {
+        //_masterSource.volume = value;
+        Debug.Log($"SetMasterVolume: {value}");
+        _audioMixer.SetFloat(MASTER_VOLUME_PARAM, Mathf.Log10(value) * 20);
+    }
+
+    private void SetBGMVolume(float value)
+    {
+        //_bgmSource.volume = value;
+        Debug.Log($"SetBGMVolume: {value}");
+        _audioMixer.SetFloat(BGM_VOLUME_PARAM, Mathf.Log10(value) * 20);
+    }
+
+    private void SetSFXVolume(float value)
+    {
+        //_sfxSource.volume = value;
+        Debug.Log($"SetSFXVolume: {value}");
+        _audioMixer.SetFloat(SFX_VOLUME_PARAM, Mathf.Log10(value) * 20);
     }
 
     private void LoadBGMAssets()
@@ -155,6 +220,22 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySFX(string key)
     {
         if (_keyToClip.TryGetValue(key, out AudioClip clip))
+        {
+            if (_sfxSource.isPlaying)
+                return;
+
             _sfxSource.PlayOneShot(clip);
+        }
+    }
+
+    public void RegisterSettingsPanel()
+    {
+        FieldUIController.Instance.SettingsPanel = _settingsPanel;
+    }
+
+    public void RegisterScreenModeButton()
+    {
+        FieldUIController.Instance.FullScreenButton = _fullScreenButton;
+        FieldUIController.Instance.WindowedScreenButton = _windowedScreenButton;
     }
 }

@@ -29,6 +29,10 @@ public class GameManager : Singleton<GameManager>
     public bool IsBlockInteractionKey { get; set; } = false;
     public bool IsPlayerInteracting { get; set; } = false;
     public bool HasDigimon { get; set; } = false;
+    //public bool IsFirstVictory { get; set; } = false;
+    //public bool IsDevimonVictory { get; set; } = false;
+    //public bool IsMagnamonVictory { get; set; } = false;
+    //public bool IsLucemonVictory { get; set; } = false;
 
     public string ReturnSceneName { get { return _returnSceneName; } set { _returnSceneName = value; } }
 
@@ -65,12 +69,23 @@ public class GameManager : Singleton<GameManager>
     {
         _playerDigimonList.Add(digimon);
         _playerDigimonStatusList.Add(status);
-
+        DigimonBook.Instance.SetBookData(status);
     }
 
-    public IReadOnlyList<GameObject> GetDigimonList()
+    public void AddDigimon(DigimonStatus status)
     {
-        return _playerDigimonList.AsReadOnly();
+        _playerDigimonStatusList.Add(status);
+        DigimonBook.Instance.SetBookData(status);
+    }
+
+    //public IReadOnlyList<GameObject> GetDigimonList()
+    //{
+    //    return _playerDigimonList.AsReadOnly();
+    //}
+
+    public List<DigimonStatus> GetMutableDigimonStatusList()
+    {
+        return _playerDigimonStatusList;
     }
 
     public IReadOnlyList<DigimonStatus> GetDigimonStatusList()
@@ -163,6 +178,8 @@ public class GameManager : Singleton<GameManager>
         }
 
         _playerMoveController.enabled = enabled;
+
+        _playerMoveController.Interactable = null;
     }
 
     public bool IsExistsPlayer() => _playerTr != null;

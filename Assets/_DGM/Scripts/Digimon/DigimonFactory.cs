@@ -37,4 +37,12 @@ public class DigimonFactory : Singleton<DigimonFactory>
 
         return Instantiate(prefab, pos, Quaternion.identity);
     }
+
+    public GameObject CreateDigimon(GameObject prefab)
+    {
+        if (prefab == null)
+            return null;
+
+        return Instantiate(prefab, Vector3.zero, Quaternion.identity);
+    }
 }

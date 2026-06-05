@@ -30,11 +30,16 @@ public class MoveController : MonoBehaviour
     private InputManager _input;
 
     private IInteractable _interactable = null;
+    private DigimonStatus _enemyStatus = null;
+
     private bool _isFPressed = false;
     private bool _isEscPressed = false;
 
+    private bool _isCapturing = false;
+
     public float MoveSpeed => _moveSpeed;
 
+    public IInteractable Interactable { get; set; }
     private void Awake()
     {
         _cc = GetComponent<CharacterController>();
@@ -45,6 +50,8 @@ public class MoveController : MonoBehaviour
 
     private void OnEnable()
     {
+        DigimonSpawner.Instance.OnCapturedDigimonSpawned += OnCompleteCapturedDigimonSpawn;
+
         _inputVec = Vector3.zero;
 
         _cts = new CancellationTokenSource();
@@ -60,6 +67,7 @@ public class MoveController : MonoBehaviour
             _input.SwitchToPlayerMap();
             _input.OnMove += HandleMove;
             _input.OnInteract += HandleInteract;
+            _input.OnCapture += HandleCaptureWrapper;
             _input.OnEsc += HandleEsc;
             _input.OnDigivice += HandleDigivice;
         }
@@ -70,6 +78,8 @@ public class MoveController : MonoBehaviour
 
     private void OnDisable()
     {
+        DigimonSpawner.Instance.OnCapturedDigimonSpawned -= OnCompleteCapturedDigimonSpawn;
+
         if (_cts != null)
         {
             _cts.Cancel();
@@ -79,6 +89,7 @@ public class MoveController : MonoBehaviour
 
         _input.OnMove -= HandleMove;
         _input.OnInteract -= HandleInteract;
+        _input.OnCapture -= HandleCaptureWrapper;
         _input.OnEsc -= HandleEsc;
         _input.OnDigivice -= HandleDigivice;
     }
@@ -92,6 +103,7 @@ public class MoveController : MonoBehaviour
             _input = InputManager.Instance;
             _input.OnMove += HandleMove;
             _input.OnInteract += HandleInteract;
+            _input.OnCapture += HandleCaptureWrapper;
             _input.OnEsc += HandleEsc;
             _input.OnDigivice += HandleDigivice;
             _input.SwitchToPlayerMap();
@@ -108,9 +120,20 @@ public class MoveController : MonoBehaviour
         }
     }
 
+    private void HandleCaptureWrapper(bool pressed)
+    {
+        HandleCapture(pressed).Forget(); // async 메서드를 안전하게 fire-and-forget
+    }
+
     void Update()
     {
         TickGravity();
+
+        if (FadeInOut.Instance.IsFading)
+            return;
+
+        if (_isCapturing)
+            return;
 
         if (_inputVec == null)
         {
@@ -140,10 +163,26 @@ public class MoveController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_interactable == null)
+        Debug.Log("OnTriggerEnter");
+
+        _interactable = other.transform.GetComponent<IInteractable>();
+
+        if (_interactable != null && other.tag == "NPC")
         {
-            _interactable = other.transform.GetComponent<IInteractable>();
+            Debug.Log("OnTriggerEnter NPC");
         }
+
+        if (_interactable != null && other.tag == "Enemy")
+        {
+            Debug.Log("OnTriggerEnter Enemy");
+            _enemyStatus = other.GetComponent<DigimonStatus>();
+        }
+
+        //if (_interactable == null)
+        //{
+        //    _interactable = other.transform.GetComponent<IInteractable>();
+        //    _enemyStatus = other.GetComponent<DigimonStatus>();
+        //}
     }
 
     private void OnTriggerStay(Collider other)
@@ -151,7 +190,7 @@ public class MoveController : MonoBehaviour
         if (_interactable != null)
         {
             if (other.tag == "NPC")
-            {
+            {   
                 if (GameManager.Instance.IsPlayerInteracting)
                 {
                     FieldUIController.Instance.ToggleInteractButton(false);
@@ -161,9 +200,15 @@ public class MoveController : MonoBehaviour
                     FieldUIController.Instance.ToggleInteractButton(true);
                 }
             }
-            else if (other.tag == "Enemy")
+            
+            if (other.tag == "Enemy")
             {
                 FieldUIController.Instance.ToggleInteractCombatButton(true);
+
+                if (_enemyStatus != null && _enemyStatus.Grade == EGrade.Baby)
+                {
+                    FieldUIController.Instance.ToggleCaptureButton(true);
+                }
             }
         }
     }
@@ -172,18 +217,21 @@ public class MoveController : MonoBehaviour
     {
         if (_interactable != null)
         {
-            FieldUIController.Instance.ToggleDialoguePanel(false);
+            //FieldUIController.Instance.ToggleDialoguePanel(false);
 
             if (other.tag == "NPC")
             {
                 FieldUIController.Instance.ToggleInteractButton(false);
+                FieldUIController.Instance.ToggleDialoguePanel(false);
             }
             else if (other.tag == "Enemy")
             {
                 FieldUIController.Instance.ToggleInteractCombatButton(false);
+                FieldUIController.Instance.ToggleCaptureButton(false);
             }
 
             _interactable = null;
+            _enemyStatus = null;
         }
     }
 
@@ -273,6 +321,9 @@ public class MoveController : MonoBehaviour
 
     private void HandleInteract(bool isPressed)
     {
+        if (FadeInOut.Instance.IsFading)
+            return;
+
         _isFPressed = isPressed;
         if (GameManager.Instance.IsBlockInteractionKey)
             return;
@@ -285,6 +336,7 @@ public class MoveController : MonoBehaviour
         if (_interactable != null)
         {
             _interactable.Interact(gameObject);
+
         }
     }
 
@@ -296,11 +348,49 @@ public class MoveController : MonoBehaviour
         if (!isPressed)
             return;
 
+        Debug.Log("HandleEsc");
+        FieldUIController.Instance.ToggleSettingsPanel(false);
+
         FieldUIController.Instance.ToggleGameMenu(true);
     }
 
     private void HandleDigivice(bool isPressed)
     {
         FieldUIController.Instance.ToggleDigimonStatus();
+    }
+
+    private async UniTask HandleCapture(bool isPressed)
+    {
+        if (FadeInOut.Instance.IsFading)
+            return;
+
+        if (_isCapturing)
+            return;
+
+        if (_interactable == null)
+        {
+            Debug.Log("_interactable NULL");
+            return;
+        }
+
+        // 포획 시도 중에 이동 막기
+        _isCapturing = true;    
+
+        if (_interactable != null && await _interactable.TryCapture())
+        {
+            Debug.Log("포획 성공");
+        }
+
+        else
+        {
+            Debug.Log("포획 실패");
+            _isCapturing = false;
+        }
+    }
+
+    private void OnCompleteCapturedDigimonSpawn()
+    {
+        FieldUIController.Instance.ShowMessage("포획 완료");
+        _isCapturing = false;
     }
 }

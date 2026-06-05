@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class OverheadUI : MonoBehaviour
 {
-    [SerializeField] private float _smallHeightOffset;
-    [SerializeField] private float _mediumHeightOffset;
+    [SerializeField] private float _heightOffset;
+    [SerializeField] private float _midHeightOffset;
     [SerializeField] private float _largeHeightOffset;
-
+    [SerializeField] private float _xlargeHeightOffset;
     [SerializeField] private GameObject _overheadUIPrefab;
     [SerializeField] private List<GameObject> _enemyList = new List<GameObject>();
 
@@ -29,7 +29,68 @@ public class OverheadUI : MonoBehaviour
 
         for (int i = 0; i < _enemyList.Count; i++)
         {
-            _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _smallHeightOffset;
+            if (_enemyStatusList[i].Grade == EGrade.Baby)
+            {
+                _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _heightOffset;
+            }
+
+            // 성장기 오프셋
+            else if (_enemyStatusList[i].Grade == EGrade.Rookie)
+            {
+                if (_enemyStatusList[i].DigimonName == "Terriermon")
+                {
+                    //_heightOffset = 0f;
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _heightOffset;
+                }
+
+                else if (_enemyStatusList[i].DigimonName == "Lopmon")
+                {
+                    //_heightOffset = 0f;
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _heightOffset;
+                }
+
+                else if (_enemyStatusList[i].DigimonName == "Lucemon")
+                {
+                    //_heightOffset = 0f;
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _largeHeightOffset;
+                }
+
+                else
+                {
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _midHeightOffset;
+                    //_heightOffset = 0.8f;
+                }
+            }
+
+            // 성숙기 오프셋
+            else if (_enemyStatusList[i].Grade == EGrade.Champion)
+            {
+                if (_enemyStatusList[i].DigimonName == "Gotomon")
+                {
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _midHeightOffset;
+                    //_heightOffset = 0.8f;
+                }
+
+                else if (_enemyStatusList[i].DigimonName == "Devimon")
+                {
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _xlargeHeightOffset;
+                    //_heightOffset = 2f;
+                }
+
+                else if (_enemyStatusList[i].DigimonName == "Magnamon")
+                {
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _xlargeHeightOffset;
+                    //_heightOffset = 2f;
+                }
+
+                else
+                {
+                    _overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _largeHeightOffset;
+                    //_heightOffset = 1.5f;
+                }
+            }
+            
+            //_overheadList[i].transform.position = _enemyList[i].transform.position + Vector3.up * _heightOffset;
         }
     }
 
@@ -38,9 +99,13 @@ public class OverheadUI : MonoBehaviour
         for (int i = 0; i < _enemyList.Count; i++)
         {
             GameObject enemy = _enemyList[i];
+            
+            EnemyFieldMove script = enemy.GetComponent<EnemyFieldMove>();
+            int id = script.PartyList[0];
+
             DigimonStatus enemyStatus = enemy.AddComponent<DigimonStatus>();
 
-            EnemyStatusData data = DigimonDB.Instance.GetEnemyStatusDataById(5001 + i);
+            EnemyStatusData data = DigimonDB.Instance.GetEnemyStatusDataById(id);
 
             GrowthType growthType = DigimonDB.Instance.GetGrowthType(data.GrowthType);
 

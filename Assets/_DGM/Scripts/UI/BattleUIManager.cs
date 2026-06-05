@@ -36,11 +36,15 @@ public class BattleUIManager : Singleton<BattleUIManager>
 
     [SerializeField] private RectTransform _turnParent;
 
+    [SerializeField] private RectTransform _logParent;
+
     private Dictionary<string, Sprite> _nameToSprite = new Dictionary<string, Sprite>();
 
     private AsyncOperationHandle<IList<Sprite>> _spriteHandle;
     private AsyncOperationHandle<GameObject> _enemyStatusHandle;
+    private AsyncOperationHandle<GameObject> _logHandle;
 
+    private GameObject _logPrefab;
     private GameObject _enemyStatusPrefab;
     private List<GameObject> _enemyStatusUIList = new List<GameObject>();
     //private List<Image> _enemyHPList = new List<Image>();
@@ -50,6 +54,10 @@ public class BattleUIManager : Singleton<BattleUIManager>
     private Queue<GameObject> _turnQueue = new Queue<GameObject>();    //이걸 활성화 비활성화
     private Queue<Image> _turnImageQueue = new Queue<Image>();         //이걸 애니메이션 처리 x좌표 0 -> 250 , 250 -> 0
     private Queue<DigimonStatus> _statusQueue = new Queue<DigimonStatus>();    //아군 + 적군 SPD순서로 정렬
+
+    private Queue<string> _logQueue = new Queue<string>();
+    private bool _isShowingLog = false;
+
     void Start()
     {
         SetProfileAsync().Forget();
@@ -128,6 +136,9 @@ public class BattleUIManager : Singleton<BattleUIManager>
 
         while (elapsed < duration)
         {
+            if (rect == null)
+                return;
+
             float t = Mathf.Clamp01(elapsed / duration);
             pos.x = Mathf.Lerp(start, end, t);
             rect.localPosition = pos;
@@ -138,6 +149,46 @@ public class BattleUIManager : Singleton<BattleUIManager>
 
         pos.x = end;
         rect.localPosition = pos;
+    }
+
+    public void UpdateEvoImage(DigimonStatus status)
+    {
+        // 진화한 status를 파라미터로 받아옴
+        int count = _statusQueue.Count;
+        for (int i = 0; i < count; i++)
+        {
+            DigimonStatus s = _statusQueue.Dequeue();
+            Image img = _turnImageQueue.Dequeue();
+            if (s.ID == status.PrevID)
+            {
+                img.sprite = _nameToSprite[status.DigimonName + "Sprite"];
+            }
+            _statusQueue.Enqueue(s);
+            _turnImageQueue.Enqueue(img);
+        }
+    }
+
+    public void ResetTurnImage()
+    {
+        // 진화 후 턴 이미지 리셋
+
+        List<DigimonStatus> allStatus = new List<DigimonStatus>();
+        allStatus.AddRange(BattleManager.Instance.PlayerStatusList);
+        allStatus.AddRange(BattleManager.Instance.EnemyStatusList);
+
+        allStatus.Sort((a, b) => b.SPD.CompareTo(a.SPD));
+
+        _statusQueue.Clear();
+
+        for (int i = 0; i < allStatus.Count; i++)
+        {
+            _statusQueue.Enqueue(allStatus[i]);
+
+            Image img = _turnImageQueue.Dequeue();
+            img.sprite = _nameToSprite[allStatus[i].DigimonName + "Sprite"];
+            _turnImageQueue.Enqueue(img);
+        }
+
     }
 
     public void SetTurnImage()
@@ -207,6 +258,21 @@ public class BattleUIManager : Singleton<BattleUIManager>
         }
     }
 
+    private async UniTask LoadLogPrefab()
+    {
+        _logHandle = Addressables.LoadAssetAsync<GameObject>("LogSlot");
+        await _logHandle.Task;
+
+        if (_logHandle.Status == AsyncOperationStatus.Succeeded)
+        {
+            _logPrefab = _logHandle.Result;
+        }
+        else
+        {
+            Debug.LogError("Log 프리팹 로드 실패");
+        }
+    }
+
     private async UniTaskVoid SetProfileAsync()
     {
         try
@@ -214,8 +280,9 @@ public class BattleUIManager : Singleton<BattleUIManager>
             await UniTask.WaitUntil(() => BattleManager.Instance.PlayerStatusList.Count == GameManager.Instance.GetDigimonStatusList().Count);
             await UniTask.WaitUntil(() => BattleManager.Instance.EnemyStatusList.Count == GameManager.Instance.GetBattleList().Count);
 
-            await LoadSpriteImages();
+            await LoadLogPrefab();   // 몬스터 처치 시 EXP, LEVEL UP 표시에 쓰임
 
+            await LoadSpriteImages();
 
             await SetTurnAsync();       // TurnPanel 프리팹 로드 및 생성
 
@@ -315,20 +382,6 @@ public class BattleUIManager : Singleton<BattleUIManager>
         _typeText.text = $"타입 : {status.TypeKor}";
         _actionText.text = status.ActionCount.ToString();
     }
-
-    private void OnDestroy()
-    {
-        if (_spriteHandle.IsValid())
-        {
-            Addressables.Release(_spriteHandle);
-        }
-
-        if (_enemyStatusHandle.IsValid())
-        {
-            Addressables.Release(_enemyStatusHandle);
-        }
-    }
-
     private async UniTask LoadSpriteImages()
     {
         if (DigimonDB.Instance != null && DigimonDB.Instance.HasDigimonSprites())
@@ -382,6 +435,33 @@ public class BattleUIManager : Singleton<BattleUIManager>
                 continue;
             }
 
+            if (BattleManager.Instance.EnemyStatusList[i].Grade == EGrade.Rookie)
+            {
+                if (BattleManager.Instance.EnemyStatusList[i].DigimonName == "Terriermon")
+                {
+                    _heightOffset = 1f;
+                }
+
+                else if (BattleManager.Instance.EnemyStatusList[i].DigimonName == "Lopmon")
+                {
+                    _heightOffset = 1f;
+                }
+
+                else
+                    _heightOffset = 1.8f;
+            }
+
+            else if (BattleManager.Instance.EnemyStatusList[i].Grade == EGrade.Champion)
+            {
+                if (BattleManager.Instance.EnemyStatusList[i].DigimonName == "Gotomon")
+                {
+                    _heightOffset = 1.8f;
+                }
+
+                else
+                    _heightOffset = 2.5f;
+            }
+
             Vector3 pos = BattleManager.Instance.EnemyStatusList[i].transform.position + Vector3.up * _heightOffset;
             _numberList[i].SetActive(true);
             _numberList[i].transform.position = pos;
@@ -409,17 +489,71 @@ public class BattleUIManager : Singleton<BattleUIManager>
         _battleMsgText.text = msg;
     }
 
-    public async UniTask ShowBattleMsgAsync(string msg = "")
+    public async UniTask ShowBattleMsgAsync(string msg = "", int delay = 1000)
     {
         _dialogueBox.SetActive(true);
         
         _battleMsgText.gameObject.SetActive(true);
         _battleMsgText.text = msg;
 
-        await UniTask.Delay(2000);
+        await UniTask.Delay(delay);
 
         _battleMsgText.gameObject.SetActive(false);
         _dialogueBox.SetActive(false);
     }
 
+    public void EnqueueLog(string msg, int delay = 500)
+    {
+        _logQueue.Enqueue(msg);
+        if (!_isShowingLog)
+        {
+            ProcessLogQueue(delay).Forget();
+        }
+    }
+
+    private async UniTask ProcessLogQueue(int delay)
+    {
+        _isShowingLog = true;
+
+        while (_logQueue.Count > 0)
+        {
+            string msg = _logQueue.Dequeue();
+            await ShowLogAsync(msg, delay);
+        }
+
+        _isShowingLog = false;
+    }
+
+    public async UniTask ShowLogAsync(string msg, int delay = 500)
+    {
+        GameObject go = Instantiate(_logPrefab, _logParent);
+        TMP_Text tmp = go.GetComponentInChildren<TMP_Text>();
+        tmp.text = msg;
+
+        Image img = go.GetComponentInChildren<Image>();
+
+        await AnimateImage(img.rectTransform, 650f, 100f, 0.3f);
+
+        await UniTask.Delay(delay);
+
+        Destroy(go, 2f);
+    }
+
+    private void OnDestroy()
+    {
+        if (_spriteHandle.IsValid())
+        {
+            Addressables.Release(_spriteHandle);
+        }
+
+        if (_enemyStatusHandle.IsValid())
+        {
+            Addressables.Release(_enemyStatusHandle);
+        }
+
+        if (_logHandle.IsValid())
+        {
+            Addressables.Release(_logHandle);
+        }
+    }
 }

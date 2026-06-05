@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 862f1ba7b593da8439cfe93c32c9af39
   m_SerializeEntries:
-  - m_GUID: 07b7ad4596f3e504885ab99b11dae811
-    m_Address: TempleBattleBGM
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BGM
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15d13cb36bf61774aae82f7f85b81060
     m_Address: ForestBGM
     m_ReadOnly: 0
@@ -61,6 +55,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e8d6b73a7ee3b6d47a9d3938c8fe85d7
     m_Address: VillageBGM
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eee3fbf21a634f549989f374300a7546
+    m_Address: TempleBattleBGM
     m_ReadOnly: 0
     m_SerializedLabels:
     - BGM

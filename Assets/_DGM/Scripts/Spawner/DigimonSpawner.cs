@@ -8,6 +8,13 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+public enum ESpawnType
+{
+    Normal,
+    LevelUp,
+    Evo
+}
+
 public class DigimonSpawner : Singleton<DigimonSpawner>
 {
     //private const string STATUS_SUFFIX = "_Status";
@@ -23,10 +30,12 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
 
     private List<AsyncOperationHandle> _handleList = new List<AsyncOperationHandle>();
 
+    public event Action OnCapturedDigimonSpawned;
+
     public event Action<GameObject, DigimonStatus> OnFriendDigimonSpawned;
 
     // 배틀 씬에서 사용
-    public event Action<GameObject, DigimonStatus> OnPlayerDigimonSpawned;
+    public event Action<GameObject, DigimonStatus, ESpawnType> OnPlayerDigimonSpawned;
     public event Action<GameObject, DigimonStatus> OnEnemyDigimonSpawned;
 
     protected override void Awake()
@@ -100,27 +109,55 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         }
     }
 
-    public void SpawnPlayerDigimon(int idx, string key, Vector3 pos, Quaternion rot)
+    public void SpawnPlayerDigimon(int idx, string key, Vector3 pos, Quaternion rot, ESpawnType spawnType)
     {
         if (_keyToPrefab.ContainsKey(key))
         {
-            SpawnDigimon(idx, key, pos, rot);
+            SpawnDigimon(idx, key, pos, rot, spawnType);
             return;
         }
 
-        LoadAndSpawnPlayerDigimon(idx, key, pos, rot).Forget();
+        LoadAndSpawnPlayerDigimon(idx, key, pos, rot, spawnType).Forget();
     }
 
-    private void SpawnDigimon(int idx, string key, Vector3 pos, Quaternion rot)
+    private void SpawnDigimon(int idx, string key, Vector3 pos, Quaternion rot, ESpawnType spawnType)
     {
         GameObject go = _factory.CreateDigimon(_keyToPrefab[key], pos, rot);
         Debug.Log(go.scene.name);
 
         DigimonStatus status = go.AddComponent<DigimonStatus>();
 
-        status.Init(GameManager.Instance.GetDigimonStatus(idx));
+        if (spawnType == ESpawnType.LevelUp)
+        {
+            Debug.Log("SpawnDigimon 레벨업해서 스폰");
+            StatusData data = DigimonDB.Instance.GetStatusDataByName(key);
+            status.Init(data, DigimonDB.Instance.GetGrowthType(data.GrowthType));
+        }
+        else
+        {
+            
+            if (spawnType == ESpawnType.Evo)
+            {
+                Debug.Log("SpawnDigimon 진화체 스폰");
+                StatusData data = DigimonDB.Instance.GetStatusDataByName(key);
+                status.Init(data, DigimonDB.Instance.GetGrowthType(data.GrowthType));
+            }
+            else if (spawnType == ESpawnType.Normal)
+            {
+                Debug.Log("SpawnDigimon 기존에 있는걸 스폰");
+                status.Init(GameManager.Instance.GetDigimonStatus(idx));
+            }
+        }
 
-        string typeName = key + "Attack";
+
+        if (status.Grade == EGrade.Baby)
+        {
+            OnPlayerDigimonSpawned?.Invoke(go, status, ESpawnType.Normal);
+            return;
+        }
+
+        // 성장기 이상부터 커스텀 VFX 적용
+        string typeName = key + "Effect";
         System.Type type = System.Type.GetType(typeName);
 
         if (type != null)
@@ -132,11 +169,27 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             Debug.LogError($"AddComponent {typeName} 실패 ");
         }
 
-        OnPlayerDigimonSpawned?.Invoke(go, status);
+        // 전투 중 레벨업으로 성장기로 진화할 때 바로 return
+        if (spawnType == ESpawnType.LevelUp)
+        {
+            OnPlayerDigimonSpawned?.Invoke(go, status, ESpawnType.LevelUp);
+            return;
+        }
 
+        else if (spawnType == ESpawnType.Evo)
+        {
+            OnPlayerDigimonSpawned?.Invoke(go, status, ESpawnType.Evo);
+            return;
+        }
+
+        else if (spawnType == ESpawnType.Normal)
+        {
+            // 전투 시작 전 스폰할 때
+            OnPlayerDigimonSpawned?.Invoke(go, status, ESpawnType.Normal);
+        }
     }
 
-    private async UniTaskVoid LoadAndSpawnPlayerDigimon(int idx, string prefabKey, Vector3 pos, Quaternion rot)
+    private async UniTaskVoid LoadAndSpawnPlayerDigimon(int idx, string prefabKey, Vector3 pos, Quaternion rot, ESpawnType spawnType)
     {
         try
         {
@@ -159,15 +212,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             _keyToPrefab[prefabKey] = digimonPrefab;
             _handleList.Add(prefabHandle);
 
-            SpawnDigimon(idx, prefabKey, pos, rot);
-
-            //GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
-
-            //DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-
-            //status.Init(GameManager.Instance.GetDigimonStatus(idx));
-
-            //OnPlayerDigimonSpawned?.Invoke(digimonGo, status);
+            SpawnDigimon(idx, prefabKey, pos, rot, spawnType);
         }
 
         catch (OperationCanceledException)
@@ -189,6 +234,57 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         }
 
         await LoadAndSpawnEnemyDigimon(id, key, pos, rot, token);
+    }
+
+    public async UniTask SpawnCapturedDigimon(string digimonName)
+    {
+        GameObject digimonPrefab = null;
+
+        if (_keyToPrefab.TryGetValue(digimonName, out GameObject prefab))
+        {
+            // 캐시된 프리팹 사용
+            digimonPrefab = prefab;
+        }
+
+        else
+        {
+            // 프리팹 에셋 로드
+            AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(digimonName);
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                digimonPrefab = handle.Result;
+            }
+
+            if (digimonPrefab == null)
+            {
+                Debug.Log("디지몬 프리팹 로드 실패");
+                return;
+            }
+
+            _keyToPrefab[digimonName] = digimonPrefab;
+            _handleList.Add(handle);
+        }
+
+        
+        GameObject digimonGo = _factory.CreateDigimon(digimonPrefab);
+
+        StatusData data = DigimonDB.Instance.GetStatusDataByName(digimonName);
+        DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
+        status.Init(data, DigimonDB.Instance.GetGrowthType(data.GrowthType));           // string -> GrowthType 객체로 변환해서 초기화
+
+        DigimonFollow follow = digimonGo.AddComponent<DigimonFollow>();
+        CharacterController cc = digimonGo.AddComponent<CharacterController>();
+        //GameManager.Instance.FollowDigimon = digimonGo;
+
+        digimonGo.SetActive(false);
+        GameManager.Instance.AddDigimon(digimonGo, status);
+
+        //await UniTask.Delay(3000);
+        Debug.Log("포획 디지몬 생성 완료");
+
+        OnCapturedDigimonSpawned?.Invoke();
     }
 
     private async UniTask LoadFriendDigimon(int level, string prefabKey, Vector3 pos, Quaternion rot, CancellationToken token)
@@ -250,6 +346,25 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
         DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
         status.Init(data, db.GetGrowthType(data.GrowthType));               // string -> GrowthType 객체로 변환해서 초기화
 
+        if (status.Grade == EGrade.Baby)
+        {
+            OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
+            return;
+        }
+
+        // 성장기 부터 Effect
+        string typeName = prefabKey + "Effect";
+        System.Type type = System.Type.GetType(typeName);
+
+        if (type != null)
+        {
+            digimonGo.AddComponent(type);
+        }
+        else
+        {
+            Debug.LogError($"AddComponent {typeName} 실패 ");
+        }
+
         OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
     }
 
@@ -276,15 +391,7 @@ public class DigimonSpawner : Singleton<DigimonSpawner>
             _keyToPrefab[prefabKey] = digimonPrefab;
             _handleList.Add(prefabHandle);
 
-            DigimonDB db = DigimonDB.Instance;
-            EnemyStatusData data = db.GetEnemyStatusDataById(id);
-
-            GameObject digimonGo = _factory.CreateDigimon(digimonPrefab, pos, rot);
-
-            DigimonStatus status = digimonGo.AddComponent<DigimonStatus>();
-            status.Init(data, db.GetGrowthType(data.GrowthType));                // string -> GrowthType 객체로 변환해서 초기화
-
-            OnEnemyDigimonSpawned?.Invoke(digimonGo, status);
+            SpawnEnemy(id, prefabKey, pos, rot);
         }
 
         catch (OperationCanceledException)

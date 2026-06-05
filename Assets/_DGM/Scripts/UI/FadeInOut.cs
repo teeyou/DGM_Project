@@ -7,6 +7,7 @@ public class FadeInOut : Singleton<FadeInOut>
 {
     [SerializeField] private CanvasGroup _cg;
     [SerializeField] private float _duration;
+    public bool IsFading { get; set; } = false;
 
     protected override void Awake()
     {
@@ -17,6 +18,8 @@ public class FadeInOut : Singleton<FadeInOut>
 
     private async UniTask FadeAsync(float start, float end, float duration)
     {
+        IsFading = true;
+
         float elapsed = 0f;
         _cg.alpha = start;
 
@@ -29,6 +32,8 @@ public class FadeInOut : Singleton<FadeInOut>
         }
 
         _cg.alpha = end;
+
+        IsFading = false;
     }
 
     public void FadeIn()
@@ -49,5 +54,10 @@ public class FadeInOut : Singleton<FadeInOut>
     public async UniTask FadeInAsync()
     {
         await FadeAsync(0f, 1f, _duration);
+    }
+
+    public void TogglePanel(bool enabled)
+    {
+        _cg.gameObject.SetActive(enabled);
     }
 }

@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: VFX_RookieSkill
+  m_EditorClassIdentifier: 
+  m_GroupName: VFX_RookieSkill
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c3f08aa1b66557646ab1bbce630f0826
+  m_SerializeEntries:
+  - m_GUID: 0d5b31aecbe8bd5448736bff8b66af41
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/GabumonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d89860960aed394cb4eeea34b1b60ed
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/GazimonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 251ffbcca7c0e7746aa5fb1ca0d63144
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/SalamonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25cd7076cc625254284af61ad8981265
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/LucemonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45c3ea8f61468324fac2de7fc19318ec
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/ImpmonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e7f600e42f81ab4b8352f99623a3284
+    m_Address: DemiDevimonSkill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Object_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7eec64b8866b1a5499b81fdc37206db3
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/GuilmonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9032ac333b0594a4097d546d49418d90
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/DorumonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3667f5f7a5fe694094696b7c164509d
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/AgumonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7f0fadc57643b14db9fbb6a4d45b84f
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/PatamonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0cdcf8310b8abf4c85949978f2772cd
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/TentomonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb929bb36b16b5940a6895f314546cb2
+    m_Address: Assets/_DGM/Prefabs/VFX/Skill/RookieSkill/BiyomonSkill.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - VFX_Skill
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0cda02d28558f5542a12a4b81e9957d9, type: 2}
+    - {fileID: 11400000, guid: a76e7931e473efb4f9871a7bd49f5e77, type: 2}

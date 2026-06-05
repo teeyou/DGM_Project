@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: a3aea1c62cc6b604ba65a942d0f2ab80
   m_SerializeEntries:
+  - m_GUID: 21a4bd31e4882dc4ea90818d82491ef9
+    m_Address: ForestBattle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2cce1654b814aa0459f8b094e01989ff
     m_Address: Village
     m_ReadOnly: 0
@@ -24,6 +29,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5763b68ebb979564f9e5732909ef519e
     m_Address: Forest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e33e357b7ce8f74f993ead8366dc31f
+    m_Address: TempleBattle
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

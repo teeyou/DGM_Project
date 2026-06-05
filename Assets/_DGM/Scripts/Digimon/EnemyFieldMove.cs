@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyFieldMove : MonoBehaviour, IInteractable
@@ -32,6 +34,11 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
     {
         if (SceneLoader.Instance.IsLoading)
             return;
+
+        if (_moveSpeed == 0)
+        {
+            return;
+        }
 
         if (!_isMoving)
         {
@@ -84,22 +91,63 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
 
     public void Interact(GameObject target)
     {
-        //Debug.Log($"_partyList.Count : {_partyList.Count}");
+        if (this == null)
+            return;
 
-        int rand = Random.Range(1, 4);
-        Debug.Log($"적 디지몬 추가 : {rand}");
-        for (int i = 0; i < rand; i++)
+        if (target == null)
+            return;
+
+        if (_partyList.Count == 0)
         {
-            int id = _partyList[0];
-            GameManager.Instance.AddBattleList(id);
+            Debug.Log("디지몬 없음");
+            return;
         }
 
-        //for (int i = 0; i < _partyList.Count; i++)
-        //{
-        //    int id = _partyList[i];
-        //    GameManager.Instance.AddBattleList(id);
-        //    Debug.Log($"GameManage.GetBattleList : {GameManager.Instance.GetBattleList().Count}");
-        //}
+        if (_partyList[0] == 7011 && QuestManager.Instance.CurrentQuestIndex < 3)
+        {
+            FieldUIController.Instance.ShowMessage("이전 퀘스트를 먼저 완료하세요.");
+            return;
+        }
+
+        else if (_partyList[0] == 7017 && QuestManager.Instance.CurrentQuestIndex < 4)
+        {
+            FieldUIController.Instance.ShowMessage("이전 퀘스트를 먼저 완료하세요.");
+            return;
+        }
+
+        else if (_partyList[0] == 6019 && QuestManager.Instance.CurrentQuestIndex < 5)
+        {
+            FieldUIController.Instance.ShowMessage("이전 퀘스트를 먼저 완료하세요.");
+            return;
+        }
+
+        if (_partyList.Count == 1)
+        {
+            int rand = Random.Range(1, 4);
+            Debug.Log($"적 디지몬 추가 : {rand}");
+            for (int i = 0; i < rand; i++)
+            {
+                int id = _partyList[0];
+                GameManager.Instance.AddBattleList(id);
+            }
+        }
+
+        else
+        {
+            for (int i = 0; i < _partyList.Count; i++)
+            {
+                int id = _partyList[i];
+                GameManager.Instance.AddBattleList(id);
+            }
+        }
+
+        // 몬스터 여러개 생성되는 버그 방지
+        // 최대 3마리만 보유 가능함
+        var list = GameManager.Instance.GetMutableDigimonStatusList();
+        while (list.Count > 3)
+        {
+            list.RemoveAt(list.Count - 1);
+        }
 
         FieldUIController.Instance.ToggleFieldCanvas(false);
         InputManager.Instance.SwitchToBattleMap();
@@ -108,6 +156,67 @@ public class EnemyFieldMove : MonoBehaviour, IInteractable
         GameManager.Instance.ReturnSceneName = currentSceneName;
         SceneLoader.Instance.LoadTargetScene(currentSceneName + "Battle", false);
 
+    }
 
+    public async UniTask<bool> TryCapture()
+    {
+        if (this == null)
+            return false;
+
+        if (gameObject == null)
+            return false;
+
+        DigimonStatus status = gameObject.GetComponent<DigimonStatus>();
+        
+        if (status == null)
+        {
+            Debug.Log("TryCapture - status NULL");
+            return false;
+        }
+
+        if (GameManager.Instance.GetDigimonStatusList().Count >= 3)
+        {
+            FieldUIController.Instance.ShowMessage("보유 가능한 디지몬은 최대 3마리 입니다.");
+            return false;
+        }
+
+        if (status.Grade == EGrade.Baby)
+        {
+            if (CaptureSystem.Instance.IsCapturePossible(status.DigimonName))
+            {
+                // 포획 시도
+                // 포획 이펙트 키고
+                FieldUIController.Instance.ShowMessage("포획 시도...");
+
+                await UniTask.Delay(2500);
+                //StartCoroutine(CoDelay(2.5f));
+
+                // 일정 확률로 포획 가능
+                float rand = Random.Range(0, 1f);
+                Debug.Log($"포획 시도 rand : {rand} - 0.5이상인 경우 포획 성공");
+                if (rand < 0.5f)//0.5f
+                {
+                    FieldUIController.Instance.ShowMessage("포획 실패 (성공 확률 50%)");
+                    return false;
+                }
+
+                // 포획 성공
+                DigimonSpawner.Instance.SpawnCapturedDigimon(status.DigimonName).Forget();
+                FieldUIController.Instance.ShowMessage("포획 성공 (성공 확률 50%)");
+                return true;
+            }
+            else
+            {
+                FieldUIController.Instance.ShowMessage($"퇴치 카운트 부족 : {CaptureSystem.Instance.GetCatchCount(status.DigimonName)} / {CaptureSystem.Instance.RequiredCount}");
+                //Debug.Log("포획 불가능 : 캐치카운트 못 채움");
+                return false;
+            }
+        }
+
+        else
+        {
+            Debug.Log("포획 불가능 : 유년기가 아님");
+            return false;
+        }
     }
 }

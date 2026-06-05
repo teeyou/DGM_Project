@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _speed;
+    [SerializeField] private bool _isMinusSpeed = false;
     //[SerializeField] private bool _leftOrRight = true;
 
     void Update()
@@ -20,7 +21,13 @@ public class Projectile : MonoBehaviour
         //    // ¾Æ±º
         //    transform.rotation = Quaternion.Euler(0f, 0f, 90f);
         //}
-
-        transform.position += transform.up * -_speed * Time.deltaTime;
+        if (_isMinusSpeed)
+        {
+            transform.position += transform.up * _speed * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += transform.up * -_speed * Time.deltaTime;
+        }
     }
 }

@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - VFX_Hit
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea833e0a7057bcb498eea4a28c8e25fc
+    m_Address: VFX_Evo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 668b9e9f1cc48004699aabdb22d4b8b8, type: 2}
   m_SchemaSet:
